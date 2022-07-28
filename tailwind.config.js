@@ -16,8 +16,6 @@ module.exports = {
             backgroundGray: "#2E2E2E",
             teal: "#249AA1",
             blue: "#2B66BE",
-            linearGradient:
-                "linear-gradient(90deg, #249AA1 0%, #2B66BE 98.92%)",
         },
         extend: {
             scale: {

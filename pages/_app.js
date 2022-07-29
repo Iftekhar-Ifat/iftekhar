@@ -18,15 +18,6 @@ function MyApp({ Component, pageProps }) {
             {router.pathname !== "/_error" ? (
                 <>
                     <NavBar />
-                    <div
-                        style={{
-                            height: "2px",
-                            background:
-                                "linear-gradient(90deg, #249AA1 0%, #2B66BE 98.92%)",
-                            boxShadow:
-                                "0px 0px 10px 1.5px rgba(36, 154, 161, 0.8)",
-                        }}
-                    ></div>
                     <div className="w-full px-[10%] md:px-[25%]">
                         <Component {...pageProps} />
                     </div>

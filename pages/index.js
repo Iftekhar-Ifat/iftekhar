@@ -1,5 +1,6 @@
 import React from "react";
 import IntroSection from "../components/HomePageComponents/IntroSection";
+import ProjectSection from "../components/HomePageComponents/ProjectSection";
 import SkillsSection from "../components/HomePageComponents/SkillsSection";
 import HrLine from "../components/HrLine";
 
@@ -9,6 +10,8 @@ const Home = () => {
             <IntroSection />
             <HrLine />
             <SkillsSection />
+            <HrLine />
+            <ProjectSection />
             <HrLine />
         </div>
     );

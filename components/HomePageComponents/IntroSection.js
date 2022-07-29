@@ -41,7 +41,7 @@ const IntroSection = () => {
                 Pellentesque dignissim enim sit amet. Aliquet risus feugiat in
                 ante metus dictum.
             </p>
-            <div className="flex justify-between pt-16 md:px-4">
+            <div className="flex justify-between pt-8 md:px-4">
                 <div className="flex">
                     <a href="https://www.linkedin.com/in/iftekhar-ahmed-0a082a196/">
                         <FaLinkedin

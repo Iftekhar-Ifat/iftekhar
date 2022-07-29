@@ -27,7 +27,9 @@ function MyApp({ Component, pageProps }) {
                                 "0px 0px 10px 1.5px rgba(36, 154, 161, 0.8)",
                         }}
                     ></div>
-                    <Component {...pageProps} />
+                    <div className="w-full px-[10%] md:px-[25%]">
+                        <Component {...pageProps} />
+                    </div>
                 </>
             ) : (
                 <>

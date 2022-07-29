@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
+import Link from "next/link";
 import {
     MenuIcon,
     XIcon,
@@ -12,17 +13,17 @@ const NavBar = () => {
     const solutions = [
         {
             name: "Home",
-            href: "#",
+            href: "/",
             icon: HomeIcon,
         },
         {
             name: "Projects",
-            href: "#",
+            href: "projects",
             icon: CogIcon,
         },
         {
             name: "Blog",
-            href: "#",
+            href: "blog",
             icon: PencilIcon,
         },
     ];
@@ -31,14 +32,15 @@ const NavBar = () => {
             <div className="max-w-9xl mx-auto px-4 sm:px-6">
                 <div className="flex justify-between items-center py-6 md:justify-start md:space-x-10">
                     <div className="flex justify-start lg:w-0 lg:flex-1">
-                        <a href="#">
+                        <Link href="/">
                             <img
                                 className="px-5
                              scale-175 h-8 w-auto sm:h-10"
                                 src="./asset/logo.svg"
                                 alt=""
+                                style={{ cursor: "pointer" }}
                             />
-                        </a>
+                        </Link>
                     </div>
                     <div className="-mr-2 -my-2 md:hidden">
                         <Popover.Button className="bg-black rounded-md p-2 inline-flex items-center justify-center text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
@@ -46,24 +48,21 @@ const NavBar = () => {
                         </Popover.Button>
                     </div>
                     <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-                        <a
-                            href="#"
-                            className="ml-8 inline-flex items-center justify-center px-4 py-2 rounded-md font-medium text-white hover:bg-backgroundGray"
-                        >
-                            Home
-                        </a>
-                        <a
-                            href="#"
-                            className="ml-8 inline-flex items-center justify-center px-4 py-2 rounded-md font-medium text-white hover:bg-backgroundGray"
-                        >
-                            Projects
-                        </a>
-                        <a
-                            href="#"
-                            className="ml-8 inline-flex items-center justify-center px-4 py-2 rounded-md font-medium text-white hover:bg-backgroundGray"
-                        >
-                            Blog
-                        </a>
+                        <Link href="/">
+                            <button className="ml-8 inline-flex items-center justify-center px-4 py-2 rounded-md font-medium text-white hover:bg-backgroundGray">
+                                Home
+                            </button>
+                        </Link>
+                        <Link href="projects">
+                            <button className="ml-8 inline-flex items-center justify-center px-4 py-2 rounded-md font-medium text-white hover:bg-backgroundGray">
+                                Projects
+                            </button>
+                        </Link>
+                        <Link href="blog">
+                            <button className="ml-8 inline-flex items-center justify-center px-4 py-2 rounded-md font-medium text-white hover:bg-backgroundGray">
+                                Blog
+                            </button>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -79,18 +78,18 @@ const NavBar = () => {
             >
                 <Popover.Panel
                     focus
-                    className="absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden"
+                    className="absolute z-10 top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden"
                 >
                     <div className="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-black divide-y-2 divide-gray-50">
                         <div className="pt-5 pb-6 px-5">
                             <div className="flex items-center justify-between">
-                                <div>
+                                <Link href="/">
                                     <img
                                         className="px-5 scale-175 h-8 w-auto "
                                         src="./asset/logo.svg"
                                         alt=""
                                     />
-                                </div>
+                                </Link>
                                 <div className="-mr-2">
                                     <Popover.Button className="bg-black rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500">
                                         <span className="sr-only">
@@ -106,19 +105,20 @@ const NavBar = () => {
                             <div className="mt-10">
                                 <nav className="grid gap-y-8">
                                     {solutions.map((item) => (
-                                        <a
-                                            key={item.name}
-                                            href={item.href}
-                                            className="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50"
-                                        >
-                                            <item.icon
-                                                className="flex-shrink-0 h-6 w-6 text-indigo-600"
-                                                aria-hidden="true"
-                                            />
-                                            <span className="ml-3 text-base font-medium text-gray-900">
-                                                {item.name}
-                                            </span>
-                                        </a>
+                                        <Link href={item.href}>
+                                            <a
+                                                key={item.name}
+                                                className="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50"
+                                            >
+                                                <item.icon
+                                                    className="flex-shrink-0 h-6 w-6 text-indigo-600"
+                                                    aria-hidden="true"
+                                                />
+                                                <span className="ml-3 text-base font-medium text-gray-900">
+                                                    {item.name}
+                                                </span>
+                                            </a>
+                                        </Link>
                                     ))}
                                 </nav>
                             </div>

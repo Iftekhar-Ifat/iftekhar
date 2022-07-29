@@ -6,14 +6,14 @@ import HrLine from "../components/HrLine";
 
 const Home = () => {
     return (
-        <div className="w-full px-[10%] md:px-[25%]">
+        <>
             <IntroSection />
             <HrLine />
             <SkillsSection />
             <HrLine />
             <ProjectSection />
             <HrLine />
-        </div>
+        </>
     );
 };
 

@@ -1,26 +1,25 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import styles from "../../styles/HomePage/HomePage.module.css";
-
-const ProjectSection = () => {
-    const [projectData, setProjectData] = useState([]);
+import styles from "../../styles/projects/projects.module.css";
+const Projects = () => {
+    const [allProjectData, setAllProjectData] = useState([]);
 
     useEffect(() => {
-        fetch("./asset/project-data/feature_projects.json")
+        fetch("./asset/project-data/projects.json")
             .then((res) => res.json())
             .then((data) => {
-                setProjectData(data);
+                setAllProjectData(data);
             });
     }, []);
     return (
         <>
             <div
-                className={`font-medium text-3xl pb-4 md:text-5xl ${styles.glow_text}`}
+                className={`flex justify-center mt-4 mb-8 font-medium text-3xl md:text-5xl ${styles.glow_text}`}
             >
-                Featured Projects
+                Projects
             </div>
-            {projectData.length
-                ? projectData.map((project) => (
+            {allProjectData.length
+                ? allProjectData.map((project) => (
                       <div key={project.id}>
                           <div
                               className={`p-4 my-6 w-full ${styles.project_container}`}
@@ -57,4 +56,4 @@ const ProjectSection = () => {
     );
 };
 
-export default ProjectSection;
+export default Projects;

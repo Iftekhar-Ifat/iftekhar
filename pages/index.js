@@ -1,4 +1,6 @@
 import React from "react";
+import BlogSection from "../components/HomePageComponents/BlogSection";
+import Footer from "../components/HomePageComponents/Footer";
 import IntroSection from "../components/HomePageComponents/IntroSection";
 import ProjectSection from "../components/HomePageComponents/ProjectSection";
 import SkillsSection from "../components/HomePageComponents/SkillsSection";
@@ -13,6 +15,9 @@ const Home = () => {
             <HrLine />
             <ProjectSection />
             <HrLine />
+            <BlogSection />
+            <HrLine />
+            <Footer />
         </>
     );
 };

@@ -43,9 +43,12 @@ const IntroSection = () => {
             </p>
             <div className="flex justify-between pt-8 md:px-4">
                 <div className="flex">
-                    <a href="https://www.linkedin.com/in/iftekhar-ahmed-0a082a196/">
+                    <a
+                        href="https://www.linkedin.com/in/iftekhar-ahmed-0a082a196/"
+                        className="hover:scale-110"
+                    >
                         <FaLinkedin
-                            className="m-2"
+                            className="m-2 "
                             size={25}
                             color={"#959595"}
                         />
@@ -54,6 +57,7 @@ const IntroSection = () => {
                         onClick={() =>
                             router.push("mailto:iftekharifat007@gmail.com")
                         }
+                        className="hover:scale-110"
                     >
                         <FaEnvelope
                             className="m-2"
@@ -61,18 +65,24 @@ const IntroSection = () => {
                             color={"#959595"}
                         />
                     </button>
-                    <a href="https://twitter.com/_ifte">
+                    <a
+                        href="https://twitter.com/_ifte"
+                        className="hover:scale-110"
+                    >
                         <FaTwitter
                             className="m-2"
                             size={25}
                             color={"#959595"}
                         />
                     </a>
-                    <a href="https://github.com/Iftekhar-Ifat">
+                    <a
+                        href="https://github.com/Iftekhar-Ifat"
+                        className="hover:scale-110"
+                    >
                         <FaGithub className="m-2" size={25} color={"#959595"} />
                     </a>
                 </div>
-                <button className="inline-flex items-center justify-center px-2 rounded-md font-medium text-white bg-backgroundGray">
+                <button className="inline-flex items-center justify-center px-2 rounded-md font-medium text-white bg-backgroundGray hover:scale-105">
                     Download CV
                 </button>
             </div>

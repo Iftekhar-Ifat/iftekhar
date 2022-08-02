@@ -14,7 +14,7 @@ const Projects = () => {
     return (
         <>
             <div
-                className={`flex justify-center mt-4 mb-8 font-medium text-3xl md:text-5xl ${styles.glow_text}`}
+                className={`flex justify-center pt-4 pb-8 font-medium text-3xl md:text-5xl ${styles.glow_text}`}
             >
                 Projects
             </div>

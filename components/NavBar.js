@@ -23,8 +23,8 @@ const NavBar = () => {
             icon: CogIcon,
         },
         {
-            name: "Blog",
-            href: "blog",
+            name: "Blogs",
+            href: "blogs",
             icon: PencilIcon,
         },
     ];
@@ -84,15 +84,15 @@ const NavBar = () => {
                                     Projects
                                 </button>
                             </Link>
-                            <Link href="blog">
+                            <Link href="blogs">
                                 <button
                                     className={`ml-8 inline-flex items-center justify-center px-4 py-2 rounded-md font-medium text-white hover:bg-backgroundGray ${
-                                        route.pathname === "/blog"
+                                        route.pathname === "/blogs"
                                             ? "bg-backgroundGray"
                                             : "bg-black"
                                     }`}
                                 >
-                                    Blog
+                                    Blogs
                                 </button>
                             </Link>
                         </div>

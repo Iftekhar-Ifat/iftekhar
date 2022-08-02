@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from "react";
-import styles from "../../styles/HomePage/HomePage.module.css";
-
-const BlogSection = () => {
-    const [featuredBlog, setFeaturedBlog] = useState([]);
+import styles from "../../styles/projects/projects.module.css";
+const Blogs = () => {
+    const [allBlogs, setAllBlogs] = useState([]);
 
     useEffect(() => {
-        fetch("./asset/blog-data/featured_blog.json")
+        fetch("./asset/blog-data/blogs.json")
             .then((res) => res.json())
             .then((data) => {
-                setFeaturedBlog(data);
+                setAllBlogs(data);
             });
     }, []);
     return (
         <>
             <div
-                className={`font-medium text-3xl pb-4 md:text-5xl ${styles.glow_text}`}
+                className={`flex justify-center pt-4 pb-8 font-medium text-3xl md:text-5xl ${styles.glow_text}`}
             >
-                Featured Blogs
+                Blogs
             </div>
-            {featuredBlog.length
-                ? featuredBlog.map((blog) => (
+            {allBlogs.length
+                ? allBlogs.map((blog) => (
                       <div
                           className={`p-4 my-6 w-full cursor-pointer hover:scale-[1.01] ${styles.project_container}`}
                       >
@@ -34,11 +33,8 @@ const BlogSection = () => {
                       </div>
                   ))
                 : null}
-            <div className="w-full flex justify-end">
-                <button className="hover:scale-105">see more</button>
-            </div>
         </>
     );
 };
 
-export default BlogSection;
+export default Blogs;

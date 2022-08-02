@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
     return (
-        <footer className="flex text-base justify-between text-gray mb-8">
+        <footer className="flex md:text-base justify-between text-sm text-gray mb-8">
             <p>
                 Built with{" "}
                 <a

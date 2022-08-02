@@ -47,7 +47,9 @@ const ProjectSection = () => {
                                   {project.description}
                               </p>
                               <div className="w-full flex justify-end">
-                                  <button>see more</button>
+                                  <button className="hover:scale-105">
+                                      see more
+                                  </button>
                               </div>
                           </div>
                       </div>

@@ -14,6 +14,7 @@ function MyApp({ Component, pageProps }) {
                     name="viewport"
                     content="initial-scale=1.0, width=device-width"
                 />
+                <link rel="shortcut icon" href="/favicon.svg" />
             </Head>
             {router.pathname !== "/_error" ? (
                 <>

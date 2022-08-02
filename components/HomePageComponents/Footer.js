@@ -9,7 +9,7 @@ const Footer = () => {
                     className="cursor-pointer hover:text-white hover:underline"
                     href="https://nextjs.org/"
                 >
-                    Next.js
+                    NextJs
                 </a>
                 <span>, </span>
                 <a

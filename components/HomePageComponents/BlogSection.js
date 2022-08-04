@@ -21,6 +21,7 @@ const BlogSection = () => {
             {featuredBlog.length
                 ? featuredBlog.map((blog) => (
                       <div
+                          key={blog.id}
                           className={`p-4 my-6 w-full cursor-pointer hover:scale-[1.01] ${styles.project_container}`}
                       >
                           <div className="flex flex-col">

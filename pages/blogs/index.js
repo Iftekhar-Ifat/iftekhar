@@ -1,15 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "../../styles/projects/projects.module.css";
-const Blogs = () => {
-    const [allBlogs, setAllBlogs] = useState([]);
+import Link from "next/link";
+import { sanityClient } from "../../lib/sanity";
 
-    useEffect(() => {
-        fetch("./asset/blog-data/blogs.json")
-            .then((res) => res.json())
-            .then((data) => {
-                setAllBlogs(data);
-            });
-    }, []);
+const Blogs = ({ posts }) => {
     return (
         <>
             <div
@@ -17,25 +11,39 @@ const Blogs = () => {
             >
                 Blogs
             </div>
-            {allBlogs.length
-                ? allBlogs.map((blog) => (
-                      <div
-                          key={blog.id}
-                          className={`p-4 my-6 w-full cursor-pointer hover:scale-[1.01] ${styles.project_container}`}
-                      >
-                          <div className="flex flex-col">
-                              <span className="w-full font-medium center text-xl md:text-2xl">
-                                  {blog.title}
-                              </span>
-                              <span className="pt-4 text-base md:text-lg text-gray ">
-                                  {blog.description}
-                              </span>
+            {posts.length
+                ? posts.map((blog) => (
+                      <Link href="/">
+                          <div
+                              key={blog._id}
+                              className={`p-4 my-6 w-full cursor-pointer hover:scale-[1.01] ${styles.project_container}`}
+                          >
+                              <div className="flex flex-col">
+                                  <span className="w-full font-medium center text-xl md:text-2xl">
+                                      {blog.title}
+                                  </span>
+                                  <span className="pt-4 text-base md:text-lg text-gray ">
+                                      {blog.description}
+                                  </span>
+                              </div>
                           </div>
-                      </div>
+                      </Link>
                   ))
                 : null}
         </>
     );
+};
+
+export const getServerSideProps = async () => {
+    const query = `*[ _type == "post"]{_id,title,description}`;
+
+    const posts = await sanityClient.fetch(query);
+
+    return {
+        props: {
+            posts,
+        },
+    };
 };
 
 export default Blogs;

@@ -47,7 +47,7 @@ const NavBar = () => {
                                 <img
                                     className="px-5
                              scale-175 h-8 w-auto sm:h-10 blur-none"
-                                    src="./asset/logo.svg"
+                                    src="/asset/logo.svg"
                                     alt=""
                                     style={{ cursor: "pointer" }}
                                 />
@@ -117,7 +117,7 @@ const NavBar = () => {
                                     <Link href="/">
                                         <img
                                             className="px-5 scale-175 h-8 w-auto "
-                                            src="./asset/logo.svg"
+                                            src="/asset/logo.svg"
                                             alt=""
                                         />
                                     </Link>

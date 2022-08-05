@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import Link from "next/link";
+import Image from "next/image";
 import {
     MenuIcon,
     XIcon,
@@ -48,17 +49,21 @@ const NavBar = () => {
             }}
         >
             <Popover className="relative">
-                <div className="max-w-9xl mx-auto px-4 sm:px-6">
+                <div className="max-w-9xl mx-auto px-6 sm:px-8">
                     <div className="flex justify-between items-center py-6 md:justify-start md:space-x-10">
                         <div className="flex justify-start lg:w-0 lg:flex-1">
                             <Link href="/">
-                                <img
-                                    className="px-5
-                             scale-175 h-8 w-auto sm:h-10 blur-none"
-                                    src="/asset/logo.svg"
-                                    alt=""
-                                    style={{ cursor: "pointer" }}
-                                />
+                                <div className="md:px-7 px-6 scale-175 h-8 w-auto sm:h-10">
+                                    <Image
+                                        src="/asset/logo.svg"
+                                        alt=""
+                                        style={{
+                                            cursor: "pointer",
+                                            padding: "2px",
+                                        }}
+                                        layout="fill"
+                                    />
+                                </div>
                             </Link>
                         </div>
                         <div className="-mr-2 -my-2 md:hidden">
@@ -81,7 +86,6 @@ const NavBar = () => {
                                     Home
                                 </button>
                             </Link>
-                            {/* <Link href="projects"> */}
                             <button
                                 className={`ml-8 inline-flex items-center justify-center px-4 py-2 rounded-md font-medium text-white hover:bg-backgroundGray ${
                                     route.pathname === "/projects"
@@ -92,8 +96,6 @@ const NavBar = () => {
                             >
                                 Projects
                             </button>
-                            {/* </Link> */}
-                            {/* <Link href="blogs"> */}
                             <button
                                 className={`ml-8 inline-flex items-center justify-center px-4 py-2 rounded-md font-medium text-white hover:bg-backgroundGray ${
                                     route.pathname === "/blogs"
@@ -104,7 +106,6 @@ const NavBar = () => {
                             >
                                 Blogs
                             </button>
-                            {/* </Link> */}
                         </div>
                     </div>
                 </div>
@@ -125,11 +126,13 @@ const NavBar = () => {
                             <div className="pt-5 pb-6 px-5">
                                 <div className="flex items-center justify-between">
                                     <Link href="/">
-                                        <img
-                                            className="px-5 scale-175 h-8 w-auto "
-                                            src="/asset/logo.svg"
-                                            alt=""
-                                        />
+                                        <div className="md:px-7 px-6 scale-175 h-8 w-auto sm:h-10">
+                                            <Image
+                                                src="/asset/logo.svg"
+                                                alt=""
+                                                layout="fill"
+                                            />
+                                        </div>
                                     </Link>
                                     <div className="-mr-2">
                                         <Popover.Button className="bg-black rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500">

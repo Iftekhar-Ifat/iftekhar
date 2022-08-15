@@ -14,9 +14,9 @@ const Footer = () => {
                 <span>, </span>
                 <a
                     className="cursor-pointer hover:text-white hover:underline"
-                    href="https://mdxjs.com/"
+                    href="https://www.sanity.io/"
                 >
-                    MDX
+                    Sanity
                 </a>
                 <span>, </span>
                 <a

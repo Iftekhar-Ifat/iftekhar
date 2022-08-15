@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import styles from "../../styles/HomePage/HomePage.module.css";
 
@@ -34,25 +35,21 @@ const SkillsSection = () => {
                                   {domain.skills.map((skill) =>
                                       skill.title === "NextJs" ||
                                       skill.title === "ExpressJs" ? (
-                                          <img
+                                          <Image
                                               key={skill.id}
                                               src={skill.icon_url}
                                               alt={skill.title}
                                               width="50"
                                               height="50"
-                                              style={{
-                                                  filter: "invert(1)",
-                                                  margin: "2%",
-                                              }}
+                                              className="invert"
                                           />
                                       ) : (
-                                          <img
+                                          <Image
                                               key={skill.id}
                                               src={skill.icon_url}
                                               alt={skill.title}
                                               width="50"
                                               height="50"
-                                              style={{ margin: "2%" }}
                                           />
                                       )
                                   )}

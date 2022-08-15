@@ -53,14 +53,11 @@ const NavBar = () => {
                     <div className="flex justify-between items-center py-6 md:justify-start md:space-x-10">
                         <div className="flex justify-start lg:w-0 lg:flex-1">
                             <Link href="/">
-                                <div className="md:px-7 px-6 scale-175 h-8 w-auto sm:h-10">
+                                <div className="md:px-7 px-6 scale-175 h-8 w-auto sm:h-10 relative">
                                     <Image
                                         src="/asset/logo.svg"
-                                        alt=""
-                                        style={{
-                                            cursor: "pointer",
-                                            padding: "2px",
-                                        }}
+                                        alt="logo"
+                                        className="p-0.5 cursor-pointer"
                                         layout="fill"
                                     />
                                 </div>

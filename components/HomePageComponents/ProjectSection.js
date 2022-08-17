@@ -1,17 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Image from "next/image";
 import styles from "../../styles/HomePage/HomePage.module.css";
+import projectData from "../../public/asset/project-data/featured_projects.json";
+import Link from "next/link";
 
 const ProjectSection = () => {
-    const [projectData, setProjectData] = useState([]);
-
-    useEffect(() => {
-        fetch("./asset/project-data/featured_projects.json")
-            .then((res) => res.json())
-            .then((data) => {
-                setProjectData(data);
-            });
-    }, []);
     return (
         <>
             <div
@@ -47,9 +40,11 @@ const ProjectSection = () => {
                                   {project.description}
                               </p>
                               <div className="w-full flex justify-end">
-                                  <button className="hover:scale-105">
-                                      see more
-                                  </button>
+                                  <Link href="/projects">
+                                      <p className="cursor-pointer hover:scale-105">
+                                          see more
+                                      </p>
+                                  </Link>
                               </div>
                           </div>
                       </div>

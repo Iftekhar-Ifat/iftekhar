@@ -1,17 +1,9 @@
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "../../styles/HomePage/HomePage.module.css";
+import skillData from "../../public/asset/skill-data/skills.json";
 
 const SkillsSection = () => {
-    const [skillData, setSkillData] = useState([]);
-    // skill data fetching
-    useEffect(() => {
-        fetch("./asset/skill-data/skills.json")
-            .then((res) => res.json())
-            .then((data) => {
-                setSkillData(data);
-            });
-    }, []);
     return (
         <>
             <div

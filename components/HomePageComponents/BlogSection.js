@@ -1,16 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "../../styles/HomePage/HomePage.module.css";
+import featuredBlog from "../../public/asset/blog-data/featured_blog.json";
+import Link from "next/link";
 
 const BlogSection = () => {
-    const [featuredBlog, setFeaturedBlog] = useState([]);
-
-    useEffect(() => {
-        fetch("./asset/blog-data/featured_blog.json")
-            .then((res) => res.json())
-            .then((data) => {
-                setFeaturedBlog(data);
-            });
-    }, []);
     return (
         <>
             <div
@@ -36,7 +29,9 @@ const BlogSection = () => {
                   ))
                 : null}
             <div className="w-full flex justify-end">
-                <button className="hover:scale-105">see more</button>
+                <Link href="/blogs">
+                    <p className="cursor-pointer hover:scale-105">see more</p>
+                </Link>
             </div>
         </>
     );

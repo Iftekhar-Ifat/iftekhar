@@ -30,7 +30,9 @@ const BlogSection = () => {
                 : null}
             <div className="w-full flex justify-end">
                 <Link href="/blogs">
-                    <p className="cursor-pointer hover:scale-105">see more</p>
+                    <p className="text-white cursor-pointer hover:scale-105">
+                        see more
+                    </p>
                 </Link>
             </div>
         </>

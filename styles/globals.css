@@ -9,6 +9,9 @@
     h3 {
         @apply text-xl;
     }
+    p {
+        @apply text-gray text-lg py-2 leading-6;
+    }
     ul,
     ol {
         margin-top: 1em;

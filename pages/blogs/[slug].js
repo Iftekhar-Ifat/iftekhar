@@ -1,26 +1,34 @@
 import React from "react";
-import { sanityClient, urlFor } from "../../lib/sanity.js";
+import { sanityClient } from "../../lib/sanity.js";
 import SanityBlockContent from "@sanity/block-content-to-react";
 import CodeBlock from "../../components/BlogComponents/CodeBlock.js";
+import BlogHeader from "../../components/BlogComponents/BlogHeader.js";
+import BlogImg from "../../components/BlogComponents/BlogImg.js";
 
 const serializers = {
     types: {
         code: (props) => (
             <CodeBlock code={props.node.code} language={props.node.language} />
         ),
+        image: (props) => <BlogImg imgProps={props} />,
     },
 };
 
 const Blog = ({ post }) => {
     return (
-        <div>
+        <article>
+            <BlogHeader
+                mainImg={post.mainImage}
+                title={post.title}
+                date={post._createdAt}
+            />
             <SanityBlockContent
                 blocks={post.body}
                 projectId="o06c5s89"
                 dataset="production"
                 serializers={serializers}
             />
-        </div>
+        </article>
     );
 };
 

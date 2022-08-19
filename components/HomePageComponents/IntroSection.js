@@ -33,7 +33,8 @@ const IntroSection = () => {
             <span
                 className={`font-medium text-3xl md:text-5xl md:pl-28 ${styles.name_section}`}
             >
-                I'm <span className={styles.glow_text}>Iftekhar Ahmed</span>
+                I&apos;m{" "}
+                <span className={styles.glow_text}>Iftekhar Ahmed</span>
             </span>
             <p className="pt-4 md:px-16 text-center leading-8 text-xl text-gray ">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do

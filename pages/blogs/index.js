@@ -3,6 +3,7 @@ import Link from "next/link";
 import styles from "../../styles/projects/projects.module.css";
 import { sanityClient } from "../../lib/sanity";
 import { useRouter } from "next/router";
+import HrLine from "../../components/HrLine";
 
 const Blogs = ({ posts }) => {
     const router = useRouter();
@@ -33,6 +34,7 @@ const Blogs = ({ posts }) => {
                     </div>
                 </Link>
             ))}
+            <HrLine />
         </>
     );
 };

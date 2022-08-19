@@ -4,6 +4,7 @@ import SanityBlockContent from "@sanity/block-content-to-react";
 import CodeBlock from "../../components/BlogComponents/CodeBlock.js";
 import BlogHeader from "../../components/BlogComponents/BlogHeader.js";
 import BlogImg from "../../components/BlogComponents/BlogImg.js";
+import HrLine from "../../components/HrLine.js";
 
 const serializers = {
     types: {
@@ -28,6 +29,7 @@ const Blog = ({ post }) => {
                 dataset="production"
                 serializers={serializers}
             />
+            <HrLine />
         </article>
     );
 };

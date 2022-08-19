@@ -7,7 +7,7 @@ import { urlFor } from "../../lib/sanity";
 const BlogHeader = ({ mainImg, title, date }) => {
     const imageSrc = urlFor(mainImg).url();
     return (
-        <div className="py-6">
+        <div className="pt-6">
             <Head>
                 <title>{title}</title>
                 <meta

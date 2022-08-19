@@ -4,6 +4,7 @@ import styles from "../../styles/projects/projects.module.css";
 import { FaGithub } from "react-icons/fa";
 import { FaLink } from "react-icons/fa";
 import AllProjects from "../../public/asset/project-data/projects.json";
+import HrLine from "../../components/HrLine";
 const Projects = () => {
     return (
         <>
@@ -97,6 +98,7 @@ const Projects = () => {
                       </div>
                   ))
                 : null}
+            <HrLine />
         </>
     );
 };

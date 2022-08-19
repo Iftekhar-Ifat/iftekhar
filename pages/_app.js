@@ -4,6 +4,7 @@ import Footer from "../components/Footer";
 import Head from "next/head";
 import Error from "next/error";
 import "../styles/globals.css";
+import "@fontsource/fira-code";
 
 function MyApp({ Component, pageProps }) {
     const router = useRouter();
@@ -11,6 +12,24 @@ function MyApp({ Component, pageProps }) {
         <>
             <Head>
                 <title>Iftekhar</title>
+                <meta name="theme-color" content="#000000" />
+                <meta
+                    name="description"
+                    content="Iftekhar's personal portfolio website"
+                />
+                <meta name="author" content="Iftekhar" />
+
+                <meta
+                    name="image"
+                    property="og:image"
+                    content="<%= require('./asset/meta-data/meta_img.png') %>"
+                />
+
+                <meta
+                    property="og:image"
+                    content="<%= require('./asset/meta-data/meta_img.png') %>"
+                />
+                <meta property="og:image:type" content="image/png" />
                 <meta
                     name="viewport"
                     content="initial-scale=1.0, width=device-width"

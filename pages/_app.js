@@ -22,13 +22,10 @@ function MyApp({ Component, pageProps }) {
                 <meta
                     name="image"
                     property="og:image"
-                    content="<%= require('./asset/meta-data/meta_img.png') %>"
+                    content="https://ibb.co/R6p3Pws"
                 />
 
-                <meta
-                    property="og:image"
-                    content="<%= require('./asset/meta-data/meta_img.png') %>"
-                />
+                <meta property="og:image" content="https://ibb.co/R6p3Pws" />
                 <meta property="og:image:type" content="image/png" />
                 <meta
                     name="viewport"

@@ -12,7 +12,6 @@ function MyApp({ Component, pageProps }) {
         <>
             <Head>
                 <title>Iftekhar</title>
-                <meta name="theme-color" content="#000000" />
                 <meta
                     name="description"
                     content="Iftekhar's personal portfolio website"
@@ -22,10 +21,17 @@ function MyApp({ Component, pageProps }) {
                 <meta
                     name="image"
                     property="og:image"
-                    content="https://ibb.co/R6p3Pws"
+                    content="https://i.ibb.co/c8c6tnZ/meta-img-blog.png"
                 />
-
-                <meta property="og:image" content="https://ibb.co/R6p3Pws" />
+                <meta
+                    name="twitter:image"
+                    href="https://cdn.spiriteddrive.club/images/banner-twitter.jpg"
+                    content="https://i.ibb.co/c8c6tnZ/meta-img-blog.png"
+                />
+                <meta
+                    property="og:image"
+                    content="https://i.ibb.co/c8c6tnZ/meta-img-blog.png"
+                />
                 <meta property="og:image:type" content="image/png" />
                 <meta
                     name="viewport"

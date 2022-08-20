@@ -4,12 +4,13 @@ import Head from "next/head";
 import Image from "next/image";
 import { urlFor } from "../../lib/sanity";
 
-const BlogHeader = ({ mainImg, title, date }) => {
+const BlogHeader = ({ mainImg, title, date, description }) => {
     const imageSrc = urlFor(mainImg).url();
     return (
         <div className="pt-6">
             <Head>
                 <title>{title}</title>
+                <meta name="description" content={description} />
                 <meta
                     key="ogImage"
                     property="og:image"

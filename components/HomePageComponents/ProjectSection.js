@@ -41,7 +41,7 @@ const ProjectSection = () => {
                               </p>
                               <div className="w-full flex justify-end">
                                   <Link href="/projects">
-                                      <p className="text-gray cursor-pointer hover:scale-105">
+                                      <p className="text-white cursor-pointer hover:scale-105">
                                           see more
                                       </p>
                                   </Link>

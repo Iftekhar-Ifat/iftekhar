@@ -2,11 +2,9 @@ import React from "react";
 import Link from "next/link";
 import styles from "../../styles/projects/projects.module.css";
 import { sanityClient } from "../../lib/sanity";
-import { useRouter } from "next/router";
 import HrLine from "../../components/HrLine";
 
 const Blogs = ({ posts }) => {
-    const router = useRouter();
     return (
         <>
             <div
@@ -18,10 +16,6 @@ const Blogs = ({ posts }) => {
                 <Link href={`/blogs/${blog.slug.current}`} key={blog._id}>
                     <div
                         className={`p-4 my-6 w-full cursor-pointer hover:scale-[1.01] ${styles.project_container}`}
-                        //   onClick={(e) => {
-                        //       e.preventDefault();
-                        //       router.push(`/blogs/${blog.slug.current}`);
-                        //   }}
                     >
                         <div className="flex flex-col">
                             <span className="w-full font-medium center text-xl md:text-2xl">

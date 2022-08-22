@@ -15,7 +15,7 @@ const SkillsSection = () => {
                 {skillData.length
                     ? skillData.map((domain) => (
                           <div
-                              className={`pt-4 font-medium center text-xl md:text-2xl ${styles.skill_container}`}
+                              className={`py-4 font-medium center text-xl md:text-2xl ${styles.skill_container}`}
                               key={domain.id}
                           >
                               <span className="w-full md:w-2/5">

@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
+import { Analytics } from "@vercel/analytics/react";
 import Head from "next/head";
 import Error from "next/error";
 import "../styles/globals.css";
@@ -45,6 +46,7 @@ function MyApp({ Component, pageProps }) {
                     <div className="w-full px-[10%] md:px-[25%]">
                         <Component {...pageProps} />
                         <Footer />
+                        <Analytics />
                     </div>
                 </>
             ) : (

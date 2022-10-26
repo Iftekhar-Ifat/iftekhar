@@ -22,6 +22,7 @@ export default async function handler(req, res) {
             const pathToRevalidate = req.body.slug.current;
 
             console.log(`===== Revalidating: ${req.body.slug}`);
+            console.log(req.body._type);
 
             if (req.body._type === "post") {
                 await res.revalidate(`/blogs/${pathToRevalidate}`);

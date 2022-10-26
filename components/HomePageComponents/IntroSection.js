@@ -37,16 +37,18 @@ const IntroSection = () => {
                 <span className={styles.glow_text}>Iftekhar Ahmed</span>
             </span>
             <p className="pt-4 md:px-16 text-center leading-8 text-xl text-gray ">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Pellentesque dignissim enim sit amet. Aliquet risus feugiat in
-                ante metus dictum.
+                I&apos;m currently pursuing my bachelor&apos;s in Computer
+                Science & Engineering. I enjoy building <b>web applications</b>{" "}
+                using modern web technologies. I also have a strong interest in{" "}
+                <b>ML/AI</b>.
             </p>
             <div className="flex justify-between pt-8 md:px-4">
                 <div className="flex">
                     <a
                         href="https://www.linkedin.com/in/iftekhar-ahmed-0a082a196/"
                         className="hover:scale-110"
+                        target="_blank"
+                        rel="noopener noreferrer"
                     >
                         <FaLinkedin
                             className="m-2 "
@@ -69,6 +71,8 @@ const IntroSection = () => {
                     <a
                         href="https://twitter.com/_ifte"
                         className="hover:scale-110"
+                        target="_blank"
+                        rel="noopener noreferrer"
                     >
                         <FaTwitter
                             className="m-2"
@@ -79,6 +83,8 @@ const IntroSection = () => {
                     <a
                         href="https://github.com/Iftekhar-Ifat"
                         className="hover:scale-110"
+                        target="_blank"
+                        rel="noopener noreferrer"
                     >
                         <FaGithub className="m-2" size={25} color={"#959595"} />
                     </a>

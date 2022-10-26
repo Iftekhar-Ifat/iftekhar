@@ -10,17 +10,13 @@
         @apply md:text-xl text-lg md:font-medium font-normal;
     }
     p {
-        @apply text-gray text-lg py-2 leading-6;
+        @apply text-gray text-lg py-2 leading-7;
     }
     ul,
     ol {
-        margin-top: 1em;
-        margin-bottom: 1 em;
-        margin-left: 0;
-        margin-right: 0;
-        padding-left: 40px;
-        padding-left: 1em;
+        margin-left: 2em;
         list-style: revert;
+        color: #959595;
     }
     a {
         @apply cursor-pointer text-gray hover:text-white hover:underline;
@@ -29,13 +25,12 @@
 @tailwind components;
 @tailwind utilities;
 
-/* @import url("https://fonts.googleapis.com/css2?family=Fira+Code&display=swap"); */
-
 html,
 body {
     padding: 0;
     margin: 0;
     background-color: #111111;
+    color: white;
     font-family: Fira Code, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
         Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
         sans-serif;
@@ -44,6 +39,8 @@ body {
 * {
     box-sizing: border-box;
 }
+
+
 
 @media (prefers-color-scheme: dark) {
     html {

@@ -2,8 +2,9 @@
     {
         "id": 1001,
         "title": "LU Cp Archive",
+        "slug": "lu-cp-archive",
         "image": "/asset/project-img/lu-cp-archive.png",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
+        "description": "LU-CP-Archive is a MERN stack application designed to assist students who are doing competitive programming. ",
         "live_link": "https://lu-cp-archive.vercel.app/",
         "github": "https://github.com/Iftekhar-Ifat/lu-cp-archive",
         "tech_stack": [
@@ -39,43 +40,68 @@
             }
         ]
     },
-    {
+    {        
         "id": 1002,
-        "title": "Burger Shop Manager",
+        "title": "Portfolio",
+        "slug": "lu-cp-archive",
+        "image": "/asset/project-img/portfolio.png",
+        "description": "This is my portfolio website where I share my personal projects, blogs, learnings etc.",
+        "live_link": "https://iftekhar.vercel.app/",
+        "github": "https://github.com/Iftekhar-Ifat/iftekhar",
+        "tech_stack": [
+            {
+                "key": 1,
+                "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
+                "title": "NextJs"
+            },
+            {
+                "key": 2,
+                "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg",
+                "title": "Tailwind Css"
+            }
+            
+        ]
+    },
+
+    {
+        "id": 1003,
+        "title": "Burger shop manager",
+        "slug": "lu-cp-archive",
         "image": "/asset/project-img/burger-shop-manager.png",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
+        "description": "Burger Shop Manager is a food court managing desktop based software. Where users can do various CRUD operation according to their role. ",
         "live_link": "",
-        "github": "https://github.com/Iftekhar-Ifat/burger-shop-manager",
+        "github": "https://github.com/iftekhar-ifat/burger-shop-manager",
         "tech_stack": [
             {
                 "key": 8,
                 "icon_url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg",
-                "title": "Java"
+                "title": "java"
             },
             {
                 "key": 9,
                 "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original-wordmark.svg",
-                "title": "MySQL"
+                "title": "mysql"
             }
         ]
     },
     {
-        "id": 1003,
-        "title": "BrainF**k Interpreter",
+        "id": 1004,
+        "title": "Brainf**k interpreter",
+        "slug": "lu-cp-archive",
         "image": "/asset/project-img/brainfuck-interpreter.png",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
+        "description": "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
         "live_link": "https://brainfuck-interpreter-iftekhar-ifat.vercel.app/",
-        "github": "https://github.com/Iftekhar-Ifat/brainfuck-interpreter",
+        "github": "https://github.com/iftekhar-ifat/brainfuck-interpreter",
         "tech_stack": [
             {
                 "key": 10,
                 "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
-                "title": "React"
+                "title": "react"
             },
             {
                 "key": 11,
                 "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg",
-                "title": "Bootstrap"
+                "title": "bootstrap"
             }
         ]
     }

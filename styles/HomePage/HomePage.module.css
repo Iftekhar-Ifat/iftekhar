@@ -56,7 +56,9 @@
         align-items: baseline;
     }
     .icon_container {
-        padding: 5%;
+        padding-top: 5%;
+        padding-left: 5%;
+        padding-right: 5%;
         width: 100%;
         grid-template-columns: 1fr 1fr 1fr 1fr;
     }

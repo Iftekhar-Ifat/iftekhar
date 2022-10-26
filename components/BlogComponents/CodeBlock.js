@@ -10,11 +10,14 @@ const CodeBlock = ({ code, language }) => {
                 style={oneDark}
                 wrapLines={true}
                 showLineNumbers={true}
+                customStyle={{
+                    backgroundColor: "#1B1C1D",
+                }}
                 codeTagProps={{
                     style: {
                         fontFamily: "Fira Code",
                         fontSize: "17px",
-                        fontWeight: "500",
+                        fontWeight: "600",
                     },
                 }}
             >

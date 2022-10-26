@@ -59,6 +59,7 @@ const NavBar = () => {
                                         alt="logo"
                                         className="p-0.5 cursor-pointer"
                                         layout="fill"
+                                        priority
                                     />
                                 </div>
                             </Link>

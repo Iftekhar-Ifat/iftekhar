@@ -3,7 +3,7 @@
         "id": 1001,
         "title": "LU Cp Archive",
         "image": "/asset/project-img/lu-cp-archive.png",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
+        "description": "LU-CP-Archive is a MERN stack application designed to assist students who are doing competitive programming. ",
         "live_link": "https://lu-cp-archive.vercel.app/",
         "github": "https://github.com/Iftekhar-Ifat/lu-cp-archive",
         "tech_stack": [

@@ -3,7 +3,7 @@ import { isValidSignature, SIGNATURE_HEADER_NAME } from "@sanity/webhook";
 const SANITY_WEBHOOK_SECRET = process.env.SANITY_WEBHOOK_SECRET;
 
 export default async function handler(req, res) {
-    const signature = req.headers[SIGNATURE_HEADER_NAME];
+    const signature = req.headers[SIGNATURE_HEADER_NAME].toString();
     const isValid = isValidSignature(
         JSON.stringify(req.body),
         signature,
@@ -14,21 +14,22 @@ export default async function handler(req, res) {
 
     // Validate signature
     if (!isValid) {
-        res.status(401).json({ success: false, message: "Invalid signature" });
-        return;
-    }
+        return res
+            .status(401)
+            .json({ success: false, message: "Invalid signature" });
+    } else {
+        try {
+            const pathToRevalidate = req.body.slug.current;
 
-    try {
-        const pathToRevalidate = req.body.slug.current;
+            console.log(`===== Revalidating: ${req.body}`);
 
-        console.log(`===== Revalidating: ${pathToRevalidate}`);
+            await res.revalidate(`/blogs/${pathToRevalidate}`);
 
-        await res.revalidate(pathToRevalidate);
-
-        return res.json({ revalidated: true });
-    } catch (err) {
-        // Could not revalidate. The stale page will continue to be shown until
-        // this issue is fixed.
-        return res.status(500).send("Error while revalidating");
+            return res.json({ revalidated: true });
+        } catch (err) {
+            // Could not revalidate. The stale page will continue to be shown until
+            // this issue is fixed.
+            return res.status(500).send("Error while revalidating");
+        }
     }
 }

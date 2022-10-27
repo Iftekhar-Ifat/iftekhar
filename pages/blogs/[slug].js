@@ -37,24 +37,24 @@ const Blog = ({ post }) => {
 
 export default Blog;
 
-export const getStaticPaths = async () => {
-    const query = `*[_type == "post"]{_id,slug{current}}`;
+// export const getStaticPaths = async () => {
+//     const query = `*[_type == "post"]{_id,slug{current}}`;
 
-    const posts = await sanityClient.fetch(query);
+//     const posts = await sanityClient.fetch(query);
 
-    const paths = posts.map((post) => ({
-        params: {
-            slug: post.slug.current,
-        },
-    }));
+//     const paths = posts.map((post) => ({
+//         params: {
+//             slug: post.slug.current,
+//         },
+//     }));
 
-    return {
-        paths,
-        fallback: "blocking",
-    };
-};
+//     return {
+//         paths,
+//         fallback: "blocking",
+//     };
+// };
 
-export const getStaticProps = async ({ params }) => {
+export const getServerSideProps = async ({ params }) => {
     const query = `*[_type == "post" && slug.current == $slug][0]{_id,_createdAt,title,description,mainImage,slug,body}`;
 
     const post = await sanityClient.fetch(query, {

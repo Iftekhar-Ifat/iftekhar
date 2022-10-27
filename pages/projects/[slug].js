@@ -111,24 +111,24 @@ const project = ({ project }) => {
 
 export default project;
 
-export const getStaticPaths = async () => {
-    const query = `*[_type == "projects"]{_id,slug{current}}`;
+// export const getStaticPaths = async () => {
+//     const query = `*[_type == "projects"]{_id,slug{current}}`;
 
-    const projects = await sanityClient.fetch(query);
+//     const projects = await sanityClient.fetch(query);
 
-    const paths = projects.map((project) => ({
-        params: {
-            slug: project.slug.current,
-        },
-    }));
+//     const paths = projects.map((project) => ({
+//         params: {
+//             slug: project.slug.current,
+//         },
+//     }));
 
-    return {
-        paths,
-        fallback: "blocking",
-    };
-};
+//     return {
+//         paths,
+//         fallback: "blocking",
+//     };
+// };
 
-export const getStaticProps = async ({ params }) => {
+export const getServerSideProps = async ({ params }) => {
     const query = `*[_type == "projects" && slug.current == $slug][0]{title,description,liveLink,githubLink,slug,mainImage,techStack[]->,body}`;
 
     const project = await sanityClient.fetch(query, {

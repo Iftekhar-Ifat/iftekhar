@@ -1,12 +1,8 @@
 [
     {
         "id": 1001,
-        "title": "LU Cp Archive",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..."
-    },
-    {
-        "id": 1002,
-        "title": "Burger Shop Manager",
-        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..."
+        "title": "Getting Started With Machine Learning",
+        "description": "How to get started with ML in a beginner friendly way"
     }
+    
 ]

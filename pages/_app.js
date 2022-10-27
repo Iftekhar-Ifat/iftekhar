@@ -16,6 +16,11 @@ function MyApp({ Component, pageProps }) {
         <>
             <Head>
                 <link rel="shortcut icon" href="/favicon.svg" />
+                <meta property="og:type" content="article" />
+                <meta
+                    property="og:image"
+                    content="https://i.ibb.co/qsRnFyB/800x600.png"
+                />
             </Head>
             {router.pathname !== "/_error" ? (
                 <>

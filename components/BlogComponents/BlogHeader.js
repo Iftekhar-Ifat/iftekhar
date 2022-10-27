@@ -16,7 +16,6 @@ const BlogHeader = ({ mainImg, title, date, description, slug }) => {
                 <meta property="og:description" content={description} />
                 <meta property="og:image" content={imageSrc} />
                 <meta property="og:image:secure_url" content={imageSrc} />
-                <meta itemprop="image" content={imageSrc}></meta>
             </Head>
             <div>
                 <div

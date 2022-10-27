@@ -19,7 +19,7 @@ const serializers = {
 
 const Blog = ({ post }) => {
     const metaImg = urlFor(post.mainImage).url();
-
+    const currentUrl = "https://iftekhar.vercel.app/blogs/" + post.slug.current;
     const SEO = {
         title: post.title,
         description: post.description,
@@ -30,9 +30,14 @@ const Blog = ({ post }) => {
                     width: 1200,
                     height: 630,
                     alt: "Og Image Alt",
-                    type: "image/jpg",
+                    type: "image/jpeg",
                 },
             ],
+            url: currentUrl,
+            type: "website",
+        },
+        facebook: {
+            appId: "1137800783495688",
         },
     };
     return (

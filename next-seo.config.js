@@ -7,7 +7,7 @@ export default {
         site_name: "iftekhar",
         images: [
             {
-                url: "https://i.ibb.co/qsRnFyB/800x600.png",
+                url: "https://i.ibb.co/P1pqRKn/800x600jpg.jpg",
                 width: 800,
                 height: 600,
                 alt: "Og Image Alt",

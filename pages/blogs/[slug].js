@@ -42,6 +42,7 @@ const Blog = ({ post }) => {
                 mainImg={post.mainImage}
                 title={post.title}
                 date={post._createdAt}
+                slug={post.slug.current}
                 description={post.description}
             />
             <SanityBlockContent

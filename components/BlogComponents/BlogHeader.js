@@ -4,12 +4,13 @@ import Image from "next/image";
 import { urlFor } from "../../lib/sanity";
 import Head from "next/head";
 
-const BlogHeader = ({ mainImg, title, date, description }) => {
+const BlogHeader = ({ mainImg, title, date, description, slug }) => {
     const imageSrc = urlFor(mainImg).url();
-
+    const currentUrl = "https://iftekhar.vercel.app/blogs/" + slug;
     return (
         <>
             <Head>
+                <meta property="og:url" content={currentUrl} />
                 <meta property="og:type" content="article" />
                 <meta property="og:title" content={title} />
                 <meta property="og:description" content={description} />

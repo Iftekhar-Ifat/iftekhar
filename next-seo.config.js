@@ -20,4 +20,7 @@ export default {
         site: "@iftekhar",
         cardType: "summary_large_image",
     },
+    facebook: {
+        appId: "1137800783495688",
+    },
 };

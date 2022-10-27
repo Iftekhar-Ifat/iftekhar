@@ -5,6 +5,8 @@ import CodeBlock from "../../components/BlogComponents/CodeBlock.js";
 import BlogHeader from "../../components/BlogComponents/BlogHeader.js";
 import BlogImg from "../../components/BlogComponents/BlogImg.js";
 import HrLine from "../../components/HrLine.js";
+import { NextSeo } from "next-seo";
+import { urlFor } from "../../lib/sanity.js";
 
 const serializers = {
     types: {
@@ -16,8 +18,26 @@ const serializers = {
 };
 
 const Blog = ({ post }) => {
+    const metaImg = urlFor(post.mainImage).url();
+
+    const SEO = {
+        title: post.title,
+        description: post.description,
+        openGraph: {
+            images: [
+                {
+                    url: metaImg,
+                    width: 1200,
+                    height: 630,
+                    alt: "Og Image Alt",
+                    type: "image/jpg",
+                },
+            ],
+        },
+    };
     return (
-        <article>
+        <article style={{ fontFamily: "Fira Sans" }}>
+            <NextSeo {...SEO} />
             <BlogHeader
                 mainImg={post.mainImage}
                 title={post.title}

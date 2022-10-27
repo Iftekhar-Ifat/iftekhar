@@ -1,29 +1,18 @@
 import React from "react";
 import styles from "../../styles/Blog/BlogHeader.module.css";
-import Head from "next/head";
 import Image from "next/image";
 import { urlFor } from "../../lib/sanity";
 
 const BlogHeader = ({ mainImg, title, date, description }) => {
     const imageSrc = urlFor(mainImg).url();
+
     return (
-        <div className="pt-6">
-            <Head>
-                <title>{title}</title>
-                <meta name="description" content={description} />
-                <meta
-                    key="ogImage"
-                    property="og:image"
-                    content={urlFor(mainImg)
-                        .width(1200)
-                        .height(627)
-                        .fit("crop")
-                        .url()}
-                />
-            </Head>
-            <h1 className="md:px-12 px-4 flex justify-center text-center tracking-wider">
+        <div>
+            <div
+                className={`flex text-center justify-center my-6 font-medium text-3xl md:text-5xl`}
+            >
                 {title}
-            </h1>
+            </div>
             <div className={`p-4 my-6 w-full ${styles.project_container}`}>
                 <Image
                     src={imageSrc}

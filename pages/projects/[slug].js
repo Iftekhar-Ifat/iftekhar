@@ -9,6 +9,7 @@ import SanityBlockContent from "@sanity/block-content-to-react";
 import BlogImg from "../../components/BlogComponents/BlogImg";
 import CodeBlock from "../../components/BlogComponents/CodeBlock";
 import { urlFor } from "../../lib/sanity";
+import { NextSeo } from "next-seo";
 
 const serializers = {
     types: {
@@ -22,10 +23,27 @@ const serializers = {
 const project = ({ project }) => {
     const coverImg = urlFor(project.mainImage).url();
 
+    const SEO = {
+        title: project.title,
+        description: project.description,
+        openGraph: {
+            images: [
+                {
+                    url: coverImg,
+                    width: 1200,
+                    height: 630,
+                    alt: "Og Image Alt",
+                    type: "image/jpg",
+                },
+            ],
+        },
+    };
+
     return (
         <>
+            <NextSeo {...SEO} />
             <div
-                className={`flex justify-center my-6 font-medium text-3xl md:text-5xl ${styles.glow_text}`}
+                className={`flex text-center justify-center my-6 font-medium text-3xl md:text-5xl ${styles.glow_text}`}
             >
                 {project.title}
             </div>

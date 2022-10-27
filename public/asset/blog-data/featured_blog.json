@@ -2,7 +2,8 @@
     {
         "id": 1001,
         "title": "Getting Started With Machine Learning",
-        "description": "How to get started with ML in a beginner friendly way"
+        "description": "How to get started with Machine Learning in a beginner friendly way",
+        "slug": "getting-started-with-machine-learning"
     }
     
 ]

@@ -4,44 +4,22 @@ import Footer from "../components/Footer";
 import { Analytics } from "@vercel/analytics/react";
 import Head from "next/head";
 import Error from "next/error";
+import { DefaultSeo } from "next-seo";
+import SEO from "../next-seo.config";
 import "../styles/globals.css";
 import "@fontsource/fira-code";
+import "@fontsource/fira-sans";
 
 function MyApp({ Component, pageProps }) {
     const router = useRouter();
     return (
         <>
             <Head>
-                <title>Iftekhar</title>
-                <meta
-                    name="description"
-                    content="Iftekhar's personal portfolio website"
-                />
-                <meta name="author" content="Iftekhar" />
-
-                <meta
-                    name="image"
-                    property="og:image"
-                    content="https://i.ibb.co/c8c6tnZ/meta-img-blog.png"
-                />
-                <meta
-                    name="twitter:image"
-                    href="https://cdn.spiriteddrive.club/images/banner-twitter.jpg"
-                    content="https://i.ibb.co/c8c6tnZ/meta-img-blog.png"
-                />
-                <meta
-                    property="og:image"
-                    content="https://i.ibb.co/c8c6tnZ/meta-img-blog.png"
-                />
-                <meta property="og:image:type" content="image/png" />
-                <meta
-                    name="viewport"
-                    content="initial-scale=1.0, width=device-width"
-                />
                 <link rel="shortcut icon" href="/favicon.svg" />
             </Head>
             {router.pathname !== "/_error" ? (
                 <>
+                    <DefaultSeo {...SEO} />
                     <NavBar />
                     <div className="w-full px-[10%] md:px-[25%]">
                         <Component {...pageProps} />

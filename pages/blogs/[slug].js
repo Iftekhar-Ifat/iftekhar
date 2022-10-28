@@ -29,15 +29,11 @@ const Blog = ({ post }) => {
                     url: metaImg,
                     width: 1200,
                     height: 630,
-                    alt: "Og Image Alt",
                     type: "image/jpeg",
                 },
             ],
             url: currentUrl,
             type: "website",
-        },
-        facebook: {
-            appId: "1137800783495688",
         },
     };
     return (

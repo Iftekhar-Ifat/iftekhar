@@ -8,9 +8,6 @@ export default {
         images: [
             {
                 url: "https://i.ibb.co/P1pqRKn/800x600jpg.jpg",
-                width: 800,
-                height: 600,
-                alt: "Og Image Alt",
                 type: "image/jpeg",
             },
         ],
@@ -19,8 +16,5 @@ export default {
         handle: "@_ifte",
         site: "@iftekhar",
         cardType: "summary_large_image",
-    },
-    facebook: {
-        appId: "1137800783495688",
     },
 };

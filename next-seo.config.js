@@ -4,7 +4,7 @@ export default {
     openGraph: {
         type: "website",
         url: "https://iftekhar.vercel.app",
-        site_name: "iftekhar",
+        site_name: "iftekhar.vercel.app",
         images: [
             {
                 url: "https://i.ibb.co/P1pqRKn/800x600jpg.jpg",
@@ -14,7 +14,16 @@ export default {
     },
     twitter: {
         handle: "@_ifte",
-        site: "@iftekhar",
-        cardType: "summary_large_image",
+        site: "iftekhar.vercel.app",
+        cardType: "summary",
+    },
+    robotsProps: {
+        nosnippet: true,
+        notranslate: true,
+        noimageindex: true,
+        noarchive: true,
+        maxSnippet: -1,
+        maxImagePreview: "none",
+        maxVideoPreview: -1,
     },
 };

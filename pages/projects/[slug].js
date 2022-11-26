@@ -10,6 +10,8 @@ import BlogImg from "../../components/BlogComponents/BlogImg";
 import CodeBlock from "../../components/BlogComponents/CodeBlock";
 import { urlFor } from "../../lib/sanity";
 import { NextSeo } from "next-seo";
+const SANITY_DATASET = process.env.NEXT_PUBLIC_SANITY_DATASET;
+const SANITY_PROJECT_ID = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 
 const serializers = {
     types: {
@@ -88,8 +90,8 @@ const project = ({ project }) => {
                     <SanityBlockContent
                         className="pt-2 md:px-16 leading-8"
                         blocks={project.body}
-                        projectId="o06c5s89"
-                        dataset="production"
+                        projectId={SANITY_PROJECT_ID}
+                        dataset={SANITY_DATASET}
                         serializers={serializers}
                     />
                 </div>
@@ -128,23 +130,6 @@ const project = ({ project }) => {
 };
 
 export default project;
-
-// export const getStaticPaths = async () => {
-//     const query = `*[_type == "projects"]{_id,slug{current}}`;
-
-//     const projects = await sanityClient.fetch(query);
-
-//     const paths = projects.map((project) => ({
-//         params: {
-//             slug: project.slug.current,
-//         },
-//     }));
-
-//     return {
-//         paths,
-//         fallback: "blocking",
-//     };
-// };
 
 export const getServerSideProps = async ({ params }) => {
     const query = `*[_type == "projects" && slug.current == $slug][0]{title,description,liveLink,githubLink,slug,mainImage,techStack[]->,body}`;

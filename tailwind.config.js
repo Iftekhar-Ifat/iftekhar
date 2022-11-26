@@ -9,15 +9,15 @@ module.exports = {
     },
     plugins: [],
     theme: {
-        colors: {
-            white: "#ffffff",
-            black: "#111111",
-            gray: "#959595",
-            backgroundGray: "#2E2E2E",
-            teal: "#249AA1",
-            blue: "#2B66BE",
-        },
         extend: {
+            colors: {
+                white: "#ffffff",
+                black: "#111111",
+                gray: "#959595",
+                backgroundGray: "#2E2E2E",
+                teal: "#249AA1",
+                blue: "#2B66BE",
+            },
             scale: {
                 175: "1.75",
             },

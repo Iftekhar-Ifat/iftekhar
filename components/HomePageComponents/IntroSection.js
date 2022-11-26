@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import styles from "../../styles/HomePage/HomePage.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -7,9 +7,20 @@ import { FaGithub } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 import { FaEnvelope } from "react-icons/fa";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const IntroSection = () => {
     const router = useRouter();
+    const [copied, setCopied] = useState(false);
+    const onCopy = useCallback(() => {
+        setCopied(true);
+    }, []);
+    useEffect(() => {
+        setTimeout(() => {
+            setCopied(false);
+        }, 4000);
+    }, [copied]);
+
     return (
         <>
             <div
@@ -56,18 +67,23 @@ const IntroSection = () => {
                             color={"#959595"}
                         />
                     </a>
-                    <button
-                        onClick={() =>
-                            router.push("mailto:iftekharifat007@gmail.com")
-                        }
-                        className="hover:scale-110"
+                    <CopyToClipboard
+                        onCopy={onCopy}
+                        text={"iftekharifat007@gmail.com"}
                     >
-                        <FaEnvelope
-                            className="m-2"
-                            size={25}
-                            color={"#959595"}
-                        />
-                    </button>
+                        <button
+                            onClick={() => {
+                                router.push("mailto:iftekharifat007@gmail.com");
+                            }}
+                            className="hover:scale-110"
+                        >
+                            <FaEnvelope
+                                className="m-2"
+                                size={25}
+                                color={"#959595"}
+                            />
+                        </button>
+                    </CopyToClipboard>
                     <a
                         href="https://twitter.com/_ifte"
                         className="hover:scale-110"
@@ -93,6 +109,13 @@ const IntroSection = () => {
                     Download CV
                 </button>
             </div>
+            {copied ? (
+                <div className="p-4 text-sm text-green-500" role="alert">
+                    <span className="font-medium">
+                        Email copied to clipboard ✔
+                    </span>
+                </div>
+            ) : null}
         </>
     );
 };

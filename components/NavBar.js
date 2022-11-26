@@ -86,7 +86,7 @@ const NavBar = () => {
                             </Link>
                             <button
                                 className={`ml-8 inline-flex items-center justify-center px-4 py-2 rounded-md font-medium text-white hover:bg-backgroundGray ${
-                                    route.pathname === "/projects"
+                                    route.pathname.match(/projects/g)
                                         ? "bg-backgroundGray"
                                         : "bg-black"
                                 }`}
@@ -96,7 +96,7 @@ const NavBar = () => {
                             </button>
                             <button
                                 className={`ml-8 inline-flex items-center justify-center px-4 py-2 rounded-md font-medium text-white hover:bg-backgroundGray ${
-                                    route.pathname === "/blogs"
+                                    route.pathname.match(/blogs/g)
                                         ? "bg-backgroundGray"
                                         : "bg-black"
                                 }`}

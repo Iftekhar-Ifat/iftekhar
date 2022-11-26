@@ -7,6 +7,8 @@ import BlogImg from "../../components/BlogComponents/BlogImg.js";
 import HrLine from "../../components/HrLine.js";
 import { NextSeo } from "next-seo";
 import { urlFor } from "../../lib/sanity.js";
+const SANITY_DATASET = process.env.NEXT_PUBLIC_SANITY_DATASET;
+const SANITY_PROJECT_ID = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 
 const serializers = {
     types: {
@@ -48,8 +50,8 @@ const Blog = ({ post }) => {
             />
             <SanityBlockContent
                 blocks={post.body}
-                projectId="o06c5s89"
-                dataset="production"
+                projectId={SANITY_PROJECT_ID}
+                dataset={SANITY_DATASET}
                 serializers={serializers}
             />
             <HrLine />
@@ -58,23 +60,6 @@ const Blog = ({ post }) => {
 };
 
 export default Blog;
-
-// export const getStaticPaths = async () => {
-//     const query = `*[_type == "post"]{_id,slug{current}}`;
-
-//     const posts = await sanityClient.fetch(query);
-
-//     const paths = posts.map((post) => ({
-//         params: {
-//             slug: post.slug.current,
-//         },
-//     }));
-
-//     return {
-//         paths,
-//         fallback: "blocking",
-//     };
-// };
 
 export const getServerSideProps = async ({ params }) => {
     const query = `*[_type == "post" && slug.current == $slug][0]{_id,_createdAt,title,description,mainImage,slug,body}`;

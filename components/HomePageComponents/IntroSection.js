@@ -3,6 +3,7 @@ import styles from "../../styles/HomePage/HomePage.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import ProfilePhoto from "../../public/asset/profile_photo.png";
+import ProfilePhoto2 from "../../public/asset/profile_photo2.jpg";
 import { FaGithub } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
@@ -33,7 +34,7 @@ const IntroSection = () => {
                 </div>
                 <div className={styles.img_card}>
                     <Image
-                        src={ProfilePhoto}
+                        src={ProfilePhoto2}
                         alt="profile photo"
                         priority="true"
                         layout="responsive"
@@ -105,9 +106,14 @@ const IntroSection = () => {
                         <FaGithub className="m-2" size={25} color={"#959595"} />
                     </a>
                 </div>
-                <button className="inline-flex items-center justify-center px-2 rounded-md font-medium text-white bg-backgroundGray hover:scale-105">
+                <a
+                    className="inline-flex items-center justify-center px-2 rounded-md font-medium text-white no-underline bg-backgroundGray hover:scale-105 hover:no-underline"
+                    href="https://drive.google.com/file/d/1pOfdlM35dzLdmc0tjahnufbNjQGsuKcd/view?usp=sharing"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
                     Download CV
-                </button>
+                </a>
             </div>
             {copied ? (
                 <div className="p-4 text-sm text-green-500" role="alert">

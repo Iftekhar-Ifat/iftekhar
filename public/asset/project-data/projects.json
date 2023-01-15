@@ -83,26 +83,5 @@
                 "title": "mysql"
             }
         ]
-    },
-    {
-        "id": 1004,
-        "title": "Brainf**k interpreter",
-        "slug": "brainfuck-interpreter",
-        "image": "/asset/project-img/brainfuck-interpreter.png",
-        "description": "lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...",
-        "live_link": "https://brainfuck-interpreter-iftekhar-ifat.vercel.app/",
-        "github": "https://github.com/iftekhar-ifat/brainfuck-interpreter",
-        "tech_stack": [
-            {
-                "key": 10,
-                "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
-                "title": "react"
-            },
-            {
-                "key": 11,
-                "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg",
-                "title": "bootstrap"
-            }
-        ]
     }
 ]

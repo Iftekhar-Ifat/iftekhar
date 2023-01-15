@@ -65,7 +65,7 @@ const NavBar = () => {
                             </Link>
                         </div>
                         <div className="-mr-2 -my-2 md:hidden">
-                            <Popover.Button className="bg-black rounded-md p-2 inline-flex items-center justify-center text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                            <Popover.Button className="bg-black rounded-md p-2 inline-flex items-center justify-center text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-sky-500">
                                 <MenuIcon
                                     className="h-6 w-6"
                                     aria-hidden="true"
@@ -153,7 +153,7 @@ const NavBar = () => {
                                                 key={item.name}
                                             >
                                                 <item.icon
-                                                    className="flex-shrink-0 h-6 w-6 text-indigo-600"
+                                                    className="flex-shrink-0 h-6 w-6 text-sky-600"
                                                     aria-hidden="true"
                                                 />
                                                 <span className="ml-3 text-base font-medium text-gray-900">

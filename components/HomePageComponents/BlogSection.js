@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../../styles/HomePage/HomePage.module.css";
-import featuredBlog from "../../public/asset/blog-data/featured_blog.json";
+import { sanityClient } from "../../lib/sanity";
 import Link from "next/link";
 
 const BlogSection = () => {
+    const [featuredBlogs, setFeaturedBlogs] = useState();
+    const query = `*[_type == "post" &&  "Featured Blogs" in categories[]->title]`;
+    useEffect(() => {
+        try {
+            sanityClient.fetch(query).then((res) => {
+                setFeaturedBlogs(res.reverse());
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }, [query]);
     return (
         <>
             <div
@@ -11,9 +22,9 @@ const BlogSection = () => {
             >
                 Featured Blogs
             </div>
-            {featuredBlog.length
-                ? featuredBlog.map((blog) => (
-                      <Link href={`/blogs/${blog.slug}`} key={blog.id}>
+            {featuredBlogs
+                ? featuredBlogs.map((blog) => (
+                      <Link href={`/blogs/${blog.slug.current}`} key={blog._id}>
                           <div
                               className={`p-4 my-6 w-full cursor-pointer hover:scale-[1.01] ${styles.project_container}`}
                           >

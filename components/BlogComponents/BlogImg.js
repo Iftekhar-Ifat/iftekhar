@@ -13,7 +13,7 @@ const BlogImg = ({ imgProps }) => {
                 layout="responsive"
                 objectFit="contain"
                 width={16}
-                height={8}
+                height={10}
             />
         </div>
     );

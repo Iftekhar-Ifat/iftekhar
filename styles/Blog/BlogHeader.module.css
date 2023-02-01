@@ -14,10 +14,9 @@
 }
 
 .img_card_small {
-    width: 50px;
-    height: 50px;
+    width: 44px;
+    height: 44px;
     overflow: hidden;
     border-radius: 50px;
     box-shadow: 0px 0px 10px 3px rgba(36, 154, 161, 0.5);
 }
-

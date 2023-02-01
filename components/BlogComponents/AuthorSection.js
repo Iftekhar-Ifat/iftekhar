@@ -21,15 +21,17 @@ const AuthorSection = ({
     return (
         <div className="flex mb-6 items-center">
             <div className={styles.img_card_small}>
-                <Image
-                    src={authorImg}
-                    alt="author photo"
-                    priority="true"
-                    layout="responsive"
-                    objectFit="contain"
-                    width="100%"
-                    height="100%"
-                />
+                <a href={authorSocial}>
+                    <Image
+                        src={authorImg}
+                        alt="author photo"
+                        priority="true"
+                        layout="responsive"
+                        objectFit="contain"
+                        width="100%"
+                        height="100%"
+                    />
+                </a>
             </div>
             <div className="mx-4 flex flex-col">
                 <a className="no-underline text-white" href={authorSocial}>

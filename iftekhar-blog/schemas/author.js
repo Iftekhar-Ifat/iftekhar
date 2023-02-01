@@ -1,16 +1,16 @@
 export default {
     name: "author",
-    title: "author",
+    title: "Author",
     type: "document",
     fields: [
         {
             name: "name",
-            title: "name",
+            title: "Name",
             type: "string",
         },
         {
             name: "slug",
-            title: "slug",
+            title: "Slug",
             type: "slug",
             options: {
                 source: "name",
@@ -19,24 +19,16 @@ export default {
         },
         {
             name: "image",
-            title: "image",
+            title: "Image",
             type: "image",
             options: {
                 hotspot: true,
             },
         },
         {
-            name: "bio",
-            title: "bio",
-            type: "array",
-            of: [
-                {
-                    title: "block",
-                    type: "block",
-                    styles: [{ title: "normal", value: "normal" }],
-                    lists: [],
-                },
-            ],
+            name: "social",
+            title: "Url",
+            type: "string",
         },
     ],
     preview: {

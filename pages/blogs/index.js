@@ -34,7 +34,7 @@ const Blogs = ({ posts }) => {
 };
 
 export const getServerSideProps = async () => {
-    const query = `*[ _type == "post"]{_id,title,description,slug}`;
+    const query = `*[ _type == "post"] | order(_createdAt desc) {_id,title,description,slug}`;
 
     const posts = await sanityClient.fetch(query);
 

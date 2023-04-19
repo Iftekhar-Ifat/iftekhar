@@ -19,6 +19,9 @@
         list-style: revert;
         color: #959595;
     }
+    li {
+        margin: 1em;        
+    }
     a {
         @apply cursor-pointer underline text-gray hover:text-white hover:underline;
     }

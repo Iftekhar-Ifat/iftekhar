@@ -109,10 +109,10 @@ const NavBar = () => {
                 </div>
                 <Transition
                     as={Fragment}
-                    enter="duration-200 ease-out"
+                    enter="duration-300 ease-out"
                     enterFrom="opacity-0 scale-95"
                     enterTo="opacity-100 scale-100"
-                    leave="duration-100 ease-in"
+                    leave="duration-200 ease-in"
                     leaveFrom="opacity-100 scale-100"
                     leaveTo="opacity-0 scale-95"
                 >
@@ -147,7 +147,7 @@ const NavBar = () => {
                                 <div className="mt-10">
                                     <nav className="grid gap-y-8">
                                         {solutions.map((item) => (
-                                            <a
+                                            <Popover.Button
                                                 className="-m-3 p-3 flex items-center rounded-md hover:bg-gray-50"
                                                 onClick={navButtonHandler}
                                                 key={item.name}
@@ -159,7 +159,7 @@ const NavBar = () => {
                                                 <span className="ml-3 text-base font-medium text-gray-900">
                                                     {item.name}
                                                 </span>
-                                            </a>
+                                            </Popover.Button>
                                         ))}
                                     </nav>
                                 </div>

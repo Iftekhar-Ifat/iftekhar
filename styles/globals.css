@@ -1,16 +1,16 @@
 @tailwind base;
 @layer base {
     h1 {
-        @apply md:text-3xl text-2xl md:font-bold font-semibold;
+        @apply md:text-3xl text-2xl my-4 md:font-bold font-semibold;
     }
     h2 {
-        @apply md:text-2xl text-xl md:font-semibold font-medium;
+        @apply md:text-2xl text-xl my-3 md:font-semibold font-medium;
     }
     h3 {
-        @apply md:text-xl text-lg md:font-medium font-normal;
+        @apply md:text-xl text-lg my-2 md:font-medium font-normal;
     }
     p {
-        @apply text-gray text-xl py-2 leading-9;
+        @apply text-gray text-xl my-1 leading-9;
     }
     ul,
     ol {
@@ -20,8 +20,7 @@
         color: #959595;
     }
     li {
-        margin-top: 1em;
-        margin-bottom: 1em;
+        @apply my-2;
     }
     a {
         @apply cursor-pointer underline text-gray hover:text-white hover:underline;
@@ -36,17 +35,15 @@ body {
     margin: 0;
     background-color: #111111;
     color: white;
-    font-family: Fira Code,Fira Sans, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-        Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-        sans-serif;
-    word-wrap: break-word;     
+    font-family: Fira Code, Fira Sans, -apple-system, BlinkMacSystemFont,
+        Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+        Helvetica Neue, sans-serif;
+    word-wrap: break-word;
 }
 
 * {
     box-sizing: border-box;
 }
-
-
 
 @media (prefers-color-scheme: dark) {
     html {

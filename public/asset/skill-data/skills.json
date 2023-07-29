@@ -45,14 +45,9 @@
                 "title": "NextJs"
             },
             {
-                "id": 8,
-                "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg",
-                "title": "Bootstrap"
-            },
-            {
                 "id": 9,
-                "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/materialui/materialui-original.svg",
-                "title": "Material UI"
+                "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg",
+                "title": "TailwindCss"
             },
             {
                 "id": 10,
@@ -100,6 +95,11 @@
                 "id": 10,
                 "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original-wordmark.svg",
                 "title": "Pandas"
+            },
+            {
+                "id": 11,
+                "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg",
+                "title": "Tensorflow"
             }
         ]
     }

@@ -4,10 +4,13 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import ProfilePhoto from "../../public/asset/profile_photo.png";
 import ProfilePhoto2 from "../../public/asset/profile_photo2.jpg";
-import { FaGithub } from "react-icons/fa";
-import { FaTwitter } from "react-icons/fa";
-import { FaLinkedin } from "react-icons/fa";
-import { FaEnvelope } from "react-icons/fa";
+import {
+    FaGithub,
+    FaTwitter,
+    FaLinkedin,
+    FaFacebook,
+    FaEnvelope,
+} from "react-icons/fa";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const IntroSection = () => {
@@ -85,13 +88,25 @@ const IntroSection = () => {
                             />
                         </button>
                     </CopyToClipboard>
-                    <a
+                    {/* <a
                         href="https://twitter.com/_ifte"
                         className="hover:scale-110"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
                         <FaTwitter
+                            className="m-2"
+                            size={25}
+                            color={"#959595"}
+                        />
+                    </a> */}
+                    <a
+                        href="https://www.facebook.com/Lord.Madara.007"
+                        className="hover:scale-110"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <FaFacebook
                             className="m-2"
                             size={25}
                             color={"#959595"}

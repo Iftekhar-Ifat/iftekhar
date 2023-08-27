@@ -1,13 +1,13 @@
 @tailwind base;
 @layer base {
     h1 {
-        @apply md:text-3xl text-2xl my-4 md:font-bold font-semibold;
+        @apply md:text-4xl text-3xl my-4 md:font-bold font-semibold;
     }
     h2 {
-        @apply md:text-2xl text-xl my-3 md:font-semibold font-medium;
+        @apply md:text-3xl text-2xl my-3 md:font-semibold font-medium;
     }
     h3 {
-        @apply md:text-xl text-lg my-2 md:font-medium font-normal;
+        @apply md:text-2xl text-xl my-2 md:font-medium font-normal;
     }
     p {
         @apply text-gray text-xl my-1 leading-9;

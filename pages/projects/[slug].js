@@ -84,11 +84,8 @@ const project = ({ project }) => {
                     </a>
                 </div>
                 <div className="mb-3 w-full font-medium center text-l md:text-xl">
-                    <span className="font-medium center text-xl md:text-3xl">
-                        Description:
-                    </span>
                     <SanityBlockContent
-                        className="pt-2 md:px-16 leading-8"
+                        className="pt-2 leading-8"
                         blocks={project.body}
                         projectId={SANITY_PROJECT_ID}
                         dataset={SANITY_DATASET}

@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
     title: "Iftekhar",
     description: "Iftekhar's personal portfolio website",
@@ -7,7 +8,7 @@ export default {
         site_name: "iftekhar.vercel.app",
         images: [
             {
-                url: "https://i.ibb.co/P1pqRKn/800x600jpg.jpg",
+                url: "https://raw.githubusercontent.com/Iftekhar-Ifat/iftekhar/main/public/asset/meta-data/meta_img.jpg",
                 type: "image/jpeg",
             },
         ],

@@ -40,8 +40,29 @@
             }
         ]
     },
-    {        
+    {
         "id": 1002,
+        "title": "Wrap Up School",
+        "slug": "wrap-up-school",
+        "image": "/asset/project-img/wrap-up-school.png",
+        "description": "Wrap-up-school is an Ed-Tech startup, that offers short, it offers short-term live courses tailored to cover one chapter each",
+        "live_link": "https://www.wrapupschool.com/",
+        "github": "https://github.com/Iftekhar-Ifat/wrap-up",
+        "tech_stack": [
+            {
+                "key": 1,
+                "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
+                "title": "NextJs"
+            },
+            {
+                "key": 2,
+                "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg",
+                "title": "Bootstrap"
+            }
+        ]
+    },
+    {
+        "id": 1003,
         "title": "Portfolio",
         "slug": "portfolio",
         "image": "/asset/project-img/portfolio.png",
@@ -59,12 +80,10 @@
                 "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg",
                 "title": "Tailwind Css"
             }
-            
         ]
     },
-
     {
-        "id": 1003,
+        "id": 1004,
         "title": "Burger shop manager",
         "slug": "burger-shop-manager",
         "image": "/asset/project-img/burger-shop-manager.png",

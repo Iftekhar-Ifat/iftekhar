@@ -67,7 +67,7 @@ const project = ({ project }) => {
             <div className="mb-8">
                 <div className="flex items-center mb-4 w-full justify-between text-center">
                     <a
-                        href={project.github}
+                        href={project.githubLink}
                         className="hover:scale-110"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -75,7 +75,7 @@ const project = ({ project }) => {
                         <FaGithub className="m-2" size={25} color={"#959595"} />
                     </a>
                     <a
-                        href={project.live_link}
+                        href={project.liveLink}
                         className="hover:scale-110"
                         target="_blank"
                         rel="noopener noreferrer"

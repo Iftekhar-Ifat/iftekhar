@@ -123,7 +123,7 @@ const IntroSection = () => {
                 </div>
                 <a
                     className="inline-flex items-center justify-center px-2 rounded-md font-medium text-white no-underline bg-backgroundGray hover:scale-105 hover:no-underline"
-                    href="https://drive.google.com/file/d/1pOfdlM35dzLdmc0tjahnufbNjQGsuKcd/view?usp=sharing"
+                    href="https://drive.google.com/file/d/1WZIC7SePRTFYDRb1vWDna7CTK-tB0ie7/view?usp=drive_link"
                     target="_blank"
                     rel="noopener noreferrer"
                 >

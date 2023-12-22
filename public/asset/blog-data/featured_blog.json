@@ -1,0 +1,15 @@
+[
+    {
+        "id": 1001,
+        "title": "Getting Started With Machine Learning",
+        "description": "How to get started with Machine Learning in a beginner friendly way",
+        "slug": "getting-started-with-machine-learning"
+    },
+    {
+        "id": 1002,
+        "title": "HashTable: One Data Structure To Rule Them All",
+        "description": "HashTable is one of the most powerful and well-known data-structure. This blog explains how a hashtable operates and how it can perform searches, inserts, and deletions in constant time.",
+        "slug": "hashtable-one-data-structure-to-rule-them-all"
+    }
+    
+]

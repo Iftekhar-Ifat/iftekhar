@@ -8,7 +8,6 @@ import NavItems from "./NavItems";
 import { usePathname } from "next/navigation";
 import Logo from "../../../public/asset/logo.svg";
 import Image from "next/image";
-import { Button } from "../ui/button";
 
 export default function Navbar() {
   const menuRef = useRef(null);
@@ -31,7 +30,7 @@ export default function Navbar() {
   return (
     <nav
       ref={menuRef}
-      className="bg-[#121212] bg-opacity-95 border rounded-md sticky z-50 top-6 ml-[5%] mr-[5%] px-4 md:scroll-px-2 md:ml-[15%] md:mr-[15%]"
+      className="cb_gradient_border bg-zinc-900 bg-opacity-95 rounded-md sticky z-50 top-6 ml-[5%] mr-[5%] px-4 md:scroll-px-2 md:ml-[15%] md:mr-[15%]"
     >
       <div className="inset-x-0 ">
         <header className="relative">
@@ -46,7 +45,7 @@ export default function Navbar() {
               </Link>
               <div className="flex items-center md:order-2 rtl:space-x-reverse md:hidden">
                 <button
-                  className="rounded-md p-2 inline-flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-inset focus:ring-sky-500"
+                  className="rounded-md p-2 inline-flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-700"
                   aria-expanded={isMenuOpen}
                   onClick={toggleMenu}
                 >

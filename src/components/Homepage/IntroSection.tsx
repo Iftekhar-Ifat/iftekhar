@@ -1,15 +1,13 @@
-"use client";
-
 import Image from "next/image";
-import React from "react";
-import ProfilePhoto2 from "../../../public/asset/profile_photo2.jpg";
-import { Facebook, Github, Linkedin, Mail, Twitter } from "lucide-react";
 import { Button } from "../ui/button";
-import { toast } from "sonner";
-import { useCopyToClipboard } from "usehooks-ts";
+import getBlurBase64 from "@/app/api/getBlurBase64";
+import Socials from "./Socials";
 
-export default function IntroSection() {
-  const [_, copy] = useCopyToClipboard();
+export default async function IntroSection() {
+  const blurImgBase64 = await getBlurBase64(
+    "https://api.github.com/users/Iftekhar-Ifat"
+  );
+
   return (
     <>
       <div className="flex flex-col-reverse justify-between items-center pt-14 px-10 text-3xl md:flex-row md:text-5xl">
@@ -25,10 +23,14 @@ export default function IntroSection() {
           }}
         >
           <Image
-            src={ProfilePhoto2}
+            src="https://avatars.githubusercontent.com/u/54566755?v=4"
             alt="profile photo"
+            width="150"
+            height="150"
             priority={true}
             style={{ objectFit: "contain" }}
+            placeholder="blur"
+            blurDataURL={blurImgBase64}
           />
         </div>
       </div>
@@ -42,55 +44,7 @@ export default function IntroSection() {
         technologies. I also have a strong interest in <b>ML/AI</b>.
       </p>
       <div className="pt-8 flex flex-col justify-between md:flex-row items-center md:items-start">
-        <div className="flex m-2 flex-wrap justify-center md:justify-start">
-          <Button variant="secondary" className="hover:scale-105 m-1" asChild>
-            <a
-              href="https://www.linkedin.com/in/iftekhar-ahmed-0a082a196/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Linkedin size={25} className="text-cyan-600" />
-            </a>
-          </Button>
-
-          <Button
-            variant="secondary"
-            className="hover:scale-105 m-1"
-            onClick={() => {
-              toast("Email copied to clipboard ✔"),
-                copy("iftekharifat007@gmail.com");
-            }}
-          >
-            <Mail size={25} className="text-cyan-600" />
-          </Button>
-          <Button variant="secondary" className="hover:scale-105 m-1" asChild>
-            <a
-              href="https://twitter.com/_ifte"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Twitter size={25} className="text-cyan-600" />
-            </a>
-          </Button>
-          {/* <Button variant="secondary" className="hover:scale-110 m-1" asChild>
-            <a
-              href="https://www.facebook.com/Lord.Madara.007"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Facebook size={25} className="text-cyan-600" />
-            </a>
-          </Button> */}
-          <Button variant="secondary" className="hover:scale-110 m-1" asChild>
-            <a
-              href="https://github.com/Iftekhar-Ifat"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Github size={25} className="text-cyan-600" />
-            </a>
-          </Button>
-        </div>
+        <Socials />
         <Button
           variant="secondary"
           className="hover:scale-105 m-2 text-cyan-600 text-lg"

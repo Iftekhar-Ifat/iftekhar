@@ -1,10 +1,15 @@
+"use client";
+
 import Image from "next/image";
 import React from "react";
 import ProfilePhoto2 from "../../../public/asset/profile_photo2.jpg";
 import { Facebook, Github, Linkedin, Mail, Twitter } from "lucide-react";
 import { Button } from "../ui/button";
+import { toast } from "sonner";
+import { useCopyToClipboard } from "usehooks-ts";
 
 export default function IntroSection() {
+  const [_, copy] = useCopyToClipboard();
   return (
     <>
       <div className="flex flex-col-reverse justify-between items-center pt-14 px-10 text-3xl md:flex-row md:text-5xl">
@@ -48,7 +53,14 @@ export default function IntroSection() {
             </a>
           </Button>
 
-          <Button variant="secondary" className="hover:scale-105 m-1">
+          <Button
+            variant="secondary"
+            className="hover:scale-105 m-1"
+            onClick={() => {
+              toast("Email copied to clipboard ✔"),
+                copy("iftekharifat007@gmail.com");
+            }}
+          >
             <Mail size={25} className="text-cyan-600" />
           </Button>
           <Button variant="secondary" className="hover:scale-105 m-1" asChild>

@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer";
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/ui/sonner";
 
 const fira_code = Fira_Code({ subsets: ["latin"] });
 
@@ -32,6 +33,7 @@ export default function RootLayout({
             <div className="flex-grow flex-1">{children}</div>
             <Footer />
           </main>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

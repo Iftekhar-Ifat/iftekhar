@@ -3,7 +3,8 @@ import { Fira_Code } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/Navbar/Navbar";
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import Footer from "@/components/Footer";
+import { cn } from "@/lib/utils";
 
 const fira_code = Fira_Code({ subsets: ["latin"] });
 
@@ -19,12 +20,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${fira_code.className} antialiased`}>
-        <Navbar />
+      <body
+        className={cn(
+          "relative antialiased max-w-screen-2xl flex flex-col md:flex-row mx-4 mt-8 lg:mx-auto",
+          fira_code.className
+        )}
+      >
         <ThemeProvider attribute="class" defaultTheme="dark">
-          {/* <MaxWidthWrapper> */}
-          <div className="flex-grow flex-1">{children}</div>
-          {/* </MaxWidthWrapper> */}
+          <main className="flex-auto mx-[5%] min-w-0 relative flex flex-col min-h-screen md:mx-[10%]">
+            <Navbar />
+            <div className="flex-grow flex-1">{children}</div>
+            <Footer />
+          </main>
         </ThemeProvider>
       </body>
     </html>

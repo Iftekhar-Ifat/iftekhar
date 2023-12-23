@@ -30,7 +30,7 @@ export default function Navbar() {
   return (
     <nav
       ref={menuRef}
-      className="cb_gradient_border bg-zinc-900 bg-opacity-95 rounded-md sticky z-50 top-6 ml-[5%] mr-[5%] px-4 md:scroll-px-2 md:ml-[15%] md:mr-[15%]"
+      className="cb_gradient_border bg-zinc-900 bg-opacity-95 rounded-md sticky z-50 top-12 px-4 md:scroll-px-2"
     >
       <div className="inset-x-0 ">
         <header className="relative">

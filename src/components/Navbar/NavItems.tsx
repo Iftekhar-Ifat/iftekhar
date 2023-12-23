@@ -20,8 +20,8 @@ export default function NavItems() {
               }
             )}
           >
-            <item.icon size="24" className="mx-2 text-cyan-600" />
-            <span className="mx-2">{item.name}</span>
+            <item.icon size="24" className="mx-1 text-cyan-600" />
+            <span className="mx-1">{item.name}</span>
           </Link>
         </li>
       ))}

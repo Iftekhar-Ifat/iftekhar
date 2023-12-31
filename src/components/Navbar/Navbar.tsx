@@ -41,6 +41,7 @@ export default function Navbar() {
                   alt="logo"
                   src={Logo}
                   className="h-16 w-16 md:h-20 md:w-20"
+                  priority
                 />
               </Link>
               <div className="flex items-center md:order-2 rtl:space-x-reverse md:hidden">

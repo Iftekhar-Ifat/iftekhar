@@ -1,16 +1,12 @@
 import Image from "next/image";
 import { Button } from "../ui/button";
-import getBlurBase64 from "@/app/api/getBlurBase64";
 import Socials from "./Socials";
+import profile_photo from "../../../public/asset/profile.png";
 
-export default async function IntroSection() {
-  const blurImgBase64 = await getBlurBase64(
-    "https://api.github.com/users/Iftekhar-Ifat"
-  );
-
+export default function IntroSection() {
   return (
     <>
-      <div className="flex flex-col-reverse justify-between items-center pt-14 px-10 text-3xl md:flex-row md:text-5xl">
+      <div className="flex flex-col-reverse justify-between items-center pt-10 px-10 text-3xl md:flex-row md:text-5xl">
         <div className="flex items-center">
           <span className="pt-4">
             Hello, <br />
@@ -23,14 +19,11 @@ export default async function IntroSection() {
           }}
         >
           <Image
-            src="https://avatars.githubusercontent.com/u/54566755?v=4"
+            src={profile_photo}
             alt="profile photo"
             width="150"
             height="150"
-            priority={true}
-            style={{ objectFit: "contain" }}
             placeholder="blur"
-            blurDataURL={blurImgBase64}
           />
         </div>
       </div>

@@ -13,7 +13,7 @@ type ProjectType = {
 
 export default async function page() {
   const projects = await sanityClient.fetch(
-    `*[_type == "projects"] {_id, mainImage, title, description, slug}`
+    `*[_type == "projects"] | order(_createdAt desc) {_id, mainImage, title, description, slug}`
   );
   return (
     <div className="mt-8 md:px-[16%]">

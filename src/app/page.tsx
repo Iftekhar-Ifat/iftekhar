@@ -5,7 +5,7 @@ import SkillSection from "@/components/Homepage/SkillSection";
 
 export default function Home() {
   return (
-    <div className="mt-10 md:px-[16%]">
+    <div className="mt-8 md:px-[16%]">
       <IntroSection />
       <div className="hr_line"></div>
       <SkillSection />
@@ -13,7 +13,6 @@ export default function Home() {
       <ProjectSection />
       <div className="hr_line"></div>
       <BlogSection />
-      <div className="hr_line"></div>
     </div>
   );
 }

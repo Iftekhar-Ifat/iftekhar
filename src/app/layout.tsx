@@ -30,7 +30,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="dark">
           <main className="flex-auto mx-[5%] min-w-0 relative flex flex-col min-h-screen md:mx-[10%]">
             <Navbar />
-            <div className="flex-grow flex-1">{children}</div>
+            <div className="flex-grow flex-1 mt-4">{children}</div>
             <Footer />
           </main>
           <Toaster />

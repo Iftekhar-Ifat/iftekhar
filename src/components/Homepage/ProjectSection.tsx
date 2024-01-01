@@ -9,7 +9,9 @@ export default async function ProjectSection() {
 
   return (
     <>
-      <div className="glow_text text-3xl md:text-5xl">Featured Projects</div>
+      <div className="glow_text py-1 text-3xl md:text-5xl">
+        Featured Projects
+      </div>
       {featuredProject?.map((project: any) => (
         <div key={project._id}>
           <div className="project_container p-4 my-6 w-full rounded-md">
@@ -36,7 +38,9 @@ export default async function ProjectSection() {
             </p>
             <div className="w-full flex justify-end">
               <Link href={`/projects/${project.slug.current}`}>
-                <p className="cursor-pointer hover:scale-105">see more</p>
+                <p className="text-lg cursor-pointer hover:scale-105">
+                  see more
+                </p>
               </Link>
             </div>
           </div>

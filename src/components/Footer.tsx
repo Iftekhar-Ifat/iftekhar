@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <footer className="flex md:text-base justify-between text-muted-foreground mb-8">
+    <footer className="flex md:text-base justify-between text-muted-foreground mb-8 md:px-[16%]">
       <p className="text-base py-0">
         Built with{" "}
         <a href="https://nextjs.org/" target="_blank" rel="noopener noreferrer">

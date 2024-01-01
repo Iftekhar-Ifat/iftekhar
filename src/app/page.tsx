@@ -1,4 +1,5 @@
 import IntroSection from "@/components/Homepage/IntroSection";
+import ProjectSection from "@/components/Homepage/ProjectSection";
 import SkillSection from "@/components/Homepage/SkillSection";
 
 export default function Home() {
@@ -7,15 +8,8 @@ export default function Home() {
       <IntroSection />
       <div className="hr_line"></div>
       <SkillSection />
-      <svg
-        width="13"
-        height="11"
-        role="img"
-        aria-label="Vercel logo"
-        className="inline-flex mr-1"
-      >
-        <use href="/sprite.svg#vercel" />
-      </svg>
+      <div className="hr_line"></div>
+      <ProjectSection />
     </div>
   );
 }

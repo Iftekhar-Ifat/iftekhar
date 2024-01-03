@@ -2,6 +2,19 @@ import { sanityClient, urlFor } from "@/lib/sanityClient";
 import { notFound } from "next/navigation";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import { Metadata } from "next";
+import { Fira_Sans } from "next/font/google";
+import BlogHeader from "@/components/BlogComponents/BlogHeader";
+import { cn } from "@/lib/utils";
+import AuthorSection from "@/components/BlogComponents/AuthorSection";
+import { PortableText, PortableTextComponents } from "@portabletext/react";
+import BlogImg from "@/components/BlogComponents/BlogImg";
+import CodeBlock from "@/components/BlogComponents/CodeBlock";
+import { TypographyH1 } from "@/components/BlogComponents/Typography";
+
+const fira_sans = Fira_Sans({
+  subsets: ["latin"],
+  weight: "400",
+});
 
 type BlogDataType = {
   _id: string;
@@ -21,6 +34,18 @@ async function getBlogData(slug: string): Promise<BlogDataType> {
   const data = await sanityClient.fetch(query);
   return data;
 }
+
+const portableTextComponents: PortableTextComponents = {
+  types: {
+    image: (img: any) => <BlogImg imgProps={img} />,
+    code: (props: any) => (
+      <CodeBlock code={props.value.code} language={props.value.language} />
+    ),
+  },
+  block: {
+    h1: ({ children }) => <TypographyH1>{children}</TypographyH1>,
+  },
+};
 
 export async function generateMetadata({
   params,
@@ -61,5 +86,16 @@ export default async function BlogArticle({
     return notFound();
   }
 
-  return <div>{params.slug}</div>;
+  return (
+    <article className={cn("md:px-[16%]", fira_sans.className)}>
+      <BlogHeader mainImg={blogData.mainImage} title={blogData.title} />
+      <AuthorSection
+        authorName={blogData.authorName}
+        authorImage={blogData.authorImage}
+        createdAt={blogData._createdAt}
+        authorSocial={blogData.authorSocial}
+      />
+      <PortableText value={blogData.body} components={portableTextComponents} />
+    </article>
+  );
 }

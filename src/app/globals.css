@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer base {
+  .box_shadow {
+    box-shadow: 0px 0px 10px 3px rgba(36, 154, 161, 0.5);
+  }
   .cb_gradient {
     background-image: linear-gradient(90deg, #249aa1 0%, #2b66be 100%);
     box-shadow: 0px 0px 4px 2px rgba(36, 154, 161, 1);

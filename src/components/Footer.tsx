@@ -12,15 +12,17 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            NextJs,{" "}
+            NextJs
           </a>
+          {", "}
           <a
             href="https://www.sanity.io/"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Sanity,{" "}
+            Sanity
           </a>
+          {", "}
           <a
             href="https://tailwindcss.com/"
             target="_blank"

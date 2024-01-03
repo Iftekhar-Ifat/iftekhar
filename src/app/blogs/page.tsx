@@ -1,4 +1,5 @@
 import { sanityClient } from "@/lib/sanityClient";
+import { Metadata } from "next";
 import Link from "next/link";
 
 type BlogType = {
@@ -8,7 +9,11 @@ type BlogType = {
   slug: { current: string; _type: string };
 };
 
-export default async function page() {
+export const metadata: Metadata = {
+  title: "Blogs",
+};
+
+export default async function BlogList() {
   const blogs = await sanityClient.fetch(
     `*[_type == "post"] | order(_createdAt desc) {_id, title, description, slug}`
   );

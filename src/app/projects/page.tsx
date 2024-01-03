@@ -2,6 +2,7 @@ import { sanityClient, urlFor } from "@/lib/sanityClient";
 import Image from "next/image";
 import Link from "next/link";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
+import { Metadata } from "next";
 
 type ProjectType = {
   _id: string;
@@ -11,7 +12,11 @@ type ProjectType = {
   mainImage: SanityImageSource;
 };
 
-export default async function page() {
+export const metadata: Metadata = {
+  title: "Projects",
+};
+
+export default async function ProjectList() {
   const projects = await sanityClient.fetch(
     `*[_type == "projects"] | order(_createdAt desc) {_id, mainImage, title, description, slug}`
   );

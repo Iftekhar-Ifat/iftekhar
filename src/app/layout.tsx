@@ -10,8 +10,18 @@ import { Toaster } from "@/components/ui/ui/sonner";
 const fira_code = Fira_Code({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Iftekhar",
+  metadataBase: new URL("https://iftekhar.vercel.app"),
+  title: {
+    default: "Iftekhar",
+    template: "%s | Iftekhar",
+  },
   description: "Iftekhar's Portfolio",
+  twitter: {
+    card: "summary_large_image",
+  },
+  openGraph: {
+    images: "./opengraph-image.png",
+  },
 };
 
 export default function RootLayout({

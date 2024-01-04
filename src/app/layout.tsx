@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar/Navbar";
 import Footer from "@/components/Footer";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/ui/sonner";
+import { Analytics } from "@vercel/analytics/react";
 
 const fira_code = Fira_Code({ subsets: ["latin"] });
 
@@ -45,6 +46,7 @@ export default function RootLayout({
           </main>
           <Toaster />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );

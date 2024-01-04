@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/ui/sonner";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const fira_code = Fira_Code({ subsets: ["latin"] });
 
@@ -47,6 +48,7 @@ export default function RootLayout({
           <Toaster />
         </ThemeProvider>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

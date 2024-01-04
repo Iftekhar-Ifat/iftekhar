@@ -23,6 +23,7 @@ export default function IntroSection() {
             alt="profile photo"
             width="150"
             height="150"
+            placeholder="blur"
           />
         </div>
       </div>

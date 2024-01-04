@@ -2,6 +2,11 @@ import withPlaiceholder from "@plaiceholder/next";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    outputFileTracingIncludes: {
+      "/your/api/route": ["./node_modules/@img/**"],
+    },
+  },
   images: {
     dangerouslyAllowSVG: true,
     remotePatterns: [

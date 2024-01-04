@@ -26,7 +26,11 @@ export default async function BlogList() {
       </div>
       {blogs?.map((blog: BlogType) => (
         <div key={blog._id}>
-          <Link href={`/blogs/${blog.slug.current}`} key={blog._id}>
+          <Link
+            href={`/blogs/${blog.slug.current}`}
+            key={blog._id}
+            className="no-underline"
+          >
             <div className="p-4 my-6 w-full cursor-pointer hover:scale-[1.01] project_container rounded-lg">
               <div className="flex flex-col">
                 <span className="w-full font-medium center text-xl md:text-2xl">

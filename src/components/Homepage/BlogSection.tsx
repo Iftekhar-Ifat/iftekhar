@@ -10,7 +10,11 @@ export default async function BlogSection() {
       <div className="glow_text py-1 text-3xl md:text-5xl">Featured Blogs</div>
       {featuredBlogs?.map((blog: any) => (
         <div key={blog._id}>
-          <Link href={`/blogs/${blog.slug.current}`} key={blog._id}>
+          <Link
+            href={`/blogs/${blog.slug.current}`}
+            key={blog._id}
+            className="no-underline"
+          >
             <div className="p-4 my-6 w-full cursor-pointer hover:scale-[1.01] project_container rounded-lg">
               <div className="flex flex-col">
                 <span className="w-full font-medium center text-xl md:text-2xl">
@@ -25,7 +29,7 @@ export default async function BlogSection() {
         </div>
       ))}
       <div className="w-full flex justify-end">
-        <Link href="/blogs">
+        <Link href="/blogs" className="no-underline">
           <p className="text-lg cursor-pointer hover:scale-105">see more</p>
         </Link>
       </div>

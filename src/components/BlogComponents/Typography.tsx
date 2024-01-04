@@ -8,7 +8,7 @@ export function TypographyH1({ children }: { children: ReactNode }) {
   );
 }
 
-export function TypographyH2({ children }: { children: string }) {
+export function TypographyH2({ children }: { children: ReactNode }) {
   return (
     <h2
       className="scroll-m-20 my-3 text-2xl font-medium first:mt-0
@@ -19,7 +19,7 @@ export function TypographyH2({ children }: { children: string }) {
   );
 }
 
-export function TypographyH3({ children }: { children: string }) {
+export function TypographyH3({ children }: { children: ReactNode }) {
   return (
     <h3 className="scroll-m-20 my-2 text-xl font-normal md:text-2xl md:font-medium">
       {children}
@@ -27,7 +27,7 @@ export function TypographyH3({ children }: { children: string }) {
   );
 }
 
-export function TypographyH4({ children }: { children: string }) {
+export function TypographyH4({ children }: { children: ReactNode }) {
   return (
     <h4 className="scroll-m-20 my-1 text-lg font-medium md:text-xl md:font-normal">
       {children}
@@ -35,27 +35,44 @@ export function TypographyH4({ children }: { children: string }) {
   );
 }
 
-export function TypographyP({ children }: { children: string }) {
-  return <p className="leading-9 [&:not(:first-child)]:mt-6">{children}</p>;
-}
-
-export function TypographyBlockquote({ children }: { children: string }) {
+export function TypographyP({ children }: { children: ReactNode }) {
   return (
-    <blockquote className="mt-6 border-l-2 pl-6 italic">{children}</blockquote>
+    <p className="leading-9 [&:not(:first-child)]:mt-6 text-xl text-muted-foreground">
+      {children}
+    </p>
   );
 }
 
-export function TypographyList({ children }: { children: string }) {
+export function TypographyBlockquote({ children }: { children: ReactNode }) {
   return (
-    <ul className="my-6 ml-6 list-disc [&>li]:mt-2">
-      <li>{children}</li>
+    <blockquote className="mt-6 border-l-2 pl-6 italic text-muted-foreground">
+      {children}
+    </blockquote>
+  );
+}
+
+export function TypographyUList({ children }: { children: ReactNode }) {
+  return (
+    <ul className="my-6 ml-6 list-disc [&>li]:mt-2 text-lg text-muted-foreground">
+      {children}
     </ul>
   );
 }
 
-export function TypographyInlineCode({ children }: { children: string }) {
+export function TypographyOList({ children }: { children: ReactNode }) {
   return (
-    <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
+    <ol className="my-6 ml-6 list-disc [&>li]:mt-2 text-lg text-muted-foreground">
+      {children}
+    </ol>
+  );
+}
+
+export function TypographyInlineCode({ children }: { children: ReactNode }) {
+  return (
+    <code
+      className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] text-sm font-semibold"
+      style={{ fontFamily: "Fira Code" }}
+    >
       {children}
     </code>
   );

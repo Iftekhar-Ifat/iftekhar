@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer base {
+  a {
+    @apply cursor-pointer underline hover:text-primary;
+  }
   .box_shadow {
     box-shadow: 0px 0px 10px 3px rgba(36, 154, 161, 0.5);
   }

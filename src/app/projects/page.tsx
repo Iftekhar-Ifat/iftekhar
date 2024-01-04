@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 export default async function ProjectList() {
   const projects = await sanityClient.fetch(
-    `*[_type == "projects"] | order(_createdAt desc) {_id, mainImage, title, description, slug}`
+    `*[_type == "projects"] | order(order asc) {_id, mainImage, title, description, slug}`
   );
   return (
     <div className="mt-8 md:px-[16%]">
@@ -52,7 +52,10 @@ export default async function ProjectList() {
               {project.description}
             </p>
             <div className="w-full flex justify-end">
-              <Link href={`/projects/${project.slug.current}`}>
+              <Link
+                href={`/projects/${project.slug.current}`}
+                className="no-underline"
+              >
                 <p className="text-lg cursor-pointer hover:scale-105">
                   see more
                 </p>

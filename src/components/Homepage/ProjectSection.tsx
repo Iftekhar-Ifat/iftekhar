@@ -37,7 +37,10 @@ export default async function ProjectSection() {
               {project.description}
             </p>
             <div className="w-full flex justify-end">
-              <Link href={`/projects/${project.slug.current}`}>
+              <Link
+                href={`/projects/${project.slug.current}`}
+                className="no-underline"
+              >
                 <p className="text-lg cursor-pointer hover:scale-105">
                   see more
                 </p>

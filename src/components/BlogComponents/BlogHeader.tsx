@@ -13,9 +13,7 @@ export default function BlogHeader({ mainImg, title }: BlogHeaderType) {
   return (
     <>
       <div>
-        <div
-          className={`flex text-center justify-center my-6 font-medium text-3xl md:text-5xl`}
-        >
+        <div className="flex text-center justify-center my-6 font-medium text-3xl md:text-5xl">
           {title}
         </div>
         <div className="project_container p-4 my-6 w-full rounded-lg">

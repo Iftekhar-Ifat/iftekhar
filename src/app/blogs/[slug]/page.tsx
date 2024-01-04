@@ -9,7 +9,16 @@ import AuthorSection from "@/components/BlogComponents/AuthorSection";
 import { PortableText, PortableTextComponents } from "@portabletext/react";
 import BlogImg from "@/components/BlogComponents/BlogImg";
 import CodeBlock from "@/components/BlogComponents/CodeBlock";
-import { TypographyH1 } from "@/components/BlogComponents/Typography";
+import {
+  TypographyBlockquote,
+  TypographyH1,
+  TypographyH2,
+  TypographyH3,
+  TypographyInlineCode,
+  TypographyOList,
+  TypographyP,
+  TypographyUList,
+} from "@/components/BlogComponents/Typography";
 
 const fira_sans = Fira_Sans({
   subsets: ["latin"],
@@ -44,6 +53,21 @@ const portableTextComponents: PortableTextComponents = {
   },
   block: {
     h1: ({ children }) => <TypographyH1>{children}</TypographyH1>,
+    h2: ({ children }) => <TypographyH2>{children}</TypographyH2>,
+    h3: ({ children }) => <TypographyH3>{children}</TypographyH3>,
+    blockquote: ({ children }) => (
+      <TypographyBlockquote>{children}</TypographyBlockquote>
+    ),
+    normal: ({ children }) => <TypographyP>{children}</TypographyP>,
+  },
+  list: {
+    bullet: ({ children }) => <TypographyUList>{children}</TypographyUList>,
+    number: ({ children }) => <TypographyOList>{children}</TypographyOList>,
+  },
+  marks: {
+    code: ({ children }) => (
+      <TypographyInlineCode>{children}</TypographyInlineCode>
+    ),
   },
 };
 

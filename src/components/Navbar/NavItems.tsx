@@ -14,7 +14,7 @@ export default function NavItems() {
           <Link
             href={item.href}
             className={clsx(
-              "my-2 inline-flex w-full items-center justify-start px-4 py-2 rounded-md font-medium text-white hover:bg-zinc-800",
+              "my-2 inline-flex w-full items-center justify-start px-4 py-2 rounded-md font-medium text-white hover:bg-zinc-800 no-underline hover:no-underline",
               {
                 "bg-zinc-800 text-white": currentPath === item.href,
               }

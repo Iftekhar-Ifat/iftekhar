@@ -6,6 +6,7 @@ export default function BlogImg({ imgProps }: { imgProps: any }) {
   return (
     <div>
       <Image
+        className="py-2"
         src={imgSrc}
         style={{
           objectFit: "contain",

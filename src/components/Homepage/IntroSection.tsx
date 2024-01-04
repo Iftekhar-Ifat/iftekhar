@@ -44,6 +44,7 @@ export default function IntroSection() {
           asChild
         >
           <a
+            className="no-underline hover:text-cyan-600"
             href="https://drive.google.com/file/d/1WZIC7SePRTFYDRb1vWDna7CTK-tB0ie7/view?usp=drive_link"
             target="_blank"
             rel="noopener noreferrer"

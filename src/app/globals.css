@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  a {
+    @apply cursor-pointer underline hover:text-primary;
+  }
+  .box_shadow {
+    box-shadow: 0px 0px 10px 3px rgba(36, 154, 161, 0.5);
+  }
+  .cb_gradient {
+    background-image: linear-gradient(90deg, #249aa1 0%, #2b66be 100%);
+    box-shadow: 0px 0px 4px 2px rgba(36, 154, 161, 1);
+  }
+  .project_container {
+    border: 1px solid transparent;
+    background: linear-gradient(#111111, #111111) padding-box,
+      linear-gradient(180deg, #249aa1 0%, #2b66be 100%) border-box;
+    box-shadow: 0px 0px 4px 2px rgba(36, 154, 161, 0.4);
+  }
+  .hr_line {
+    margin-top: 8%;
+    margin-bottom: 8%;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, #249aa1 0%, #2b66be 100%);
+    box-shadow: 0px 0px 4px 2px rgba(36, 154, 161, 0.4);
+  }
+  .cb_gradient_border,
+  .cb_gradient_hamburger_menu {
+    border: linear-gradient(90deg, #249aa1 0%, #2b66be 100%);
+    border-radius: 0.5rem;
+    box-shadow: 0px 0px 4px 2px rgba(36, 154, 161, 1);
+  }
+
+  .glow_text {
+    background: linear-gradient(131.67deg, #249aa2 42.31%, #2b66be 65.58%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0px 0px 10px rgba(36, 154, 161, 0.6);
+  }
+
+  @media (min-width: 768px) {
+    .cb_gradient_hamburger_menu {
+      border: none;
+      border-radius: none;
+      box-shadow: none;
+    }
+  }
+
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+  }
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #959595 #111111;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #111111;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #959595;
+  border-radius: 5px;
+  border: 1.5px solid #111111;
+}

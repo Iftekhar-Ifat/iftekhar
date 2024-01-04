@@ -5,28 +5,23 @@
         "skills": [
             {
                 "id": 1,
-                "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-plain.svg",
-                "title": "C"
+                "icon_url": "https://skillicons.dev/icons?i=ts",
+                "title": "Typescript"
             },
             {
                 "id": 2,
-                "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-plain.svg",
-                "title": "C++"
+                "icon_url": "https://skillicons.dev/icons?i=py",
+                "title": "Python"
             },
             {
                 "id": 3,
-                "icon_url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg",
-                "title": "Java"
+                "icon_url": "https://skillicons.dev/icons?i=cpp",
+                "title": "C++"
             },
             {
                 "id": 4,
-                "icon_url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg",
-                "title": "JavaScript"
-            },
-            {
-                "id": 5,
-                "icon_url": "https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg",
-                "title": "Python"
+                "icon_url": "https://skillicons.dev/icons?i=java",
+                "title": "Java"
             }
         ]
     },
@@ -35,29 +30,34 @@
         "type": "Web Technology",
         "skills": [
             {
-                "id": 6,
-                "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+                "id": 5,
+                "icon_url": "https://skillicons.dev/icons?i=react",
                 "title": "React"
             },
             {
-                "id": 7,
-                "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
+                "id": 6,
+                "icon_url": "https://skillicons.dev/icons?i=nextjs",
                 "title": "NextJs"
             },
             {
-                "id": 9,
-                "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg",
-                "title": "TailwindCss"
+                "id": 7,
+                "icon_url": "https://skillicons.dev/icons?i=tailwind",
+                "title": "Tailwind"
             },
             {
-                "id": 10,
-                "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original-wordmark.svg",
+                "id": 8,
+                "icon_url": "https://skillicons.dev/icons?i=nodejs",
                 "title": "NodeJs"
             },
             {
-                "id": 11,
-                "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg",
+                "id": 9,
+                "icon_url": "https://skillicons.dev/icons?i=express",
                 "title": "ExpressJs"
+            },
+            {
+                "id": 10,
+                "icon_url": "https://skillicons.dev/icons?i=nest",
+                "title": "NestJs"
             }
         ]
     },
@@ -66,38 +66,38 @@
         "type": "Database",
         "skills": [
             {
-                "id": 6,
-                "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg",
-                "title": "Firebase"
+                "id": 11,
+                "icon_url": "https://skillicons.dev/icons?i=postgres",
+                "title": "Postgres"
             },
             {
-                "id": 7,
-                "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",
+                "id": 12,
+                "icon_url": "https://skillicons.dev/icons?i=mongodb",
                 "title": "MongoDb"
             },
             {
-                "id": 8,
-                "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original-wordmark.svg",
+                "id": 13,
+                "icon_url": "https://skillicons.dev/icons?i=mysql",
                 "title": "MySQL"
             }
         ]
     },
     {
         "id": 1004,
-        "type": "Other Technology",
+        "type": "ML/DL Technology",
         "skills": [
             {
-                "id": 9,
+                "id": 14,
                 "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg",
                 "title": "Numpy"
             },
             {
-                "id": 10,
+                "id": 15,
                 "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original-wordmark.svg",
                 "title": "Pandas"
             },
             {
-                "id": 11,
+                "id": 16,
                 "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg",
                 "title": "Tensorflow"
             }

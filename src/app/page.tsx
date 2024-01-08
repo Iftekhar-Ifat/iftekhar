@@ -1,6 +1,6 @@
-import BlogSection from "@/components/Homepage/BlogSection";
+import FeaturedBlogSection from "@/components/Homepage/FeaturedBlogSection";
 import IntroSection from "@/components/Homepage/IntroSection";
-import ProjectSection from "@/components/Homepage/ProjectSection";
+import FeaturedProjectSection from "@/components/Homepage/FeaturedProjectSection";
 import SkillSection from "@/components/Homepage/SkillSection";
 
 export default function Home() {
@@ -10,9 +10,9 @@ export default function Home() {
       <div className="hr_line"></div>
       <SkillSection />
       <div className="hr_line"></div>
-      <ProjectSection />
+      <FeaturedProjectSection />
       <div className="hr_line"></div>
-      <BlogSection />
+      <FeaturedBlogSection />
     </div>
   );
 }

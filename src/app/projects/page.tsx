@@ -1,8 +1,9 @@
-import { sanityClient, urlFor } from "@/lib/sanityClient";
+import { sanityFetch, urlFor } from "@/lib/sanityClient";
 import Image from "next/image";
 import Link from "next/link";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import { Metadata } from "next";
+import { getAllProjects } from "@/lib/sanityQuery";
 
 type ProjectType = {
   _id: string;
@@ -17,9 +18,10 @@ export const metadata: Metadata = {
 };
 
 export default async function ProjectList() {
-  const projects = await sanityClient.fetch(
-    `*[_type == "projects"] | order(order asc) {_id, mainImage, title, description, slug}`
-  );
+  const projects: ProjectType[] = await sanityFetch({
+    query: getAllProjects,
+    tags: ["projects"],
+  });
   return (
     <div className="mt-8 md:px-[16%]">
       <div className="flex flex-col-reverse justify-between items-center text-3xl md:flex-row md:text-5xl">

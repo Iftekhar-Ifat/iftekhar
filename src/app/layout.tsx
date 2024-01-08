@@ -10,7 +10,6 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const fira_code = Fira_Code({ subsets: ["latin"] });
-export const revalidate = 60;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://iftekhar.vercel.app"),

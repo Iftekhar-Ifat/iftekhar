@@ -1,10 +1,19 @@
-import { sanityClient } from "@/lib/sanityClient";
+import { sanityFetch } from "@/lib/sanityClient";
+import { getFeaturedBlogs } from "@/lib/sanityQuery";
 import Link from "next/link";
 
-export default async function BlogSection() {
-  const featuredBlogs = await sanityClient.fetch(
-    `*[_type == "post" && "Featured Blogs" in categories[]-> title] {_id, title, description, slug}`
-  );
+type FeaturedBlogType = {
+  _id: string;
+  title: string;
+  description: string;
+  slug: { current: string; _type: string };
+};
+
+export default async function FeaturedBlogSection() {
+  const featuredBlogs: FeaturedBlogType[] = await sanityFetch({
+    query: getFeaturedBlogs,
+    tags: ["featured-blogs"],
+  });
   return (
     <>
       <div className="glow_text py-1 text-3xl md:text-5xl">Featured Blogs</div>

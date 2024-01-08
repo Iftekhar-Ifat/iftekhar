@@ -1,4 +1,4 @@
-import { sanityClient, urlFor } from "@/lib/sanityClient";
+import { sanityFetch, urlFor } from "@/lib/sanityClient";
 import { notFound } from "next/navigation";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import { Metadata } from "next";
@@ -6,19 +6,9 @@ import { Fira_Sans } from "next/font/google";
 import BlogHeader from "@/components/BlogComponents/BlogHeader";
 import { cn } from "@/lib/utils";
 import AuthorSection from "@/components/BlogComponents/AuthorSection";
-import { PortableText, PortableTextComponents } from "@portabletext/react";
-import BlogImg from "@/components/BlogComponents/BlogImg";
-import CodeBlock from "@/components/BlogComponents/CodeBlock";
-import {
-  TypographyBlockquote,
-  TypographyH1,
-  TypographyH2,
-  TypographyH3,
-  TypographyInlineCode,
-  TypographyOList,
-  TypographyP,
-  TypographyUList,
-} from "@/components/BlogComponents/Typography";
+import { PortableText } from "@portabletext/react";
+import { portableTextComponents } from "@/components/PortableTextComponent";
+import { getBlog } from "@/lib/sanityQuery";
 
 const fira_sans = Fira_Sans({
   subsets: ["latin"],
@@ -39,37 +29,13 @@ type BlogDataType = {
 };
 
 async function getBlogData(slug: string): Promise<BlogDataType> {
-  const query = `*[_type == "post" && slug.current == '${slug}']{_id, _createdAt, title, description, mainImage, slug, body, "authorName": author->name, "authorImage": author->image, "authorSocial": author->social}[0]`;
-  const data = await sanityClient.fetch(query);
+  const data: BlogDataType = await sanityFetch({
+    query: getBlog,
+    tags: [`${slug}`],
+    qParams: { slug: slug },
+  });
   return data;
 }
-
-const portableTextComponents: PortableTextComponents = {
-  types: {
-    image: (img: any) => <BlogImg imgProps={img} />,
-    code: (props: any) => (
-      <CodeBlock code={props.value.code} language={props.value.language} />
-    ),
-  },
-  block: {
-    h1: ({ children }) => <TypographyH1>{children}</TypographyH1>,
-    h2: ({ children }) => <TypographyH2>{children}</TypographyH2>,
-    h3: ({ children }) => <TypographyH3>{children}</TypographyH3>,
-    blockquote: ({ children }) => (
-      <TypographyBlockquote>{children}</TypographyBlockquote>
-    ),
-    normal: ({ children }) => <TypographyP>{children}</TypographyP>,
-  },
-  list: {
-    bullet: ({ children }) => <TypographyUList>{children}</TypographyUList>,
-    number: ({ children }) => <TypographyOList>{children}</TypographyOList>,
-  },
-  marks: {
-    code: ({ children }) => (
-      <TypographyInlineCode>{children}</TypographyInlineCode>
-    ),
-  },
-};
 
 export async function generateMetadata({
   params,

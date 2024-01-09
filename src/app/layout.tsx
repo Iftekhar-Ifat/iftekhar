@@ -9,7 +9,7 @@ import { Toaster } from "@/components/ui/ui/sonner";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
-export const revalidate = 3600; // revalidate at most every hour
+export const revalidate = 86400; // revalidate all page after a day
 const fira_code = Fira_Code({ subsets: ["latin"] });
 
 export const metadata: Metadata = {

@@ -18,12 +18,14 @@ export async function POST(req: NextRequest) {
     }
 
     if (body?._type === "post") {
+      revalidatePath("/blogs");
       revalidatePath(`/blogs/${body?.slug}`);
     }
     if (body?._type === "projects") {
+      revalidatePath("/projects");
       revalidatePath(`/projects/${body?.slug}`);
     }
-    // revalidateTag(body._type);
+    // revalidateTag(body._type); for now revalidateTag does not trigger revalidation
     return NextResponse.json({
       status: 200,
       revalidated: true,

@@ -1,4 +1,5 @@
-import { sanityClient } from "@/lib/sanityClient";
+import { sanityFetch } from "@/lib/sanityClient";
+import { getAllBlogs } from "@/lib/sanityQuery";
 import { Metadata } from "next";
 import Link from "next/link";
 
@@ -14,9 +15,10 @@ export const metadata: Metadata = {
 };
 
 export default async function BlogList() {
-  const blogs = await sanityClient.fetch(
-    `*[_type == "post"] | order(_createdAt desc) {_id, title, description, slug}`
-  );
+  const blogs: BlogType[] = await sanityFetch({
+    query: getAllBlogs,
+    tags: ["blogs"],
+  });
   return (
     <div className="mt-8 md:px-[16%]">
       <div className="flex flex-col-reverse justify-between items-center text-3xl md:flex-row md:text-5xl">

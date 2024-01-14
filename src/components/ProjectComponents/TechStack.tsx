@@ -21,7 +21,7 @@ export default function TechStack({ techStack }: any) {
             <Tooltip>
               <TooltipTrigger>
                 <Image
-                  className="rounded-xl bg-[#242938] p-1"
+                  className="rounded-xl m-2 bg-[#242938] p-1"
                   src={tech.icon}
                   alt={tech.title}
                   width="50"

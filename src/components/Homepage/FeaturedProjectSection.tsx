@@ -1,11 +1,22 @@
-import { sanityClient, urlFor } from "@/lib/sanityClient";
+import { sanityFetch, urlFor } from "@/lib/sanityClient";
+import { getFeaturedProjects } from "@/lib/sanityQuery";
 import Image from "next/image";
 import Link from "next/link";
+import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 
-export default async function ProjectSection() {
-  const featuredProject = await sanityClient.fetch(
-    `*[_type == "projects" && "Featured Projects" in categories[]-> title] {_id, mainImage, title, description, slug}`
-  );
+type FeaturedProjectType = {
+  _id: string;
+  title: string;
+  description: string;
+  slug: { current: string; _type: string };
+  mainImage: SanityImageSource;
+};
+
+export default async function FeaturedProjectSection() {
+  const featuredProject: FeaturedProjectType[] = await sanityFetch({
+    query: getFeaturedProjects,
+    tags: ["featured-projects"],
+  });
 
   return (
     <>

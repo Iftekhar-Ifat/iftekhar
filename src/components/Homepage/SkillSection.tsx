@@ -25,7 +25,7 @@ export default function SkillSection() {
                       <Tooltip>
                         <TooltipTrigger>
                           <Image
-                            className="rounded-xl bg-[#242938] p-1"
+                            className="rounded-xl m-2 bg-[#242938] p-1"
                             src={skill.icon_url}
                             alt={skill.title}
                             width="50"

@@ -26,8 +26,8 @@ export default function CodeBlock({
     <div className="relative">
       <div className="flex absolute top-2 right-2 transition-opacity duration-300">
         <Button
-          className="bg-[#1B1C1D] hover:bg-opacity-70 text-muted-foreground"
-          variant="outline"
+          className="hover:bg-opacity-70 text-muted-foreground"
+          variant="ghost"
           size="icon"
         >
           {isCopied ? (
@@ -37,15 +37,12 @@ export default function CodeBlock({
           )}
         </Button>
       </div>
-      <code>
+      <div>
         <SyntaxHighlighter
           language={language}
           style={oneDark}
           wrapLines={true}
           showLineNumbers={true}
-          customStyle={{
-            backgroundColor: "#1B1C1D",
-          }}
           codeTagProps={{
             style: {
               fontFamily: "Fira Code",
@@ -57,7 +54,7 @@ export default function CodeBlock({
         >
           {code}
         </SyntaxHighlighter>
-      </code>
+      </div>
     </div>
   );
 }

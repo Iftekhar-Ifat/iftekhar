@@ -36,11 +36,16 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "relative antialiased max-w-screen-2xl flex flex-col md:flex-row mx-4 mt-8 lg:mx-auto",
+          "relative antialiased max-w-screen-2xl flex flex-col md:flex-row lg:mx-auto",
           fira_code.className
         )}
       >
-        <ThemeProvider attribute="class" defaultTheme="dark">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           <main className="flex-auto mx-[5%] min-w-0 relative flex flex-col min-h-screen md:mx-[10%]">
             <Navbar />
             <div className="flex-grow flex-1 mt-4">{children}</div>

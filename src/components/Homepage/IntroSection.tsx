@@ -49,7 +49,7 @@ export default function IntroSection() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Download CV
+            Résumé
           </a>
         </Button>
       </div>

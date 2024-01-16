@@ -2,6 +2,8 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import { type NextRequest, NextResponse } from "next/server";
 import { parseBody } from "next-sanity/webhook";
 
+export const runtime = "edge";
+
 export async function POST(req: NextRequest) {
   try {
     const { body, isValidSignature } = await parseBody<{
@@ -17,15 +19,15 @@ export async function POST(req: NextRequest) {
       return new Response("Bad Request", { status: 400 });
     }
 
-    if (body?._type === "post") {
+    /* if (body?._type === "post") {
       revalidatePath("/blogs");
       revalidatePath(`/blogs/${body?.slug}`);
     }
     if (body?._type === "projects") {
       revalidatePath("/projects");
       revalidatePath(`/projects/${body?.slug}`);
-    }
-    // revalidateTag(body._type); for now revalidateTag does not trigger revalidation
+    } */
+    revalidateTag(body._type);
     return NextResponse.json({
       status: 200,
       revalidated: true,

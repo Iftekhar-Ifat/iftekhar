@@ -46,9 +46,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="flex-auto mx-[5%] min-w-0 relative flex flex-col min-h-screen md:mx-[10%]">
+          <main className="flex-auto min-w-0 relative flex flex-col min-h-screen">
             <Navbar />
-            <div className="flex-grow flex-1 mt-4">{children}</div>
+            <div className="flex-grow flex-1 mt-4 mx-[5%] md:mx-[10%]">
+              {children}
+            </div>
             <Footer />
           </main>
           <Toaster />

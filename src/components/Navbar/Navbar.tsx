@@ -33,7 +33,7 @@ export default function Navbar() {
   return (
     <nav
       ref={menuRef}
-      className="sticky top-0 z-50 w-full bg-transparent before:backdrop-blur-xl before:backdrop-hack"
+      className="sticky top-0 z-50 w-full bg-transparent before:backdrop-blur-xl before:backdrop-hack px-[5%] md:px-[10%]"
     >
       <div className="inset-x-0 ">
         <header className="relative">

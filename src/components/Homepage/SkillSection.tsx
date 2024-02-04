@@ -5,7 +5,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../ui/ui/tooltip";
+} from "../ui/tooltip";
 
 export default function SkillSection() {
   return (

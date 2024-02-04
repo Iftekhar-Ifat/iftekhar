@@ -33,8 +33,8 @@ export default function IntroSection() {
       </span>
       <p className="pt-4 text-center leading-8 text-xl text-muted-foreground md:px-16">
         I&apos;m currently pursuing my bachelor&apos;s in Computer Science &
-        Engineering. I enjoy building <b>web applications</b> using modern web
-        technologies. I also have a strong interest in <b>ML/AI</b>.
+        Engineering. I enjoy building cool projects involving <b>web</b> and{" "}
+        <b>ML/AI</b> technologies.
       </p>
       <div className="pt-8 flex flex-col justify-between md:flex-row items-center md:items-start">
         <Socials />

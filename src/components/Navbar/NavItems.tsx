@@ -17,14 +17,14 @@ export default function NavItems() {
             className={clsx(
               "my-2 inline-flex w-full items-center justify-start px-4 py-2 rounded-md font-medium no-underline hover:no-underline",
               {
-                "bg-primary": currentPath.startsWith(item.href),
+                "bg-secondary": currentPath.startsWith(item.href),
               }
             )}
           >
             <item.icon size="24" className="mx-1 text-cyan-600" />
             <span
               className={clsx("mx-1 text-primary", {
-                "text-primary-foreground": currentPath.startsWith(item.href),
+                "text-secondary-foreground": currentPath.startsWith(item.href),
               })}
             >
               {item.name}

@@ -40,12 +40,7 @@ export default function RootLayout({
           fira_code.className
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <main className="flex-auto min-w-0 relative flex flex-col min-h-screen">
             <Navbar />
             <div className="flex-grow flex-1 mt-4 mx-[5%] md:mx-[10%]">

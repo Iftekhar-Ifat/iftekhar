@@ -36,7 +36,7 @@ export default function Navbar() {
       className="sticky top-0 z-50 w-full bg-transparent before:backdrop-blur-xl before:backdrop-hack px-[5%] md:px-[10%]"
     >
       <div className="inset-x-0 ">
-        <header className="relative">
+        <div className="relative">
           <div className="flex items-center">
             <div className="w-full flex flex-wrap items-center justify-between mx-auto">
               <Link href="/">
@@ -86,7 +86,7 @@ export default function Navbar() {
               </div>
             </div>
           </div>
-        </header>
+        </div>
       </div>
     </nav>
   );

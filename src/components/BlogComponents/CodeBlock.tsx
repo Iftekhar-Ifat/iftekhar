@@ -24,16 +24,17 @@ export default function CodeBlock({
   };
   return (
     <div className="relative">
-      <div className="flex absolute top-2 right-2 transition-opacity duration-300">
+      <div className="flex absolute top-2 right-2">
         <Button
-          className="hover:bg-opacity-70 text-muted-foreground"
+          className="hover:bg-opacity-70 text-muted-foreground hover:opacity-75 transition-all duration-300 ease-in-out"
           variant="ghost"
           size="icon"
+          onClick={handleCopy}
         >
           {isCopied ? (
             <Check size="20" color="green" />
           ) : (
-            <CopyIcon size="20" onClick={handleCopy} />
+            <CopyIcon size="20" />
           )}
         </Button>
       </div>

@@ -3,7 +3,6 @@ import Image from "next/image";
 import React from "react";
 import { Github, Link } from "lucide-react";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
-import { PortableTextComponents } from "@portabletext/react";
 
 type ProjectHeaderType = {
   title: string;

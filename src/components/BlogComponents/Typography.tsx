@@ -53,7 +53,7 @@ export function TypographyBlockquote({ children }: { children: ReactNode }) {
 
 export function TypographyUList({ children }: { children: ReactNode }) {
   return (
-    <ul className="my-6 ml-6 list-disc [&>li]:mt-2 text-lg text-muted-foreground">
+    <ul className="my-6 ml-6 list-disc [&>li]:mt-2 marker:text-xl text-lg text-muted-foreground">
       {children}
     </ul>
   );
@@ -61,7 +61,7 @@ export function TypographyUList({ children }: { children: ReactNode }) {
 
 export function TypographyOList({ children }: { children: ReactNode }) {
   return (
-    <ol className="my-6 ml-6 list-disc [&>li]:mt-2 text-lg text-muted-foreground">
+    <ol className="my-6 ml-6 list-decimal [&>li]:mt-2 marker:font-bold text-lg text-muted-foreground">
       {children}
     </ol>
   );

@@ -15,8 +15,10 @@ export default async function FeaturedBlogSection() {
     tags: ["featured-blogs"],
   });
   return (
-    <>
-      <div className="glow_text py-1 text-3xl md:text-5xl">Featured Blogs</div>
+    <div>
+      <span className="glow_text py-1 text-4xl md:text-5xl">
+        Featured Blogs
+      </span>
       {featuredBlogs?.map((blog: any) => (
         <div key={blog._id}>
           <Link
@@ -42,6 +44,6 @@ export default async function FeaturedBlogSection() {
           <p className="text-lg cursor-pointer hover:scale-105">see more</p>
         </Link>
       </div>
-    </>
+    </div>
   );
 }

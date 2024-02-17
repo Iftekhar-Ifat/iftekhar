@@ -2,7 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  /*
+    Chromium browsers don't render nested backdrop filters.
+    As a workaround, add 'before:' to the outer filter, along with 'before:backdrop-hack':
+
+      <div class="before:backdrop-blur-md before:backdrop-hack>
+        <div class="backdrop-blur-md"></div>
+      </div>
+
+    See https://stackoverflow.com/a/76207141.
+  */
+  .backdrop-hack {
+    @apply absolute inset-0 -z-10;
+  }
+}
+
 @layer base {
+  .backdrop-hack {
+    @apply absolute inset-0 -z-10;
+  }
   a {
     @apply cursor-pointer underline hover:text-primary;
   }
@@ -15,8 +34,6 @@
   }
   .project_container {
     border: 1px solid transparent;
-    background: linear-gradient(#111111, #111111) padding-box,
-      linear-gradient(180deg, #249aa1 0%, #2b66be 100%) border-box;
     box-shadow: 0px 0px 4px 2px rgba(36, 154, 161, 0.4);
   }
   .hr_line {
@@ -39,7 +56,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-shadow: 0px 0px 10px rgba(36, 154, 161, 0.6);
+    /* text-shadow: 0px 0px 10px rgba(36, 154, 161, 0.6); */
   }
 
   @media (min-width: 768px) {
@@ -104,15 +121,15 @@
 
 /* Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
-  width: 5px;
+  width: 10px;
+  height: 7px;
 }
 
-*::-webkit-scrollbar-track {
-  background: #111111;
+*::-webkit-scrollbar {
+  width: 5px;
 }
 
 *::-webkit-scrollbar-thumb {
   background-color: #959595;
   border-radius: 5px;
-  border: 1.5px solid #111111;
 }

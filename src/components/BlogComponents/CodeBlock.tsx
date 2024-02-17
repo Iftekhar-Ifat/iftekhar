@@ -24,28 +24,26 @@ export default function CodeBlock({
   };
   return (
     <div className="relative">
-      <div className="flex absolute top-2 right-2 transition-opacity duration-300">
+      <div className="flex absolute top-2 right-2">
         <Button
-          className="bg-[#1B1C1D] hover:bg-opacity-70 text-muted-foreground"
-          variant="outline"
+          className="hover:bg-opacity-70 text-muted-foreground hover:opacity-75 transition-all duration-300 ease-in-out"
+          variant="ghost"
           size="icon"
+          onClick={handleCopy}
         >
           {isCopied ? (
             <Check size="20" color="green" />
           ) : (
-            <CopyIcon size="20" onClick={handleCopy} />
+            <CopyIcon size="20" />
           )}
         </Button>
       </div>
-      <code>
+      <div>
         <SyntaxHighlighter
           language={language}
           style={oneDark}
           wrapLines={true}
           showLineNumbers={true}
-          customStyle={{
-            backgroundColor: "#1B1C1D",
-          }}
           codeTagProps={{
             style: {
               fontFamily: "Fira Code",
@@ -57,7 +55,7 @@ export default function CodeBlock({
         >
           {code}
         </SyntaxHighlighter>
-      </code>
+      </div>
     </div>
   );
 }

@@ -8,8 +8,11 @@ import NavItems from "./NavItems";
 import { usePathname } from "next/navigation";
 import Logo from "../../../public/asset/logo.svg";
 import Image from "next/image";
+import ThemeToggle from "@/app/ThemeToggle";
+import { useTheme } from "next-themes";
 
 export default function Navbar() {
+  const { theme } = useTheme();
   const menuRef = useRef(null);
   const path = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,21 +33,27 @@ export default function Navbar() {
   return (
     <nav
       ref={menuRef}
-      className="cb_gradient_border bg-zinc-900 bg-opacity-95 rounded-md sticky z-50 top-12 px-4 md:scroll-px-2 md:static"
+      className="sticky top-0 z-50 w-full bg-transparent before:backdrop-blur-xl before:backdrop-hack px-[5%] md:px-[10%]"
     >
       <div className="inset-x-0 ">
-        <header className="relative">
+        <div className="relative">
           <div className="flex items-center">
             <div className="w-full flex flex-wrap items-center justify-between mx-auto">
               <Link href="/">
                 <Image
                   alt="logo"
                   src={Logo}
-                  className="h-16 w-16 md:h-20 md:w-20"
+                  className={clsx("h-16 w-16 md:h-20 md:w-20", {
+                    "filter invert": theme === "light",
+                  })}
                   priority
                 />
               </Link>
+
               <div className="flex items-center md:order-2 rtl:space-x-reverse md:hidden">
+                <div className="mx-2">
+                  <ThemeToggle />
+                </div>
                 <button
                   className="rounded-md p-2 inline-flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-700"
                   aria-expanded={isMenuOpen}
@@ -66,9 +75,10 @@ export default function Navbar() {
                   </svg>
                 </button>
               </div>
+
               <div
                 className={clsx(
-                  "items-center relative justify-between w-full md:flex md:w-auto md:order-1 z-10 backdrop-filter backdrop-blur-md",
+                  "items-center relative justify-between w-full md:flex md:w-auto md:order-1 z-10",
                   { flex: isMenuOpen, hidden: !isMenuOpen }
                 )}
               >
@@ -76,7 +86,7 @@ export default function Navbar() {
               </div>
             </div>
           </div>
-        </header>
+        </div>
       </div>
     </nav>
   );

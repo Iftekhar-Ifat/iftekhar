@@ -19,10 +19,10 @@ export default async function FeaturedProjectSection() {
   });
 
   return (
-    <>
-      <div className="glow_text py-1 text-3xl md:text-5xl">
+    <div>
+      <span className="glow_text py-1 text-4xl md:text-5xl">
         Featured Projects
-      </div>
+      </span>
       {featuredProject?.map((project: any) => (
         <div key={project._id}>
           <div className="project_container p-4 my-6 w-full rounded-md">
@@ -60,6 +60,6 @@ export default async function FeaturedProjectSection() {
           </div>
         </div>
       ))}
-    </>
+    </div>
   );
 }

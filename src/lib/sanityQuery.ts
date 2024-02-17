@@ -11,3 +11,7 @@ export const getBlog = groq`*[_type == "post" && slug.current == $slug]{_id, _cr
 export const getFeaturedProjects = groq`*[_type == "projects" && "Featured Projects" in categories[]-> title] | order(order asc) {_id, title, mainImage, description, slug}`;
 
 export const getFeaturedBlogs = groq`*[_type == "post" && "Featured Blogs" in categories[]-> title] {_id, title, description, slug}`;
+
+export const getPublications = groq`*[_type == "publications"] {_id, title, description, liveLink}`;
+
+export const getOngoingResearch = groq`*[_type == "ongoing-research"] {_id, title, description, liveLink}`;

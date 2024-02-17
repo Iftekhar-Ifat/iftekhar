@@ -5,13 +5,12 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../ui/ui/tooltip";
+} from "../ui/tooltip";
 
 export default function SkillSection() {
   return (
-    <>
-      <div className="glow_text text-3xl md:text-5xl ">Skills</div>
-
+    <div>
+      <span className="glow_text py-1 text-4xl md:text-5xl">Skills</span>
       <div>
         {skillData
           ? skillData.map((domain) => (
@@ -41,6 +40,6 @@ export default function SkillSection() {
             ))
           : null}
       </div>
-    </>
+    </div>
   );
 }

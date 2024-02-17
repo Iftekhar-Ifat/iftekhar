@@ -13,3 +13,5 @@ export const getFeaturedProjects = groq`*[_type == "projects" && "Featured Proje
 export const getFeaturedBlogs = groq`*[_type == "post" && "Featured Blogs" in categories[]-> title] {_id, title, description, slug}`;
 
 export const getPublications = groq`*[_type == "publications"] {_id, title, description, liveLink}`;
+
+export const getOngoingResearch = groq`*[_type == "ongoing-research"] {_id, title, description, liveLink}`;

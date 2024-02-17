@@ -32,7 +32,7 @@ export default async function FeaturedPublicationSection() {
                 <span className="w-full font-medium center text-xl md:text-2xl">
                   {publication.title}
                 </span>
-                <ExternalLink className="ml-2 items-end" />
+                <ExternalLink className="ml-2 items-end text-cyan-600" />
               </div>
             </Link>
             <span className="pt-4 pb-2 text-muted-foreground md:text-lg ">

@@ -3,6 +3,7 @@ import Image from "next/image";
 import React from "react";
 import { Github, Link } from "lucide-react";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
+import generateBlurImg from "../helper/generateBlurImg";
 
 type ProjectHeaderType = {
   title: string;
@@ -11,13 +12,14 @@ type ProjectHeaderType = {
   liveLink: string;
 };
 
-export default function ProjectHeader({
+export default async function ProjectHeader({
   title,
   mainImg,
   githubLink,
   liveLink,
 }: ProjectHeaderType) {
   const imageSrc = urlFor(mainImg).url();
+  const blurImg = await generateBlurImg(imageSrc);
 
   return (
     <>
@@ -34,6 +36,8 @@ export default function ProjectHeader({
             sizes="100vw"
             width={0}
             height={0}
+            placeholder="blur"
+            blurDataURL={blurImg}
           />
         </div>
       </div>

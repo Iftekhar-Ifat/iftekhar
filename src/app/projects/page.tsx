@@ -4,6 +4,7 @@ import Link from "next/link";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import { Metadata } from "next";
 import { getAllProjects } from "@/lib/sanityQuery";
+import generateBlurImg from "@/components/helper/generateBlurImg";
 
 type ProjectType = {
   _id: string;
@@ -22,6 +23,7 @@ export default async function ProjectList() {
     query: getAllProjects,
     tags: ["projects"],
   });
+
   return (
     <div className="mt-8 md:px-[16%]">
       <div className="flex flex-col-reverse justify-between items-center text-3xl md:flex-row md:text-5xl">
@@ -29,7 +31,7 @@ export default async function ProjectList() {
           <div className="glow_text py-1 text-4xl md:text-5xl">Projects</div>
         </div>
       </div>
-      {projects?.map((project: ProjectType) => (
+      {projects?.map(async (project: ProjectType) => (
         <div key={project._id}>
           <div className="project_container p-4 my-6 w-full rounded-md">
             <Image
@@ -44,6 +46,10 @@ export default async function ProjectList() {
               sizes="100vw"
               width={0}
               height={0}
+              placeholder="blur"
+              blurDataURL={await generateBlurImg(
+                urlFor(project.mainImage).url()
+              )}
             />
           </div>
           <div className="mb-8">

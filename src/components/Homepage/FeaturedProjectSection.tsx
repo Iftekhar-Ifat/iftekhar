@@ -3,6 +3,7 @@ import { getFeaturedProjects } from "@/lib/sanityQuery";
 import Image from "next/image";
 import Link from "next/link";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
+import generateBlurImg from "../helper/generateBlurImg";
 
 type FeaturedProjectType = {
   _id: string;
@@ -23,7 +24,7 @@ export default async function FeaturedProjectSection() {
       <span className="glow_text py-1 text-4xl md:text-5xl">
         Featured Projects
       </span>
-      {featuredProject?.map((project: any) => (
+      {featuredProject?.map(async (project: any) => (
         <div key={project._id}>
           <div className="project_container p-4 my-6 w-full rounded-md">
             <Image
@@ -38,6 +39,10 @@ export default async function FeaturedProjectSection() {
               sizes="100vw"
               width={0}
               height={0}
+              placeholder="blur"
+              blurDataURL={await generateBlurImg(
+                urlFor(project.mainImage).url()
+              )}
             />
           </div>
           <div className="mb-8">

@@ -20,7 +20,6 @@ export default async function Research() {
     query: getOngoingResearch,
     tags: ["ongoing research"],
   });
-  console.log(ongoingResearch.length);
   return (
     <div className="mt-8 md:px-[16%]">
       <div className="my-10">

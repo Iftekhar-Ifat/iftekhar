@@ -1,6 +1,7 @@
 import { urlFor } from "@/lib/sanityClient";
 import Image from "next/image";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
+import generateBlurImg from "../helper/generateBlurImg";
 
 type AuthorSectionType = {
   authorName: string;
@@ -9,13 +10,14 @@ type AuthorSectionType = {
   createdAt: string;
 };
 
-export default function AuthorSection({
+export default async function AuthorSection({
   authorName,
   authorImage,
   authorSocial,
   createdAt,
 }: AuthorSectionType) {
   const authorImg = urlFor(authorImage).url();
+  const blurImg = await generateBlurImg(authorImg);
 
   const dateString = new Date(createdAt);
   const localDate = dateString.toLocaleDateString("en-US", {
@@ -36,6 +38,8 @@ export default function AuthorSection({
             priority
             width={50}
             height={50}
+            placeholder="blur"
+            blurDataURL={blurImg}
           />
         </a>
       </div>

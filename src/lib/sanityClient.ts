@@ -16,7 +16,7 @@ const sanityClient = createClient({
 
 export async function sanityFetch<QueryResponse>({
   query,
-  qParams,
+  qParams = {},
   tags,
 }: {
   query: string;

@@ -43,15 +43,14 @@ export async function generateMetadata({
   params: { slug: string };
 }): Promise<Metadata> {
   const blogData = await getBlogData(params.slug);
-  const currentUrl = "/blogs/" + blogData.slug.current;
-  const metaImg = urlFor(blogData.mainImage).url();
-
   if (!blogData) {
     return {
       title: "Page not found!",
       description: "The page you are looking for does not exists.",
     };
   }
+  const currentUrl = "/blogs/" + blogData.slug.current;
+  const metaImg = urlFor(blogData.mainImage).url();
 
   return {
     title: blogData.title,

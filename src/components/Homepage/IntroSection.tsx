@@ -45,7 +45,7 @@ export default function IntroSection() {
         >
           <a
             className="no-underline hover:text-cyan-600"
-            href="https://docs.google.com/gview?url=https://raw.githubusercontent.com/Iftekhar-Ifat/iftekhar/92a48483360e6eed344389cb5e330792d641f3c3/public/asset/cv/iftekhar-cv.pdf"
+            href="https://drive.google.com/file/d/1WZIC7SePRTFYDRb1vWDna7CTK-tB0ie7/view"
             target="_blank"
             rel="noopener noreferrer"
           >

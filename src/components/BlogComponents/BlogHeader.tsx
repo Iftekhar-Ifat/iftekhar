@@ -2,7 +2,7 @@ import { urlFor } from "@/lib/sanityClient";
 import Image from "next/image";
 import React from "react";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
-import generateBlurImg from "../helper/generateBlurImg";
+import blurImg from "../../../public/asset/blur-img/blurImgData.json";
 
 type BlogHeaderType = {
   mainImg: SanityImageSource;
@@ -11,7 +11,6 @@ type BlogHeaderType = {
 
 export default async function BlogHeader({ mainImg, title }: BlogHeaderType) {
   const imageSrc = urlFor(mainImg).url();
-  const blurImg = await generateBlurImg(imageSrc);
   return (
     <>
       <div>
@@ -25,10 +24,10 @@ export default async function BlogHeader({ mainImg, title }: BlogHeaderType) {
             alt="project photo"
             priority
             sizes="100vw"
-            width={0}
-            height={0}
+            width={1200}
+            height={630}
             placeholder="blur"
-            blurDataURL={blurImg}
+            blurDataURL={blurImg.blurImgBase64}
           />
         </div>
       </div>

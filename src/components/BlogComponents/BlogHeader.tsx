@@ -2,7 +2,7 @@ import { urlFor } from "@/lib/sanityClient";
 import Image from "next/image";
 import React from "react";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
-import blurImg from "../../../public/asset/blur-img/blurImgData.json";
+import blurImg from "@/../public/asset/blur-img/blurImgData.json";
 
 type BlogHeaderType = {
   mainImg: SanityImageSource;

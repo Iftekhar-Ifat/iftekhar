@@ -1,0 +1,106 @@
+[
+  {
+    "id": 1001,
+    "type": "Language",
+    "skills": [
+      {
+        "id": 1,
+        "icon_url": "https://skillicons.dev/icons?i=ts",
+        "title": "Typescript"
+      },
+      {
+        "id": 2,
+        "icon_url": "https://skillicons.dev/icons?i=py",
+        "title": "Python"
+      },
+      {
+        "id": 3,
+        "icon_url": "https://skillicons.dev/icons?i=cpp",
+        "title": "C++"
+      },
+      {
+        "id": 4,
+        "icon_url": "https://skillicons.dev/icons?i=java",
+        "title": "Java"
+      }
+    ]
+  },
+  {
+    "id": 1002,
+    "type": "Web Technology",
+    "skills": [
+      {
+        "id": 5,
+        "icon_url": "https://skillicons.dev/icons?i=react",
+        "title": "React"
+      },
+      {
+        "id": 6,
+        "icon_url": "https://skillicons.dev/icons?i=nextjs",
+        "title": "NextJs"
+      },
+      {
+        "id": 7,
+        "icon_url": "https://skillicons.dev/icons?i=tailwind",
+        "title": "Tailwind"
+      },
+      {
+        "id": 8,
+        "icon_url": "https://skillicons.dev/icons?i=nodejs",
+        "title": "NodeJs"
+      },
+      {
+        "id": 9,
+        "icon_url": "https://skillicons.dev/icons?i=express",
+        "title": "ExpressJs"
+      },
+      {
+        "id": 10,
+        "icon_url": "https://skillicons.dev/icons?i=nest",
+        "title": "NestJs"
+      }
+    ]
+  },
+  {
+    "id": 1003,
+    "type": "Database",
+    "skills": [
+      {
+        "id": 11,
+        "icon_url": "https://skillicons.dev/icons?i=postgres",
+        "title": "Postgres"
+      },
+      {
+        "id": 12,
+        "icon_url": "https://skillicons.dev/icons?i=mongodb",
+        "title": "MongoDb"
+      },
+      {
+        "id": 13,
+        "icon_url": "https://skillicons.dev/icons?i=mysql",
+        "title": "MySQL"
+      }
+    ]
+  },
+  {
+    "id": 1004,
+    "type": "ML/DL Technology",
+    "skills": [
+      {
+        "id": 14,
+        "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/numpy/numpy-original.svg",
+        "title": "Numpy"
+      },
+      {
+        "id": 15,
+        "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pandas/pandas-original-wordmark.svg",
+        "title": "Pandas"
+      },
+      {
+        "id": 16,
+        "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg",
+        "title": "Tensorflow"
+      }
+    ]
+  }
+]

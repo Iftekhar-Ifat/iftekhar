@@ -1,4 +1,4 @@
-![preview](./public/asset/project-img/portfolio.png)
+![preview](./public/asset/meta-data/portfolio.png)
 
 # iftekhar.vercel.app
 
@@ -13,4 +13,4 @@ This is my portfolio website where I share my personal projects, blogs,
 learnings etc.
 
 This site is built with **Next.Js**, **Sanity.io** and **TailwindCSS**. It is
-server side rendered **(SSR)** and deployed on **Vercel**
+server-side rendered **(SSR)** and deployed on **Vercel**

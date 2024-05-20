@@ -5,7 +5,9 @@ import {
   TypographyH1,
   TypographyH2,
   TypographyH3,
+  TypographyHighlight,
   TypographyInlineCode,
+  TypographyLatex,
   TypographyOList,
   TypographyP,
   TypographyUList,
@@ -35,6 +37,10 @@ export const portableTextComponents: PortableTextComponents = {
   marks: {
     code: ({ children }) => (
       <TypographyInlineCode>{children}</TypographyInlineCode>
+    ),
+    latex: ({ children }) => <TypographyLatex>{children}</TypographyLatex>,
+    highlight: ({ children }) => (
+      <TypographyHighlight>{children}</TypographyHighlight>
     ),
   },
 };

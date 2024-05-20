@@ -1,4 +1,6 @@
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
+import "katex/dist/katex.min.css";
+import Latex from "react-latex-next";
 
 export function TypographyH1({ children }: { children: ReactNode }) {
   return (
@@ -76,4 +78,20 @@ export function TypographyInlineCode({ children }: { children: ReactNode }) {
       {children}
     </code>
   );
+}
+
+export function TypographyHighlight({ children }: { children: ReactNode }) {
+  return (
+    <span
+      className="bg-slate-200 text-slate-800"
+      style={{ fontFamily: "Fira Code" }}
+    >
+      {children}
+    </span>
+  );
+}
+
+export function TypographyLatex({ children }: { children: ReactNode }) {
+  const latexString = React.Children.toArray(children).join("");
+  return <Latex>{latexString}</Latex>;
 }

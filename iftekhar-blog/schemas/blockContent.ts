@@ -1,4 +1,5 @@
 import {defineType, defineArrayMember} from 'sanity'
+import {LatexDetector, HighlightDecorator} from './RichTextEditor'
 
 /**
  * This is the schema definition for the rich text fields used for
@@ -10,6 +11,7 @@ import {defineType, defineArrayMember} from 'sanity'
  *    type: 'blockContent'
  *  }
  */
+
 export default defineType({
   title: 'Block Content',
   name: 'blockContent',
@@ -42,7 +44,8 @@ export default defineType({
           {title: 'Strong', value: 'strong'},
           {title: 'Emphasis', value: 'em'},
           {title: 'Code', value: 'code'},
-          {title: 'Highlight', value: 'highlight', icon: () => 'H'},
+          {title: 'Highlight', value: 'highlight', icon: () => 'H', component: HighlightDecorator},
+          {title: 'LaTex', value: 'latex', icon: () => '∑', component: LatexDetector},
         ],
         // Annotations can be any object structure – e.g. a link or a footnote.
         annotations: [

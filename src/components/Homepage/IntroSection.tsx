@@ -32,9 +32,8 @@ export default function IntroSection() {
         <span className="glow_text">Iftekhar Ahmed</span>
       </span>
       <p className="pt-4 text-center leading-8 text-xl text-muted-foreground md:px-16">
-        I&apos;m currently pursuing my bachelor&apos;s in Computer Science &
-        Engineering. I enjoy building cool projects involving <b>web</b> and{" "}
-        <b>ML/AI</b> technologies.
+        a CSE grad with a focus on computer vision research. I enjoy building
+        cool projects and adapting to new technologies.
       </p>
       <div className="pt-8 flex flex-col justify-between md:flex-row items-center md:items-start">
         <Socials />

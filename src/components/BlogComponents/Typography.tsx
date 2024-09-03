@@ -4,7 +4,7 @@ import Latex from "react-latex-next";
 
 export function TypographyH1({ children }: { children: ReactNode }) {
   return (
-    <h1 className="scroll-m-20 my-4 text-3xl font-semibold md:text-4xl md:font-bold">
+    <h1 className="scroll-m-20 my-6 text-3xl font-semibold md:text-4xl md:font-bold">
       {children}
     </h1>
   );
@@ -13,7 +13,7 @@ export function TypographyH1({ children }: { children: ReactNode }) {
 export function TypographyH2({ children }: { children: ReactNode }) {
   return (
     <h2
-      className="scroll-m-20 my-3 text-2xl font-medium first:mt-0
+      className="scroll-m-20 my-5 text-2xl font-medium first:mt-0
     md:text-3xl md:font-semibold"
     >
       {children}
@@ -23,7 +23,7 @@ export function TypographyH2({ children }: { children: ReactNode }) {
 
 export function TypographyH3({ children }: { children: ReactNode }) {
   return (
-    <h3 className="scroll-m-20 my-2 text-xl font-normal md:text-2xl md:font-medium">
+    <h3 className="scroll-m-20 my-4 text-xl font-normal md:text-2xl md:font-medium">
       {children}
     </h3>
   );
@@ -31,7 +31,7 @@ export function TypographyH3({ children }: { children: ReactNode }) {
 
 export function TypographyH4({ children }: { children: ReactNode }) {
   return (
-    <h4 className="scroll-m-20 my-1 text-lg font-medium md:text-xl md:font-normal">
+    <h4 className="scroll-m-20 my-3 text-lg font-medium md:text-xl md:font-normal">
       {children}
     </h4>
   );

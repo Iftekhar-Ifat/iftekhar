@@ -100,6 +100,11 @@
         "id": 16,
         "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg",
         "title": "Tensorflow"
+      },
+      {
+        "id": 17,
+        "icon_url": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/pytorch/pytorch-original.svg",
+        "title": "PyTorch"
       }
     ]
   }

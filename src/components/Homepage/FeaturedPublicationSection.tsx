@@ -1,14 +1,17 @@
 import { sanityFetch } from "@/lib/sanityClient";
 import { getPublications } from "@/lib/sanityQuery";
+import { PortableText } from "@portabletext/react";
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import { portableTextComponents } from "../PortableTextComponent";
 
 type PublicationType = {
   _id: string;
   title: string;
   description: string;
   liveLink: string;
+  body: any;
 };
 
 export default async function FeaturedPublicationSection() {
@@ -20,26 +23,15 @@ export default async function FeaturedPublicationSection() {
     <div>
       <span className="glow_text py-1 text-4xl md:text-5xl">Publications</span>
       {publications?.map((publication: PublicationType) => (
-        <div className="p-4 my-6 w-full" key={publication._id}>
-          <div className="flex flex-col">
-            <Link
-              href={publication.liveLink}
-              className="no-underline flex hover:scale-[1.01]"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <div className="flex">
-                <span className="w-full font-medium center text-xl md:text-2xl">
-                  {publication.title}
-                </span>
-                <ExternalLink className="ml-2 items-end text-cyan-600" />
-              </div>
-            </Link>
-            <span className="pt-4 pb-2 text-muted-foreground md:text-lg ">
-              {publication.description}
-            </span>
-          </div>
-          <div className="w-full flex justify-end"></div>
+        <div className="flex flex-col pt-4 pl-6" key={publication._id}>
+          <ul className="list-disc [&>li]:mt-2 marker:text-xl text-lg text-muted-foreground break-words">
+            <li>
+              <PortableText
+                value={publication.body}
+                components={portableTextComponents}
+              />
+            </li>
+          </ul>
         </div>
       ))}
     </div>

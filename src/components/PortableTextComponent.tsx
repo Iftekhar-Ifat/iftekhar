@@ -10,6 +10,7 @@ import {
   TypographyLatex,
   TypographyOList,
   TypographyP,
+  TypographyPublication,
   TypographyUList,
 } from "@/components/BlogComponents/Typography";
 import { PortableTextComponents } from "@portabletext/react";
@@ -29,6 +30,9 @@ export const portableTextComponents: PortableTextComponents = {
       <TypographyBlockquote>{children}</TypographyBlockquote>
     ),
     normal: ({ children }) => <TypographyP>{children}</TypographyP>,
+    publication: ({ children }) => (
+      <TypographyPublication>{children}</TypographyPublication>
+    ),
   },
   list: {
     bullet: ({ children }) => <TypographyUList>{children}</TypographyUList>,

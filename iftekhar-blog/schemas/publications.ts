@@ -20,5 +20,15 @@ export default defineType({
       title: 'Live Link',
       type: 'string',
     }),
+    defineField({
+      name: 'publishedAt',
+      title: 'Published at',
+      type: 'datetime',
+    }),
+    defineField({
+      name: 'body',
+      title: 'Body',
+      type: 'blockContent',
+    }),
   ],
 })

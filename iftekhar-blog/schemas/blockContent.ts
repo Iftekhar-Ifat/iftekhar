@@ -1,5 +1,5 @@
 import {defineType, defineArrayMember} from 'sanity'
-import {LatexDetector, HighlightDecorator} from './RichTextEditor'
+import {LatexDetector, HighlightDecorator, PublicationDecorator} from './RichTextEditor'
 
 /**
  * This is the schema definition for the rich text fields used for
@@ -31,6 +31,12 @@ export default defineType({
         {title: 'H3', value: 'h3'},
         {title: 'H4', value: 'h4'},
         {title: 'Quote', value: 'blockquote'},
+        {
+          title: 'Publication',
+          value: 'publication',
+          // icon: () => 'P',
+          component: PublicationDecorator,
+        },
       ],
       lists: [
         {title: 'Bullet', value: 'bullet'},

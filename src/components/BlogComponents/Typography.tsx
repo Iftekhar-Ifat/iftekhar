@@ -45,6 +45,14 @@ export function TypographyP({ children }: { children: ReactNode }) {
   );
 }
 
+export function TypographyPublication({ children }: { children: ReactNode }) {
+  return (
+    <p className="[&:not(:first-child)]:mt-6 text-lg text-muted-foreground text-wrap">
+      {children}
+    </p>
+  );
+}
+
 export function TypographyBlockquote({ children }: { children: ReactNode }) {
   return (
     <blockquote className="mt-6 border-l-2 pl-6 italic text-muted-foreground">

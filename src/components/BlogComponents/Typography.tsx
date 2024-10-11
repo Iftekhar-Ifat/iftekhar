@@ -79,10 +79,7 @@ export function TypographyOList({ children }: { children: ReactNode }) {
 
 export function TypographyInlineCode({ children }: { children: ReactNode }) {
   return (
-    <code
-      className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] text-sm font-semibold"
-      style={{ fontFamily: "Fira Code" }}
-    >
+    <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] text-sm font-semibold font-mono">
       {children}
     </code>
   );
@@ -90,12 +87,7 @@ export function TypographyInlineCode({ children }: { children: ReactNode }) {
 
 export function TypographyHighlight({ children }: { children: ReactNode }) {
   return (
-    <span
-      className="bg-slate-200 text-slate-800"
-      style={{ fontFamily: "Fira Code" }}
-    >
-      {children}
-    </span>
+    <span className="bg-slate-200 text-slate-800 font-mono">{children}</span>
   );
 }
 

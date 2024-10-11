@@ -2,18 +2,12 @@ import { sanityFetch, urlFor } from "@/lib/sanityClient";
 import { notFound } from "next/navigation";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import { Metadata } from "next";
-import { Fira_Sans } from "next/font/google";
 import BlogHeader from "@/components/BlogComponents/BlogHeader";
 import { cn } from "@/lib/utils";
 import AuthorSection from "@/components/BlogComponents/AuthorSection";
 import { PortableText } from "@portabletext/react";
 import { portableTextComponents } from "@/components/PortableTextComponent";
 import { getBlog } from "@/lib/sanityQuery";
-
-const fira_sans = Fira_Sans({
-  subsets: ["latin"],
-  weight: "400",
-});
 
 type BlogDataType = {
   _id: string;
@@ -76,7 +70,7 @@ export default async function BlogArticle({
   }
 
   return (
-    <article className={cn("md:px-[16%]", fira_sans.className)}>
+    <article className={cn("md:px-[16%] font-sans")}>
       <BlogHeader mainImg={blogData.mainImage} title={blogData.title} />
       <AuthorSection
         authorName={blogData.authorName}

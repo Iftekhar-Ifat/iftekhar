@@ -38,7 +38,7 @@ export default function CodeBlock({
           )}
         </Button>
       </div>
-      <div>
+      <div className="font-mono">
         <SyntaxHighlighter
           language={language}
           style={oneDark}
@@ -46,7 +46,6 @@ export default function CodeBlock({
           showLineNumbers={true}
           codeTagProps={{
             style: {
-              fontFamily: "Fira Code",
               fontSize: "17px",
               fontWeight: "600",
               scrollbarWidth: "thin",

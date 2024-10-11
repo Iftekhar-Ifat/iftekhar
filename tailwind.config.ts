@@ -16,6 +16,10 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ["var(--font-fira_sans)"],
+        mono: ["var(--font-fira_code)"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

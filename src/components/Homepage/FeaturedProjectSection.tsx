@@ -57,7 +57,7 @@ export default async function FeaturedProjectSection() {
                 href={`/projects/${project.slug.current}`}
                 className="no-underline"
               >
-                <p className="text-lg cursor-pointer hover:scale-105">
+                <p className="text-lg cursor-pointer transition-all hover:scale-105">
                   see more
                 </p>
               </Link>

@@ -20,24 +20,22 @@ export default async function FeaturedBlogSection() {
         Featured Blogs
       </span>
       {featuredBlogs?.map((blog: any) => (
-        <div key={blog._id}>
-          <Link
-            href={`/blogs/${blog.slug.current}`}
-            key={blog._id}
-            className="no-underline"
-          >
-            <div className="p-4 my-6 w-full cursor-pointer hover:scale-[1.01] project_container rounded-lg">
-              <div className="flex flex-col">
-                <span className="w-full font-medium center text-xl md:text-2xl">
-                  {blog.title}
-                </span>
-                <span className="pt-4 text-muted-foreground md:text-lg ">
-                  {blog.description}
-                </span>
-              </div>
+        <Link
+          href={`/blogs/${blog.slug.current}`}
+          key={blog._id}
+          className="no-underline"
+        >
+          <div className="p-4 transition-all duration-300 my-6 w-full cursor-pointer hover:scale-[1.02] project_container rounded-lg">
+            <div className="flex flex-col">
+              <span className="w-full font-medium center text-xl md:text-2xl">
+                {blog.title}
+              </span>
+              <span className="pt-4 text-muted-foreground md:text-lg ">
+                {blog.description}
+              </span>
             </div>
-          </Link>
-        </div>
+          </div>
+        </Link>
       ))}
       <div className="w-full flex justify-end">
         <Link href="/blogs" className="no-underline">

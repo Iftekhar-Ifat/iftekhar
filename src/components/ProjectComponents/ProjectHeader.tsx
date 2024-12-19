@@ -44,7 +44,7 @@ export default async function ProjectHeader({
       <div className="mb-8">
         <div className="flex items-center mb-4 w-full justify-between text-center">
           <a
-            className="hover:scale-105"
+            className="transition-all hover:scale-105"
             href={githubLink}
             target="_blank"
             rel="noopener noreferrer"
@@ -52,7 +52,7 @@ export default async function ProjectHeader({
             <Github size={25} className="text-cyan-600" />
           </a>
           <a
-            className="hover:scale-105"
+            className="transition-all hover:scale-105"
             href={liveLink}
             target="_blank"
             rel="noopener noreferrer"

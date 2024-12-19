@@ -39,7 +39,7 @@ export default function IntroSection() {
         <Socials />
         <Button
           variant="secondary"
-          className="hover:scale-105 m-2 text-cyan-600 text-lg"
+          className="transition-all hover:scale-105 m-2 text-cyan-600 text-lg"
           asChild
         >
           <a

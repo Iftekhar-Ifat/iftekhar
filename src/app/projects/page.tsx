@@ -64,7 +64,7 @@ export default async function ProjectList() {
                 href={`/projects/${project.slug.current}`}
                 className="no-underline"
               >
-                <p className="text-lg cursor-pointer hover:scale-105">
+                <p className="text-lg transition-all cursor-pointer hover:scale-105">
                   see more
                 </p>
               </Link>

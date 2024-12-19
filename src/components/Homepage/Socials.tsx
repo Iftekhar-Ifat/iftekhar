@@ -10,7 +10,11 @@ export default function Socials() {
   const [_, copy] = useCopyToClipboard();
   return (
     <div className="flex m-2 flex-wrap justify-center md:justify-start">
-      <Button variant="secondary" className="hover:scale-105 m-1" asChild>
+      <Button
+        variant="secondary"
+        className="transition-all hover:scale-105 m-1"
+        asChild
+      >
         <a
           href="https://www.linkedin.com/in/iftekhar-ahmed-0a082a196/"
           target="_blank"
@@ -22,7 +26,7 @@ export default function Socials() {
 
       <Button
         variant="secondary"
-        className="hover:scale-105 m-1"
+        className="transition-all hover:scale-105 m-1"
         onClick={() => {
           toast("Email copied to clipboard ✔"),
             copy("iftekharifat007@gmail.com");
@@ -30,7 +34,11 @@ export default function Socials() {
       >
         <Mail size={25} className="text-cyan-600" />
       </Button>
-      <Button variant="secondary" className="hover:scale-105 m-1" asChild>
+      <Button
+        variant="secondary"
+        className="transition-all hover:scale-105 m-1"
+        asChild
+      >
         <a
           href="https://twitter.com/_ifte"
           target="_blank"
@@ -48,7 +56,11 @@ export default function Socials() {
               <Facebook size={25} className="text-cyan-600" />
             </a>
           </Button> */}
-      <Button variant="secondary" className="hover:scale-110 m-1" asChild>
+      <Button
+        variant="secondary"
+        className="transition-all hover:scale-110 m-1"
+        asChild
+      >
         <a
           href="https://github.com/Iftekhar-Ifat"
           target="_blank"

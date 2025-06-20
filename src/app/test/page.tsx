@@ -1,0 +1,61 @@
+import { ExpandableSection } from "./_components/expandable";
+
+export default function Test() {
+  return (
+    <ExpandableSection maxHeight={200}>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+      <div>asdf</div>
+    </ExpandableSection>
+  );
+}

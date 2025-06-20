@@ -1,6 +1,14 @@
 import React, { ReactNode } from "react";
 import "katex/dist/katex.min.css";
 import Latex from "react-latex-next";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/ui/table";
 
 export function TypographyH1({ children }: { children: ReactNode }) {
   return (
@@ -92,6 +100,49 @@ export function TypographyHighlight({ children }: { children: ReactNode }) {
 }
 
 export function TypographyLatex({ children }: { children: ReactNode }) {
-  const latexString = React.Children.toArray(children).join("");
+  const latexString = React.Children.toArray(children)
+    .map((child) => (typeof child === "string" ? child : ""))
+    .join("");
   return <Latex>{latexString}</Latex>;
+}
+
+function getCellText(cell: any): string {
+  if (!cell) return "-";
+
+  if (Array.isArray(cell.children)) {
+    return cell.children.map((child: any) => child.text || "").join("");
+  }
+
+  if (typeof cell === "string") return cell;
+
+  if (cell.content) return cell.content;
+
+  return "-";
+}
+
+export function TypographyTable({ value }: { value: any }) {
+  if (!value?.rows?.length) return null;
+
+  const rows = value.rows;
+
+  return (
+    <Table className="rounded-md border mb-2">
+      <TableHeader>
+        <TableRow>
+          {rows[0].cells.map((cell: any, i: number) => (
+            <TableHead key={i}>{getCellText(cell)}</TableHead>
+          ))}
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {rows.slice(1).map((row: any) => (
+          <TableRow key={row._key}>
+            {row.cells.map((cell: any, i: number) => (
+              <TableCell key={i}>{getCellText(cell)}</TableCell>
+            ))}
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  );
 }

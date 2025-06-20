@@ -11,6 +11,7 @@ import {
   TypographyOList,
   TypographyP,
   TypographyPublication,
+  TypographyTable,
   TypographyUList,
 } from "@/components/BlogComponents/Typography";
 import { PortableTextComponents } from "@portabletext/react";
@@ -21,6 +22,7 @@ export const portableTextComponents: PortableTextComponents = {
     code: (props: any) => (
       <CodeBlock code={props.value.code} language={props.value.language} />
     ),
+    Table: (props: any) => <TypographyTable value={props.value} />,
   },
   block: {
     h1: ({ children }) => <TypographyH1>{children}</TypographyH1>,

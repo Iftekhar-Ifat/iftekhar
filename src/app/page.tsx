@@ -5,9 +5,11 @@ import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <MaxWidthWrapper className="my-20">
+    <MaxWidthWrapper>
+      <Button className="font-mono">Hello</Button>
       <Button className="font-mono">Hello</Button>
       <Icons.logo />
+      <Button className="font-mono">Hello</Button>
       <ThemeToggle />
     </MaxWidthWrapper>
   );

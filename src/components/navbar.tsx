@@ -34,7 +34,7 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-black/[0.1] bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/60 dark:border-white/[0.1]">
       <MaxWidthWrapper>
-        <div className="container flex h-20 items-center justify-between px-4 md:px-6">
+        <div className="container flex h-20 items-center justify-between">
           <Link
             href="/"
             className="flex items-center gap-2 text-lg font-semibold"

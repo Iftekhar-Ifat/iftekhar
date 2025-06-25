@@ -1,0 +1,40 @@
+---
+title: "Why MDX is Great"
+description: "Learn why MDX gives you superpowers in content + component workflows."
+publishedAt: "2025-06-23"
+slug: "hello"
+---
+
+# Why MDX is Great
+
+MDX lets you use React components in markdown...
+
+`js` code
+
+showLineNumbers title="Code block title"
+const x = "Hello world";
+`
+
+<CodeBlock language="python" showLineNumbers>
+  {`print("hello")`}
+</CodeBlock>
+
+```js **showLineNumbers** title="Code block title"
+const x = "Hello world";
+```
+
+**showLineNumbers**
+
+<Frame align="center" caption="Table inside a frame with a caption">
+  | Rocket | Height | Payload to LEO | Stages |
+  |:---------------------|:--------:|:--------------:|:------:| | SpaceX
+  Starship | 120 m | 150 t | 2 | | NASA SLS Block 1 | 98 m | 95 t | 2 | | Blue
+  Origin New Glenn| 98 m | 45 t | 2 |
+</Frame>
+
+| Syntax    | Description |
+| --------- | ----------- |
+| Header    | Title       |
+| Paragraph | Text        |
+
+~~Strikethrough~~ and - [x] Task lists

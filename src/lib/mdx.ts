@@ -5,60 +5,72 @@ import matter from "gray-matter";
 export type BlogMetadata = {
   title: string;
   description: string;
-  publishedAt: string; // ISO date string
+  publishedAt: string;
   slug: string;
 };
 
-const BLOG_DIR = path.join(process.cwd(), "content/blogs");
+const BLOG_ROOT = path.join(process.cwd(), "/src/content/blogs");
+
+// Utility to find all blog folders containing index.mdx
+function getBlogFolders(root: string): string[] {
+  return fs
+    .readdirSync(root, { withFileTypes: true })
+    .filter((dirent) => dirent.isDirectory())
+    .map((d) => path.join(root, d.name));
+}
 
 export async function getAllBlogsMetadata(): Promise<BlogMetadata[]> {
-  const files = await fs.promises.readdir(BLOG_DIR);
+  const folders = getBlogFolders(BLOG_ROOT);
 
   const blogs = await Promise.all(
-    files.map(async (file) => {
-      const raw = await fs.promises.readFile(path.join(BLOG_DIR, file), "utf8");
+    folders.map(async (folderPath) => {
+      const indexMd = path.join(folderPath, "index.mdx");
+      if (!fs.existsSync(indexMd)) return null;
+
+      const raw = await fs.promises.readFile(indexMd, "utf8");
       const { data } = matter(raw);
 
+      const slug = path.basename(folderPath);
       return {
         title: data.title,
         description: data.description,
         publishedAt: data.publishedAt,
-        tags: data.tags ?? [],
-        slug: data.slug || file.replace(/\.mdx$/, ""),
+        slug,
       };
     })
   );
 
-  // Sort by date (newest first)
-  return blogs.sort(
-    (a, b) =>
-      new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
-  );
+  // Filter out nulls and sort latest first
+  return blogs
+    .filter((b): b is BlogMetadata => !!b)
+    .sort(
+      (a, b) =>
+        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+    );
 }
 
-export async function getBlogBySlug(slug: string) {
-  const filePath = path.join(BLOG_DIR, `${slug}.mdx`);
+export async function getBlogBySlug(
+  slug: string
+): Promise<{ content: string; metadata: BlogMetadata } | null> {
+  const folderPath = path.join(BLOG_ROOT, slug);
+  const indexMd = path.join(folderPath, "index.mdx");
+  if (!fs.existsSync(indexMd)) return null;
 
-  // Check if file exists
-  if (!fs.existsSync(filePath)) {
-    return null;
-  }
-
-  const raw = await fs.promises.readFile(filePath, "utf8");
+  const raw = await fs.promises.readFile(indexMd, "utf8");
   const { content, data } = matter(raw);
-
   return {
     content,
     metadata: {
       title: data.title,
       description: data.description,
       publishedAt: data.publishedAt,
-      tags: data.tags ?? [],
       slug,
     },
   };
 }
 
 export function getAllSlugs(): string[] {
-  return fs.readdirSync(BLOG_DIR).map((file) => file.replace(/\.mdx$/, ""));
+  return getBlogFolders(BLOG_ROOT).map((folderPath) =>
+    path.basename(folderPath)
+  );
 }

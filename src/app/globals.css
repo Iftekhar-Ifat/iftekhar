@@ -121,3 +121,7 @@
     @apply bg-background text-foreground;
   }
 }
+.prose-ui table {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}

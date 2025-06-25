@@ -1,9 +1,11 @@
-import { MDXRemote } from "next-mdx-remote-client/rsc";
+import { MDXRemote } from "next-mdx-remote/rsc";
 import { getBlogBySlug } from "@/lib/mdx";
 import { format } from "date-fns";
 import { getMDXComponents } from "../../../../mdx-components";
 import MaxWidthWrapper from "@/components/max-width-wrapper";
 import { notFound } from "next/navigation";
+import path from "path";
+import { MarkdownTable } from "@/components/mdx/markdown-table";
 
 export default async function BlogPostPage({
   params,
@@ -18,7 +20,9 @@ export default async function BlogPostPage({
   }
 
   const { content, metadata } = blog;
-  const mdxComponents = getMDXComponents({});
+  const mdxComponents = getMDXComponents({
+    MarkdownTable: MarkdownTable,
+  });
 
   return (
     <MaxWidthWrapper>
@@ -28,7 +32,15 @@ export default async function BlogPostPage({
           {format(new Date(metadata.publishedAt), "MMMM d, yyyy")}
         </p>
 
-        <MDXRemote source={content} components={mdxComponents} />
+        <MDXRemote
+          source={content}
+          components={mdxComponents}
+          options={{
+            mdxOptions: {
+              baseUrl: path.join(process.cwd(), "src"),
+            },
+          }}
+        />
       </article>
     </MaxWidthWrapper>
   );

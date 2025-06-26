@@ -7,9 +7,10 @@ export type BlogMetadata = {
   description: string;
   publishedAt: string;
   slug: string;
+  thumbnail: string;
 };
 
-const BLOG_ROOT = path.join(process.cwd(), "/src/content/blogs");
+const BLOG_ROOT = path.join(process.cwd(), "public/content/blogs");
 
 // Utility to find all blog folders containing index.mdx
 function getBlogFolders(root: string): string[] {
@@ -35,6 +36,7 @@ export async function getAllBlogsMetadata(): Promise<BlogMetadata[]> {
         title: data.title,
         description: data.description,
         publishedAt: data.publishedAt,
+        thumbnail: data.thumbnail,
         slug,
       };
     })
@@ -64,6 +66,7 @@ export async function getBlogBySlug(
       title: data.title,
       description: data.description,
       publishedAt: data.publishedAt,
+      thumbnail: data.thumbnail,
       slug,
     },
   };

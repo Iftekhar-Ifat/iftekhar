@@ -2,7 +2,7 @@
 
 import React from "react";
 import {
-  Table as ShadcnTable,
+  Table,
   TableHeader,
   TableBody,
   TableRow,
@@ -33,7 +33,7 @@ export function MarkdownTable({ children }: MarkdownTableProps) {
 
   return (
     <div className="rounded-md border">
-      <ShadcnTable>
+      <Table>
         <TableHeader>
           <TableRow>
             {headers.map((header, i) => (
@@ -50,7 +50,7 @@ export function MarkdownTable({ children }: MarkdownTableProps) {
             </TableRow>
           ))}
         </TableBody>
-      </ShadcnTable>
+      </Table>
     </div>
   );
 }

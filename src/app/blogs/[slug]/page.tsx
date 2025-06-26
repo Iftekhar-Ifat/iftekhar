@@ -6,6 +6,50 @@ import MaxWidthWrapper from "@/components/max-width-wrapper";
 import { notFound } from "next/navigation";
 import path from "path";
 import { MarkdownTable } from "@/components/mdx/markdown-table";
+import Image from "next/image";
+import authorImage from "@/assets/profile.png";
+import { Metadata } from "next";
+
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const blog = await getBlogBySlug(slug);
+
+  if (!blog) {
+    return {
+      title: "Page not found!",
+      description: "The page you are looking for does not exists.",
+    };
+  }
+
+  const { metadata } = blog;
+
+  return {
+    title: metadata.title,
+    description: metadata.description,
+    alternates: {
+      canonical: `/blogs/${metadata.slug}`,
+    },
+    openGraph: {
+      title: metadata.title,
+      description: metadata.description,
+      type: "article",
+      url: `${BASE_URL}/blogs/${metadata.slug}`,
+      images: [`${BASE_URL}${metadata.thumbnail}`],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: metadata.title,
+      description: metadata.description,
+      images: [`${BASE_URL}${metadata.thumbnail}`],
+    },
+  };
+}
 
 export default async function BlogPostPage({
   params,
@@ -20,28 +64,70 @@ export default async function BlogPostPage({
   }
 
   const { content, metadata } = blog;
+  const thumbnailImage = metadata.thumbnail;
   const mdxComponents = getMDXComponents({
     MarkdownTable: MarkdownTable,
   });
 
   return (
     <MaxWidthWrapper>
-      <article className="prose-ui !bg-background">
-        <h1 className="mb-1">{metadata.title}</h1>
-        <p className="text-sm text-muted-foreground mb-6">
-          {format(new Date(metadata.publishedAt), "MMMM d, yyyy")}
-        </p>
+      <div className="my-10">
+        <h1 className="scroll-m-20 mb-6 text-center text-4xl font-extrabold tracking-tight text-balance">
+          {metadata.title}
+        </h1>
+        <div className="relative w-full h-auto border rounded-xl">
+          <Image
+            src={thumbnailImage}
+            alt="Blog thumbnail"
+            width={1200}
+            height={630}
+            className="w-full h-auto rounded-xl object-contain"
+          />
+        </div>
 
-        <MDXRemote
-          source={content}
-          components={mdxComponents}
-          options={{
-            mdxOptions: {
-              baseUrl: path.join(process.cwd(), "src"),
-            },
-          }}
-        />
-      </article>
+        <div className="flex items-center my-4">
+          <a
+            href="https://www.linkedin.com/in/iftekhar-ifat/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="shrink-0 rounded-full overflow-hidden"
+          >
+            <Image
+              src={authorImage}
+              alt="Iftekhar Ahmed profile photo"
+              width={50}
+              height={50}
+              className="rounded-full object-cover"
+              placeholder="blur"
+            />
+          </a>
+          <div className="ml-4 flex flex-col">
+            <a
+              href="https://www.linkedin.com/in/iftekhar-ifat/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary font-medium hover:underline"
+            >
+              Iftekhar Ahmed
+            </a>
+            <p className="text-sm text-muted-foreground">
+              {format(new Date(metadata.publishedAt), "MMMM d, yyyy")}
+            </p>
+          </div>
+        </div>
+
+        <article className="prose-ui !bg-background ">
+          <MDXRemote
+            source={content}
+            components={mdxComponents}
+            options={{
+              mdxOptions: {
+                baseUrl: path.join(process.cwd(), "src"),
+              },
+            }}
+          />
+        </article>
+      </div>
     </MaxWidthWrapper>
   );
 }

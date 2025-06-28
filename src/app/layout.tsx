@@ -16,9 +16,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase:
-    new URL(process.env.NEXT_PUBLIC_SITE_URL!) ||
-    new URL("http://localhost:3000"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+  ),
   title: {
     default: "Iftekhar",
     template: "%s | Iftekhar",

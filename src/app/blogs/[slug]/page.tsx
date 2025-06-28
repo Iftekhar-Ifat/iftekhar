@@ -9,6 +9,7 @@ import { MarkdownTable } from "@/components/mdx/markdown-table";
 import Image from "next/image";
 import authorImage from "@/assets/profile.png";
 import { Metadata } from "next";
+import { MarkdownLatex } from "@/components/mdx/markdown-latex";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
@@ -67,11 +68,12 @@ export default async function BlogPostPage({
   const thumbnailImage = metadata.thumbnail;
   const mdxComponents = getMDXComponents({
     MarkdownTable: MarkdownTable,
+    MarkdownLatex: MarkdownLatex,
   });
 
   return (
     <MaxWidthWrapper>
-      <div className="my-10">
+      <div className="my-6 md:my-10">
         <h1 className="scroll-m-20 mb-6 text-center text-4xl font-extrabold tracking-tight text-balance">
           {metadata.title}
         </h1>

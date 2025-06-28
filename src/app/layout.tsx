@@ -16,16 +16,24 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://iftekhar.vercel.app"),
+  metadataBase:
+    new URL(process.env.NEXT_PUBLIC_SITE_URL!) ||
+    new URL("http://localhost:3000"),
   title: {
     default: "Iftekhar",
     template: "%s | Iftekhar",
   },
   description: "Iftekhar's Portfolio",
-  twitter: {
-    card: "summary_large_image",
-  },
   openGraph: {
+    title: "Iftekhar",
+    description: "Iftekhar's Portfolio",
+    type: "profile",
+    images: "./opengraph-image.png",
+  },
+  twitter: {
+    title: "Iftekhar",
+    description: "Iftekhar's Portfolio",
+    card: "summary_large_image",
     images: "./opengraph-image.png",
   },
 };

@@ -12,10 +12,14 @@ import Link from "next/link";
 export default async function BlogCard() {
   const blogs = await getAllBlogsMetadata();
   return (
-    <div>
+    <div className="space-y-4">
       {blogs.map((blog) => (
-        <Link key={blog.slug} href={`/blogs/${blog.slug}`} className="group">
-          <Card className="flex h-full cursor-pointer py-6 flex-col justify-between border border-border transition-all duration-300 hover:scale-[1.01] hover:border-neutral-400">
+        <Link
+          key={blog.slug}
+          href={`/blogs/${blog.slug}`}
+          className="group block"
+        >
+          <Card className="flex h-full cursor-pointer py-4 flex-col justify-between border border-border transition-all duration-300 hover:scale-[1.01] hover:border-neutral-400">
             <CardHeader>
               <div className="flex items-start justify-between">
                 <div className="space-y-2">

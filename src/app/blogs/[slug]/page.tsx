@@ -4,7 +4,6 @@ import { format } from "date-fns";
 import { getMDXComponents } from "../../../../mdx-components";
 import MaxWidthWrapper from "@/components/max-width-wrapper";
 import { notFound } from "next/navigation";
-import path from "path";
 import { MarkdownTable } from "@/components/mdx/markdown-table";
 import Image from "next/image";
 import authorImage from "@/assets/profile.png";
@@ -119,15 +118,7 @@ export default async function BlogPostPage({
         </div>
 
         <article className="prose-ui !bg-background ">
-          <MDXRemote
-            source={content}
-            components={mdxComponents}
-            options={{
-              mdxOptions: {
-                baseUrl: path.join(process.cwd(), "src"),
-              },
-            }}
-          />
+          <MDXRemote source={content} components={mdxComponents} />
         </article>
       </div>
     </MaxWidthWrapper>

@@ -77,3 +77,32 @@ export function getAllSlugs(): string[] {
     path.basename(folderPath)
   );
 }
+
+const RESEARCH_ROOT = path.join(process.cwd(), "public/content/research");
+
+export async function getResearchContent() {
+  try {
+    const publicationsPath = path.join(RESEARCH_ROOT, "publications.mdx");
+    const ongoingPath = path.join(RESEARCH_ROOT, "ongoing.mdx");
+
+    const [publicationsContent, ongoingContent] = await Promise.all([
+      fs.promises.readFile(publicationsPath, "utf8").catch(() => null),
+      fs.promises.readFile(ongoingPath, "utf8").catch(() => null),
+    ]);
+
+    return {
+      publications: publicationsContent
+        ? matter(publicationsContent)
+        : matter("No publication available"),
+      ongoing: ongoingContent
+        ? matter(ongoingContent)
+        : matter("No ongoing work"),
+    };
+  } catch (error) {
+    console.error("Error reading research content:", error);
+    return {
+      publications: null,
+      ongoing: null,
+    };
+  }
+}

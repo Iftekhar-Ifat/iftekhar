@@ -3,7 +3,7 @@
 import { Badge } from "./ui/badge";
 
 type PublicationTypeBadgeProps = {
-  type: "Q1" | "Q2" | "Q3" | "Q4" | "NA";
+  type: "Q1" | "Q2" | "Q3" | "Q4";
 };
 
 export default function PublicationType({ type }: PublicationTypeBadgeProps) {
@@ -17,10 +17,8 @@ export default function PublicationType({ type }: PublicationTypeBadgeProps) {
         return "bg-yellow-100 dark:bg-yellow-500/20";
       case "Q4":
         return "bg-red-100 dark:bg-red-500/20";
-      case "NA":
-        return "bg-gray-100 dark:bg-gray-500/20";
       default:
-        return "bg-gray-100 dark:bg-gray-500/20";
+        return "bg-neutral-100 dark:bg-neutral-500/20";
     }
   };
 
@@ -34,10 +32,8 @@ export default function PublicationType({ type }: PublicationTypeBadgeProps) {
         return "text-yellow-600";
       case "Q4":
         return "text-red-500";
-      case "NA":
-        return "text-gray-500";
       default:
-        return "text-gray-500";
+        return "text-neutral-500";
     }
   };
 

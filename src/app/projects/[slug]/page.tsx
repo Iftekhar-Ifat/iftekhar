@@ -110,6 +110,19 @@ export default async function ProjectPage({
           </div>
         </div>
 
+        <div className="bg-card text-card-foreground flex flex-col gap-6 rounded-md border p-4">
+          <div className="flex gap-2 items-center flex-wrap max-w-full">
+            <span className="font-mono whitespace-nowrap">Techstack:</span>
+            {metadata.techstack?.map((stack) => (
+              <TechStackBadge
+                key={stack.title}
+                title={stack.title}
+                icon={stack.icon}
+              />
+            ))}
+          </div>
+        </div>
+
         <article className="prose-ui !bg-background ">
           <MDXRemote source={content} components={mdxComponents} />
         </article>

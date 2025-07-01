@@ -38,8 +38,8 @@ export default async function ProjectCard() {
                   className="mt-1 shrink-0 text-muted-foreground transition-colors group-hover:text-primary"
                 />
               </div>
-              <div className="flex gap-1 items-center">
-                <span className="text-muted-foreground text-sm">
+              <div className="flex gap-1 items-center flex-wrap max-w-full">
+                <span className="text-muted-foreground text-sm whitespace-nowrap">
                   Techstack:
                 </span>
                 {project.techstack?.map((stack) => (

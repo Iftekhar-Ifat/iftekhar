@@ -15,6 +15,7 @@ import {
   siPostgresql,
   siMysql,
   siMongodb,
+  siGithub,
 } from "simple-icons";
 
 const curatedIcons = {
@@ -34,6 +35,7 @@ const curatedIcons = {
   postgres: siPostgresql,
   mysql: siMysql,
   mongodb: siMongodb,
+  github: siGithub,
 } as const;
 
 export type IconSlug = keyof typeof curatedIcons;
@@ -46,7 +48,13 @@ type IconsProps = {
 export function TechIcons({ item, size = 16 }: IconsProps) {
   const icon = curatedIcons[item];
 
-  const invertedIcons: IconSlug[] = ["nextjs", "express", "numpy", "pandas"];
+  const invertedIcons: IconSlug[] = [
+    "nextjs",
+    "express",
+    "numpy",
+    "pandas",
+    "github",
+  ];
 
   return (
     <svg

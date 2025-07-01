@@ -5,18 +5,21 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { getAllBlogsMetadata } from "@/lib/mdx";
+import { getAllProjectsMetadata } from "@/lib/mdx";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
 export default async function ProjectCard() {
-  const projects = await getAllBlogsMetadata();
+  const projects = await getAllProjectsMetadata();
+
+  if (!projects) return null;
+
   return (
     <div className="space-y-4">
-      {projects.map((blog) => (
+      {projects.map((project) => (
         <Link
-          key={blog.slug}
-          href={`/blogs/${blog.slug}`}
+          key={project.slug}
+          href={`/projects/${project.slug}`}
           className="group block"
         >
           <Card className="flex h-full cursor-pointer py-4 flex-col justify-between border border-border transition-all duration-300 hover:scale-[1.01] hover:border-neutral-400">
@@ -24,10 +27,10 @@ export default async function ProjectCard() {
               <div className="flex items-start justify-between mb-2">
                 <div className="space-y-2">
                   <CardTitle className="line-clamp-2 text-xl leading-tight">
-                    {blog.title}
+                    {project.title}
                   </CardTitle>
                   <CardDescription className="line-clamp-2 text-sm text-muted-foreground">
-                    {blog.description}
+                    {project.description}
                   </CardDescription>
                 </div>
                 <ArrowUpRight
@@ -39,9 +42,13 @@ export default async function ProjectCard() {
                 <span className="text-muted-foreground text-sm">
                   Techstack:
                 </span>
-                <TechStackBadge title="Next.js" icon="nextjs" />
-                <TechStackBadge title="React.js" icon="react" />
-                <TechStackBadge title="Express" icon="postgres" />
+                {project.techstack?.map((stack) => (
+                  <TechStackBadge
+                    key={stack.title}
+                    title={stack.title}
+                    icon={stack.icon}
+                  />
+                ))}
               </div>
             </CardHeader>
           </Card>

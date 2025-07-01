@@ -1,0 +1,119 @@
+import { MDXRemote } from "next-mdx-remote/rsc";
+import { getProjectBySlug } from "@/lib/mdx";
+import { getMDXComponents } from "../../../../mdx-components";
+import MaxWidthWrapper from "@/components/max-width-wrapper";
+import { notFound } from "next/navigation";
+import { MarkdownTable } from "@/components/mdx/markdown-table";
+import Image from "next/image";
+import { Metadata } from "next";
+import { MarkdownLatex } from "@/components/mdx/markdown-latex";
+import TechStackBadge from "@/components/shared/tech-stack-badge";
+import { Button } from "@/components/ui/button";
+import { Link } from "lucide-react";
+import { TechIcons } from "@/components/shared/tech-icons";
+
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
+const linksIconMap = {
+  github: <TechIcons item="github" />,
+  live: <Link />,
+};
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const project = await getProjectBySlug(slug);
+
+  if (!project) {
+    return {
+      title: "Page not found!",
+      description: "The page you are looking for does not exists.",
+    };
+  }
+
+  const { metadata } = project;
+
+  return {
+    title: metadata.title,
+    description: metadata.description,
+    alternates: {
+      canonical: `/projects/${metadata.slug}`,
+    },
+    openGraph: {
+      title: metadata.title,
+      description: metadata.description,
+      type: "article",
+      url: `${BASE_URL}/projects/${metadata.slug}`,
+      images: [`${BASE_URL}${metadata.thumbnail}`],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: metadata.title,
+      description: metadata.description,
+      images: [`${BASE_URL}${metadata.thumbnail}`],
+    },
+  };
+}
+
+export default async function ProjectPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const project = await getProjectBySlug(slug);
+
+  if (!project) {
+    return notFound();
+  }
+
+  const { content, metadata } = project;
+  const thumbnailImage = metadata.thumbnail;
+  const mdxComponents = getMDXComponents({
+    TechStackBadge: TechStackBadge,
+    MarkdownTable: MarkdownTable,
+    MarkdownLatex: MarkdownLatex,
+  });
+
+  return (
+    <MaxWidthWrapper>
+      <div className="my-6 md:my-10">
+        <div className="relative w-full h-auto border rounded-xl">
+          <Image
+            src={thumbnailImage}
+            alt="Blog thumbnail"
+            width={1200}
+            height={630}
+            className="w-full h-auto rounded-xl object-contain"
+          />
+        </div>
+        <div className="flex justify-between items-center">
+          <h1 className="scroll-m-20 my-4 text-3xl font-extrabold tracking-tight text-balance">
+            {metadata.title}
+          </h1>
+          <div className="space-x-2">
+            {metadata.links.map((link, index) => (
+              <Button
+                key={`${link.type}-${index}`}
+                variant="outline"
+                size="icon"
+                asChild
+              >
+                <a href={link.url} target="_blank" rel="noopener">
+                  {linksIconMap[link.type]}
+                </a>
+              </Button>
+            ))}
+          </div>
+        </div>
+
+        <article className="prose-ui !bg-background ">
+          <MDXRemote source={content} components={mdxComponents} />
+        </article>
+      </div>
+    </MaxWidthWrapper>
+  );
+}

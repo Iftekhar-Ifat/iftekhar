@@ -11,6 +11,9 @@ import Link from "next/link";
 
 export default async function BlogCard() {
   const blogs = await getAllBlogsMetadata();
+
+  if (!blogs) return null;
+
   return (
     <div className="space-y-4">
       {blogs.map((blog) => (

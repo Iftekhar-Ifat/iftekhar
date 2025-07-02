@@ -1,6 +1,6 @@
 import { LucideProps } from "lucide-react";
 
-export const StaticIcons = {
+export const Icons = {
   logo: (props: LucideProps) => (
     <svg
       {...props}

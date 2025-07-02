@@ -3,7 +3,7 @@
 import MaxWidthWrapper from "./max-width-wrapper";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { StaticIcons } from "./icons";
+import { Icons } from "./icons";
 import ThemeToggle from "./theme-toggle";
 import { Button } from "@/components/ui/button";
 import {
@@ -39,7 +39,7 @@ export default function Navbar() {
             href="/"
             className="flex items-center gap-2 text-lg font-semibold"
           >
-            <StaticIcons.logo className="h-20 w-20" />
+            <Icons.logo className="h-20 w-20" />
             <span className="sr-only">Iftekhar</span>
           </Link>
 

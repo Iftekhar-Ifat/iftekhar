@@ -1,16 +1,10 @@
-import { Icons } from "@/components/icons";
+import IntroSection from "@/components/home/intro-section";
 import MaxWidthWrapper from "@/components/max-width-wrapper";
-import ThemeToggle from "@/components/theme-toggle";
-import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <MaxWidthWrapper>
-      <Button className="font-mono">Hello</Button>
-      <Button className="font-mono">Hello</Button>
-      <Icons.logo />
-      <Button className="font-mono">Hello</Button>
-      <ThemeToggle />
+    <MaxWidthWrapper className="my-8 md:my-10">
+      <IntroSection />
     </MaxWidthWrapper>
   );
 }

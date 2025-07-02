@@ -16,6 +16,10 @@ import {
   siMysql,
   siMongodb,
   siGithub,
+  siPrisma,
+  siZod,
+  siReactquery,
+  siOpencv,
 } from "simple-icons";
 
 const curatedIcons = {
@@ -36,6 +40,10 @@ const curatedIcons = {
   mysql: siMysql,
   mongodb: siMongodb,
   github: siGithub,
+  prisma: siPrisma,
+  zod: siZod,
+  react_query: siReactquery,
+  open_cv: siOpencv,
 } as const;
 
 export type IconSlug = keyof typeof curatedIcons;
@@ -54,6 +62,7 @@ export function TechIcons({ item, size = 16 }: IconsProps) {
     "numpy",
     "pandas",
     "github",
+    "prisma",
   ];
 
   return (

@@ -1,6 +1,8 @@
 import IntroSection from "@/components/home/intro-section";
+import SkillSection from "@/components/home/skill-section";
 import SocialSection from "@/components/home/socials-section";
 import MaxWidthWrapper from "@/components/max-width-wrapper";
+import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
   return (
@@ -8,6 +10,8 @@ export default function Home() {
       <div className="space-y-4">
         <IntroSection />
         <SocialSection />
+        <Separator />
+        <SkillSection />
       </div>
     </MaxWidthWrapper>
   );

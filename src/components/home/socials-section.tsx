@@ -14,7 +14,7 @@ const USER_DATA = {
 
 export default function SocialSection() {
   return (
-    <div className="p-4 rounded-md border font-mono text-sm grid grid-cols-1 sm:grid-cols-2 gap-2">
+    <div className="p-4 rounded-md font-mono text-sm grid grid-cols-1 sm:grid-cols-2 gap-2">
       <div className="flex items-center space-x-3">
         <div className="border rounded p-2">
           <Code size={16} className="text-muted-foreground" />

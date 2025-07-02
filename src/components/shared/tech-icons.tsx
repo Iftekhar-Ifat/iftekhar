@@ -62,7 +62,6 @@ export function TechIcons({ item, size = 16 }: IconsProps) {
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
       fill={invertedIcons.includes(item) ? `currentColor` : `#${icon.hex}`}
-      className="inline align-text-bottom"
       style={{ width: size, height: size }}
     >
       <title>{icon.title}</title>

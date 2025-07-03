@@ -1,7 +1,7 @@
 import IntroSection from "@/components/home/intro-section";
 import SkillSection from "@/components/home/skill-section";
 import SocialSection from "@/components/home/socials-section";
-import Updates from "@/components/home/updates";
+import UpdatesSection from "@/components/home/updates-section";
 import MaxWidthWrapper from "@/components/max-width-wrapper";
 import { Separator } from "@/components/ui/separator";
 
@@ -12,7 +12,7 @@ export default function Home() {
         <IntroSection />
         <SocialSection />
         <Separator />
-        <Updates />
+        <UpdatesSection />
         <Separator />
         <SkillSection />
       </div>

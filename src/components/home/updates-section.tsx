@@ -30,7 +30,7 @@ const timelineData = [
   },
 ];
 
-export default function Updates() {
+export default function UpdatesSection() {
   return (
     <div className="font-mono max-w-full">
       <div className="flex items-center mb-4">

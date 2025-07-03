@@ -47,7 +47,7 @@ export default function SkillSection() {
         <span className="font-semibold">Worked with:</span>
       </div>
 
-      <div className="ml-4 text-muted-foreground space-y-4">
+      <div className="ml-4 text-muted-foreground space-y-8">
         {/* AI/ML */}
         <div className="flex items-start gap-2">
           <Circle

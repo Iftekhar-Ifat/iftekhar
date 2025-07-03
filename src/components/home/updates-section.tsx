@@ -34,9 +34,9 @@ export default function UpdatesSection() {
   return (
     <div className="font-mono max-w-full">
       <div className="flex items-center mb-4">
-        <span className="font-semibold">Updates:</span>
+        <div className="font-semibold">Updates:</div>
       </div>
-      <Timeline>
+      <Timeline className="ml-4">
         {timelineData.map((item) => (
           <TimelineItem key={item.id}>
             <TimelineHeader>

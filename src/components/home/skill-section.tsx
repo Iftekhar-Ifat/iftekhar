@@ -22,12 +22,13 @@ export const skills: Skills = {
     { title: "TensorFlow", icon: "tensorflow" },
   ],
   web_dev: [
+    { title: "React", icon: "react" },
     { title: "TypeScript", icon: "typescript" },
-    { title: "Next.js", icon: "nextjs" },
+    { title: "Next", icon: "nextjs" },
     { title: "Tailwind", icon: "tailwind" },
-    { title: "Node.js", icon: "nodejs" },
+    { title: "Node", icon: "nodejs" },
     { title: "Express", icon: "express" },
-    { title: "NestJS", icon: "nestjs" },
+    { title: "Nest", icon: "nestjs" },
     { title: "Zod", icon: "zod" },
     { title: "ReactQuery", icon: "react_query" },
   ],
@@ -43,19 +44,19 @@ export default function SkillSection() {
   return (
     <div className="font-mono max-w-full">
       <div className="flex items-center mb-4">
-        <span>Worked with,</span>
+        <span className="font-semibold">Worked with:</span>
       </div>
 
       <div className="ml-4 text-muted-foreground space-y-4">
         {/* AI/ML */}
         <div className="flex items-start gap-2">
           <Circle
-            className="mt-2 text-muted-foreground self-start"
+            className="mt-2 text-muted-foreground self-start shrink-0"
             size={6}
             fill="oklch(0.708 0 0)"
           />
           <div className="flex flex-col sm:flex-row sm:items-start sm:gap-2">
-            <span className="font-semibold">AI/ML:</span>
+            <span className="font-semibold text-sm">AI/ML:</span>
             <div className="flex flex-wrap gap-2">
               {skills.ai_ml.map((skill) => (
                 <TechStackBadge
@@ -72,12 +73,12 @@ export default function SkillSection() {
         {/* Webdev */}
         <div className="flex items-start gap-2">
           <Circle
-            className="mt-2 text-muted-foreground self-start"
+            className="mt-2 text-muted-foreground self-start shrink-0"
             size={6}
             fill="oklch(0.708 0 0)"
           />
           <div className="flex flex-col sm:flex-row sm:items-start sm:gap-2">
-            <span className="font-semibold">WebDev:</span>
+            <span className="font-semibold text-sm">WebDev:</span>
             <div className="flex flex-wrap gap-2">
               {skills.web_dev.map((skill) => (
                 <TechStackBadge
@@ -94,12 +95,12 @@ export default function SkillSection() {
         {/* Misc */}
         <div className="flex items-start gap-2">
           <Circle
-            className="mt-2 text-muted-foreground self-start"
+            className="mt-2 text-muted-foreground self-start shrink-0"
             size={6}
             fill="oklch(0.708 0 0)"
           />
           <div className="flex flex-col sm:flex-row sm:items-start sm:gap-2">
-            <span className="font-semibold">Misc.:</span>
+            <span className="font-semibold text-sm">Misc.:</span>
             <div className="flex flex-wrap gap-2">
               {skills.misc.map((skill) => (
                 <TechStackBadge

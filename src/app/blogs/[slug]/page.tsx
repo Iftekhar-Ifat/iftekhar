@@ -117,7 +117,7 @@ export default async function BlogPostPage({
           </div>
         </div>
 
-        <article className="prose-ui !bg-background ">
+        <article className="prose-ui !bg-background !text-primary">
           <MDXRemote source={content} components={mdxComponents} />
         </article>
       </div>

@@ -32,7 +32,7 @@ export default async function Research() {
               Publications
             </span>
           </div>
-          <div className="prose-ui !bg-background ">
+          <div className="prose-ui !bg-background !text-primary">
             <MDXRemote
               source={publications.content}
               components={mdxComponents}
@@ -46,7 +46,7 @@ export default async function Research() {
               Ongoing
             </span>
           </div>
-          <div className="prose-ui !bg-background ">
+          <div className="prose-ui !bg-background !text-primary">
             <MDXRemote source={ongoing.content} components={mdxComponents} />
           </div>
         </div>

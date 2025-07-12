@@ -161,6 +161,30 @@ export async function getResearchContent() {
   }
 }
 
+export async function getFeaturedPublications() {
+  try {
+    const publicationsPath = path.join(
+      RESEARCH_ROOT,
+      "featured-publications.mdx"
+    );
+
+    const publicationsContent = await fs.promises
+      .readFile(publicationsPath, "utf8")
+      .catch(() => null);
+
+    return {
+      publications: publicationsContent
+        ? matter(publicationsContent)
+        : matter("No publication available"),
+    };
+  } catch (error) {
+    console.error("Error reading research content:", error);
+    return {
+      publications: null,
+    };
+  }
+}
+
 export async function getAllProjectsMetadata(): Promise<
   ProjectMetadata[] | null
 > {

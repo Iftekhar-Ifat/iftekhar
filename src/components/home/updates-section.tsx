@@ -6,31 +6,30 @@ import {
   TimelineItem,
   TimelineTitle,
 } from "../ui/timeline";
+import { getMDXComponents } from "../../../mdx-components";
+import { MDXRemote } from "next-mdx-remote/rsc";
 
 const timelineData = [
   {
     id: 1,
-    title: "Vercel was founded in SF, USA",
-    description:
-      "Vercel Inc., formerly ZEIT, is an American cloud platform as a service company. The company maintains the Next.js web development framework.",
-    time: "May, 2020",
+    title:
+      "National Cybersecurity Authority (NCA) Cybersecurity Research & Innovation Pioneers Grant",
+    description: `Awarded the prestigious **NCA Cybersecurity Research & Innovation Pioneers Grant** by the National Cybersecurity Authority of the Kingdom of Saudi Arabia for the research proposal "Privacy-Preserving Federated Learning Platform for the Healthcare Domain".`,
   },
   {
     id: 2,
-    title: "Shadcn First Commit",
-    description:
-      "Beautifully designed components that you can copy and paste into your apps. Accessible. Customizable. Open Source.",
-    time: "January, 2023",
+    title: "InteX funded project",
+    description: `Currently engaged in a [InteX](https://www.intexlab.net/) funded research project focusing on **adversarial attack/defense** on image segmentation.`,
   },
   {
     id: 3,
-    title: "Shadcn Timeline",
-    description: "Shadcn timeline component. Open Source.",
-    time: "November, 2024",
+    title: "Dental panoramic X-ray image segmentation",
+    description: `Working with [Dr. Md Rashedur Rahman](https://www.linkedin.com/in/md-rashedur-rahman-d-eng-25b5b7145/) on a dental panoramic x-ray segmentation techniques; exploring various state-of-the art segmentation model architecture`,
   },
 ];
 
 export default function UpdatesSection() {
+  const mdxComponents = getMDXComponents({});
   return (
     <div className="font-mono max-w-full">
       <div className="flex items-center mb-4">
@@ -43,7 +42,14 @@ export default function UpdatesSection() {
               <TimelineTitle>{item.title}</TimelineTitle>
             </TimelineHeader>
             {item.description && (
-              <TimelineDescription>{item.description}</TimelineDescription>
+              <TimelineDescription>
+                <div className="prose-ui [&_p]:!mt-0 [&_p]:!mb-0 !bg-background !text-muted-foreground !font-mono !text-sm">
+                  <MDXRemote
+                    source={item.description}
+                    components={mdxComponents}
+                  />
+                </div>
+              </TimelineDescription>
             )}
           </TimelineItem>
         ))}

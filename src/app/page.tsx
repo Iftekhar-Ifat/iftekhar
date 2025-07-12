@@ -1,3 +1,5 @@
+import FeaturedBlogs from "@/components/home/featured-blogs";
+import FeaturedResearch from "@/components/home/featured-research";
 import IntroSection from "@/components/home/intro-section";
 import SkillSection from "@/components/home/skill-section";
 import SocialSection from "@/components/home/socials-section";
@@ -14,7 +16,11 @@ export default function Home() {
         <Separator />
         <UpdatesSection />
         <Separator />
+        <FeaturedResearch />
+        <Separator />
         <SkillSection />
+        <Separator />
+        <FeaturedBlogs />
       </div>
     </MaxWidthWrapper>
   );

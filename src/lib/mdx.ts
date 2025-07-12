@@ -9,6 +9,7 @@ export type BlogMetadata = {
   publishedAt: string;
   slug: string;
   thumbnail: string;
+  featured?: boolean;
 };
 
 export type ProjectMetadata = {
@@ -62,6 +63,42 @@ export async function getAllBlogsMetadata(): Promise<BlogMetadata[] | null> {
   );
 
   // Filter out nulls and sort latest first
+  return blogs
+    .filter((blog): blog is BlogMetadata => !!blog)
+    .sort(
+      (a, b) =>
+        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+    );
+}
+
+export async function getFeaturedBlogsMetadata(): Promise<
+  BlogMetadata[] | null
+> {
+  const folders = getBlogFolders(BLOG_ROOT);
+
+  const blogs = await Promise.all(
+    folders.map(async (folderPath) => {
+      const indexMd = path.join(folderPath, "index.mdx");
+      if (!fs.existsSync(indexMd)) return null;
+
+      const raw = await fs.promises.readFile(indexMd, "utf8");
+      const { data } = matter(raw);
+
+      // Return null early if not featured
+      if (!data.featured) return null;
+
+      const slug = path.basename(folderPath);
+
+      return {
+        title: data.title,
+        description: data.description,
+        publishedAt: data.publishedAt,
+        thumbnail: data.thumbnail,
+        slug,
+      };
+    })
+  );
+
   return blogs
     .filter((blog): blog is BlogMetadata => !!blog)
     .sort(

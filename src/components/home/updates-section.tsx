@@ -24,7 +24,7 @@ const timelineData = [
   {
     id: 3,
     title: "Dental panoramic X-ray image segmentation",
-    description: `Working with [Dr. Md Rashedur Rahman](https://www.linkedin.com/in/md-rashedur-rahman-d-eng-25b5b7145/) on a dental panoramic x-ray segmentation techniques; exploring various state-of-the art segmentation model architecture`,
+    description: `Working with [CCDS MIRA Wing](https://ccds.ai/) under Md. Rashedur Rahman's supervision on dental panoramic x-ray segmentation techniques; exploring various state-of-the-art segmentation model architectures`,
   },
 ];
 

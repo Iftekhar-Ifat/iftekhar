@@ -5,6 +5,8 @@ import React from "react";
 import { getMDXComponents } from "../../../mdx-components";
 import PublicationType from "../publication-type";
 import { Timeline, TimelineHeader, TimelineItem } from "../ui/timeline";
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 
 export default async function FeaturedPublications() {
   const { publications } = await getFeaturedPublications();
@@ -42,6 +44,15 @@ export default async function FeaturedPublications() {
           </TimelineItem>
         ))}
       </Timeline>
+      <div className="mt-4 w-fit justify-self-end transition-all duration-300 flex justify-end text-muted-foreground hover:underline group">
+        <Link className="flex" href="/research">
+          <span>see more</span>
+          <ArrowUpRight
+            size={20}
+            className="ml-1 transition-colors duration-300 group-hover:text-primary"
+          />
+        </Link>
+      </div>
     </div>
   );
 }

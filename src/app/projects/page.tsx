@@ -14,6 +14,9 @@ export default function Projects() {
       <div className="my-4">
         <ProjectCard />
       </div>
+      <div className="italic text-muted-foreground">
+        will be adding other previous projects soon...
+      </div>
     </MaxWidthWrapper>
   );
 }

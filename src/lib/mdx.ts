@@ -51,6 +51,9 @@ export async function getAllBlogsMetadata(): Promise<BlogMetadata[] | null> {
       const raw = await fs.promises.readFile(indexMd, "utf8");
       const { data } = matter(raw);
 
+      // Return null early if not published
+      if (!data.isPublished) return null;
+
       const slug = path.basename(folderPath);
       return {
         title: data.title,
@@ -84,6 +87,9 @@ export async function getFeaturedBlogsMetadata(): Promise<
       const raw = await fs.promises.readFile(indexMd, "utf8");
       const { data } = matter(raw);
 
+      // Return null early if not published
+      if (!data.isPublished) return null;
+
       // Return null early if not featured
       if (!data.featured) return null;
 
@@ -116,6 +122,10 @@ export async function getBlogBySlug(
 
   const raw = await fs.promises.readFile(indexMd, "utf8");
   const { content, data } = matter(raw);
+
+  // Return null early if not published
+  if (!data.isPublished) return null;
+
   return {
     content,
     metadata: {
@@ -198,6 +208,9 @@ export async function getAllProjectsMetadata(): Promise<
       const raw = await fs.promises.readFile(indexMd, "utf8");
       const { data } = matter(raw);
 
+      // Return null early if not published
+      if (!data.isPublished) return null;
+
       const slug = path.basename(folderPath);
       return {
         title: data.title,
@@ -224,6 +237,10 @@ export async function getProjectBySlug(
 
   const raw = await fs.promises.readFile(indexMd, "utf8");
   const { content, data } = matter(raw);
+
+  // Return null early if not published
+  if (!data.isPublished) return null;
+
   return {
     content,
     metadata: {

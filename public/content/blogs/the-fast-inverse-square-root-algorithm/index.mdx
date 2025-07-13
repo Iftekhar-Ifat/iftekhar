@@ -1,0 +1,139 @@
+---
+title: "The Fast Inverse Square Root Algorithm"
+description: "The blog post dissects the clever fast inverse square root approximation algorithm used in the classic game Quake III Arena to significantly boost real-time 3D graphics rendering performance. It explains how this algorithm utilized bit manipulation and polynomial approximation tricks to quickly estimate the inverse square root, trading off some accuracy for a major speed gain over traditional methods."
+publishedAt: "2024-05-22"
+thumbnail: "/content/blogs/the-fast-inverse-square-root-algorithm/data/thumbnail.png"
+isPublished: true
+featured: false
+---
+
+The year was 1999, nearly six years after the release of Doom, which revolutionized what a modern game should look like. John Carmack and his team at ID Software were working on the third installment of Quake. Which was one of the most anticipated multiplayer-focused first-person shooter arena of its time. Quake III Arena aimed to push the boundaries even further with its advanced real-time rendering techniques. However, the team was facing some performance bottlenecks in 3D graphics because of the game's fast-paced nature.
+
+One of the most demanding tasks in 3D graphics is vector normalization, which involves calculating the inverse square root of a number. This operation is vital for a variety of tasks, such as lighting calculations, collision detection, and camera movements. Traditionally, computing the inverse square root required a slow process involving a square root operation followed by a division, which could significantly impact performance on the hardware of the late '90s.
+
+So, in that case, what would a typical programmer do? Yes, they completely rewrite the procedure for calculating an inverse square root. ID Software released the complete source code for Quake III Arena on August 19, 2005.
+
+Here's the exact code snippet from the `q_math.c` file:
+
+<CodeBlock language="c" showLineNumbers>
+{`float Q_rsqrt( float number ) {
+    long i;
+    float x2, y;
+    const float threehalfs = 1.5F;
+
+    x2 = number * 0.5F;
+    y  = number;
+    i  = * ( long * ) &y;                        // bit‑level hack
+    i  = 0x5f3759df - ( i >> 1 );                // magic constant!
+    y  = * ( float * ) &i;
+    y  = y * ( threehalfs - ( x2 * y * y ) );    // 1st iteration
+    // y  = y * ( threehalfs - ( x2 * y * y ) ); // 2nd iteration, this can be removed
+
+    return y;
+}`}
+</CodeBlock>
+
+Here is the full [source code](https://github.com/id-Software/Quake-III-Arena) of Quake-III-Arena.
+
+Before diving into how this code works let's explore how actually computers calculate inverse square roots.  
+# Traditional Inverse Square Root
+
+Those of us who have taken a CS degree are probably familiar with [Newton Raphson Method](https://en.wikipedia.org/wiki/Newton%27s_method) from the Numerical Methods class.
+
+It is one of the most commonly used techniques for finding the roots of given equations.
+
+Here's an example of calculating the square root using Newton's method:
+
+**Root of:** $a = 25$
+
+**Initial Guess:** $x_0 = 3$
+
+**Iteration 1:**
+
+<MarkdownLatex>{`x_1 = \\dfrac{1}{2} \\left( x_0 + \\dfrac{a}{x_0} \\right) = \\dfrac{1}{2} \\left( 3 + \\dfrac{25}{3} \\right) = \\dfrac{1}{2} \\cdot \\dfrac{11.333}{1} \\approx 5.6667`}</MarkdownLatex>
+
+**Iteration 2:**
+
+<MarkdownLatex>{`x_2 = \\dfrac{1}{2} \\left( x_1 + \\dfrac{a}{x_1} \\right) = \\dfrac{1}{2} \\left( 5.6667 + \\dfrac{25}{5.6667} \\right) \\approx 5.0392`}</MarkdownLatex>
+
+**Iteration 3:**
+
+<MarkdownLatex>{`x_3 = \\dfrac{1}{2} \\left( x_2 + \\dfrac{a}{x_2} \\right) = \\dfrac{1}{2} \\left( 5.0392 + \\dfrac{25}{5.0392} \\right) \\approx 5.0001`}</MarkdownLatex>
+
+**Iteration 4:**
+
+<MarkdownLatex>{`x_4 = \\dfrac{1}{2} \\left( x_3 + \\dfrac{a}{x_3} \\right) = \\dfrac{1}{2} \\left( 5.0001 + \\dfrac{25}{5.0001} \\right) \\approx 5.0000`}</MarkdownLatex>
+
+**Inverse Square Root:**
+
+<MarkdownLatex>{`answer = \\dfrac{1}{x_4} \\approx 0.2`}</MarkdownLatex>
+
+At first glance, this appears to be a generally efficient approach, but computational costs rise in applications like 3D graphics rendering, where vector normalization necessitates frequent inverse square root calculations for each vertex or pixel. After all, we're talking about a time when GPUs didn't exist and CPUs were much slower compared to what they are today. As can be seen, traditional methods for calculating the inverse square root require multiple arithmetic operations (including costly division) in each iteration.
+  
+The cumulative cost of these repeated calculations can be significant, even if the individual calculations are relatively fast, resulting in performance bottlenecks in real-time applications.
+
+The fast inverse square root approximation addressed these computational costs by using a clever combination of bit manipulation and polynomial approximation, sacrificing some accuracy for a significant performance gain. This approximation method became valuable for applications where a reasonable trade-off between precision and speed was acceptable, such as in real-time 3D graphics rendering.
+
+Now why doing a division operation is much more costly than addition or multiplication? This answer goes beyond the scope of this blog. You can further explore how fixed-point and floating-point numbers are represented on computers.
+
+> Spoiler: this is the same reason behind when you do 0.1 + 0.2 it returns 0.30000000000000004 ([IEEE-754](https://en.wikipedia.org/wiki/IEEE_754))
+
+# The Fast Inverse Square Root
+
+The fast inverse square root algorithm is a clever trick that trades precision for speed. Instead of using traditional methods like Newton's method, which involve multiple iterations and costly operations like division, this algorithm uses a combination of bit manipulation and polynomial approximation to quickly estimate the inverse square root of a number.
+
+Let's break down the code step by step:
+
+<CodeBlock language="c" showLineNumbers>
+{`float Q_rsqrt( float number ) {
+    long i;
+    float x2, y;
+    const float threehalfs = 1.5F;`}
+</CodeBlock>
+
+First, we declare some variables: `i` as a long integer, `x2` and `y` as floating-point numbers, and `threehalfs` as a constant float with the value `1.5`.
+
+<CodeBlock language="c" showLineNumbers>
+{`x2 = number * 0.5F;
+y  = number;`}
+</CodeBlock>
+
+Next, we calculate `x2` by multiplying the input `number` by `0.5F` (which is the same as dividing by 2). We also store the original `number` in `y`.
+
+<CodeBlock language="c" showLineNumbers>
+{`i  = * ( long * ) &y;     // bit-level hack`}
+</CodeBlock>
+
+Here's where the magic happens! We take the memory address of `y` and interpret it as a pointer to a `long` integer (using the cast `(long *)&y`). This allows us to access the bit pattern of the floating-point number `y` as if it were a long integer. This is known as "bit-level hacking" or "type punning," and it's a common trick used in low-level programming.
+
+<CodeBlock language="c" showLineNumbers>
+{`i  = 0x5f3759df - ( i >> 1 );     // magic constant!`}
+</CodeBlock>
+
+Now, we perform some bit manipulation on the long integer `i`. First, we shift the bits of `i` to the right by one position. This is equivalent to dividing the value by 2. Then, we subtract this shifted value from the hexadecimal constant `0x5f3759df`. This constant is a "magic number" that was carefully chosen to provide a good initial approximation for the inverse square root.
+
+<CodeBlock language="c" showLineNumbers>
+{`y  = * ( float * ) &i;`}
+</CodeBlock>
+
+After the bit manipulation, we write the modified `i` value back to memory, but this time we interpret it as a floating-point number by casting the address of `i` to a `float` pointer (`(float *)&i`). This gives us the initial approximation of the inverse square root, stored in `y`.
+
+
+<CodeBlock language="c" showLineNumbers>
+{`y  = y * ( threehalfs - ( x2 * y * y ) );      // 1st iteration
+// y  = y * ( threehalfs - ( x2 * y * y ) );    // 2nd iteration, this can be removed`}
+</CodeBlock>
+
+
+Finally, we refine the approximation by performing one or two iterations of a polynomial approximation. The expression `(threehalfs - (x2 * y * y))` is a carefully chosen polynomial that, when multiplied with the initial approximation `y`, gives a better approximation of the inverse square root.
+
+The commented-out line shows a second iteration of the same polynomial approximation, which would provide a more accurate result but at the cost of additional computations.
+
+<CodeBlock language="c" showLineNumbers>
+{`    return y;
+}`}
+</CodeBlock>
+
+After the approximation is computed, we simply return the final value of `y`, which is our fast inverse square root approximation.
+
+It's important to note that this algorithm sacrifices some precision for the sake of speed. The approximation may not be as accurate as the result obtained from a more precise method like Newton's method, but in real-time graphics applications like Quake III Arena, the speed gain often outweighed the need for perfect precision.

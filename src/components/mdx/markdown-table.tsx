@@ -1,6 +1,3 @@
-"use client";
-
-import React from "react";
 import {
   Table,
   TableHeader,
@@ -9,6 +6,8 @@ import {
   TableHead,
   TableCell,
 } from "@/components/ui/table";
+import { getMDXComponents } from "../../../mdx-components";
+import { MDXRemote } from "next-mdx-remote/rsc";
 
 type MarkdownTableProps = {
   children: string;
@@ -31,13 +30,17 @@ export function MarkdownTable({ children }: MarkdownTableProps) {
       .filter(Boolean)
   );
 
+  const mdxComponents = getMDXComponents({});
+
   return (
     <div className="rounded-md border">
       <Table>
         <TableHeader>
           <TableRow>
             {headers.map((header, i) => (
-              <TableHead key={i}>{header}</TableHead>
+              <TableHead key={i}>
+                <MDXRemote source={header} components={mdxComponents} />
+              </TableHead>
             ))}
           </TableRow>
         </TableHeader>
@@ -45,7 +48,9 @@ export function MarkdownTable({ children }: MarkdownTableProps) {
           {rows.map((row, rowIndex) => (
             <TableRow key={rowIndex}>
               {row.map((cell, cellIndex) => (
-                <TableCell key={cellIndex}>{cell}</TableCell>
+                <TableCell key={cellIndex}>
+                  <MDXRemote source={cell} components={mdxComponents} />
+                </TableCell>
               ))}
             </TableRow>
           ))}

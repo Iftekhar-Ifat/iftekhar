@@ -1,0 +1,640 @@
+---
+title: "Designing an Image Classifier Model Architecture"
+description: "This blog takes you on a journey into building image classification models with deep learning, using the well-known CIFAR-10 dataset as an example. We’ll start with some basic background to get you up to speed, then go step by step through creating different types of neural networks. You’ll learn how a simple Multilayer Perceptron can be improved by adding Convolutional Neural Networks, how pooling layers make the data easier to handle, and how techniques like dropout and batch normalization help prevent overfitting and keep training stable. In the end, you’ll see that building a good AI model isn’t about following a fixed recipe it’s about experimenting, tweaking, and finding what works best for your data and goals."
+publishedAt: "2025-06-20"
+thumbnail: "/content/blogs/designing-an-image-classifier-model-architecture/data/thumbnail.png"
+isPublished: true
+featured: true
+---
+
+Classifying whether an image contains a dog or a cat is a classic computer vision challenge. Without computer vision techniques, solving this problem is nearly impossible. In this blog, we will walk through the process of designing an effective image classifier. Although there is no single architecture suitable for every type of image classification problem, some rules of thumb must be followed to create an effective image classification model.
+
+## Prerequisites
+
+Before diving in, make sure you have a basic understanding of:
+
+- **Machine Learning:** Supervised learning, training/testing paradigms, classification tasks, and hyperparameter tuning.
+- **Deep Learning:** Neurons, layers, various hyperparameters, and regularization methods.
+- **Image Processing:** How images are represented and processed.
+- **Convolutional Neural Networks (CNNs):** Their role in feature extraction and selection.
+
+# Setting up Your Environment
+
+For our example, we will be using the CIFAR-10 dataset, which consists of 60,000 (32x32) color images in 10 classes, with 6,000 images per class.
+
+<div className='flex justify-center'>
+<Image alt="CIFAR-10" src="/content/blogs/designing-an-image-classifier-model-architecture/data/CIFAR-10.png" />
+</div>
+
+This dataset is pre-bundled with Keras, so if you are already using Keras and TensorFlow, you do not need to download it. Because we are working with images, having a GPU is helpful but not required.
+
+Let's load the dataset and start coding.
+
+<CodeBlock language="python" showLineNumbers>
+{`# Importing required libraries
+  import numpy as np
+  import matplotlib.pyplot as plt
+  from tensorflow.keras import datasets, utils
+
+  # The data is in a tuple format. For more information on the dataset, see:
+  # https://www.cs.toronto.edu/~kriz/cifar.html
+
+  # Load the dataset
+  (train_images, train_labels), (test_images, test_labels) = datasets.cifar10.load_data()
+
+  # Plotting the dataset
+  class_names = ["airplane", "automobile", "bird", "cat", "deer",
+                "dog", "frog", "horse", "ship", "truck"]
+
+  plt.figure(figsize=(10,10))
+  for i in range(10):
+      plt.subplot(5,5,i+1)
+      plt.xticks([])
+      plt.yticks([])
+      plt.grid(False)
+      # select the first image from each class
+      plt.imshow(train_images[np.where(train_labels == i)[0][0]], cmap=plt.cm.binary)
+      plt.xlabel(class_names[i])
+  plt.show()`}
+</CodeBlock>
+
+![CIFAR-10_plot.png](/content/blogs/designing-an-image-classifier-model-architecture/data/CIFAR-10_plot.png)
+
+## Data Shape and Preprocessing
+
+<CodeBlock language="python" showLineNumbers>
+{`# Checking the shape of the data
+print(f"Training Image Shape = {train_images.shape}")
+print(f"Training Label Shape = {train_labels.shape}")
+print(f"Testing Image Shape = {test_images.shape}")
+print(f"Testing Label Shape = {test_labels.shape}")
+
+# Output
+# Training Image Shape = (50000, 32, 32, 3)
+# Training Label Shape = (50000, 1)
+# Testing Image Shape = (10000, 32, 32, 3)
+# Testing Label Shape = (10000, 1)`}
+</CodeBlock>
+
+The training and testing images are in a tuple format. If you print `train_images[0]`, it will return a `(32, 32, 3)` tuple. This means the image has a height of 32 pixels, a width of 32 pixels, and 3 color channels (RGB). Each value in the array, ranging from 0 to 255, represents a pixel's intensity.
+
+Here is where your image processing knowledge comes in handy. We know that in deep learning, a normalized pixel value (from 0 to 1) is more suitable. So, let's normalize them.
+
+<CodeBlock language="python" showLineNumbers>
+{`train_images = train_images.astype("float32") / 255.0
+test_images = test_images.astype("float32") / 255.0`}
+</CodeBlock>
+
+Now, if we print `train_images[0]`, it will show us an array consisting of 32 arrays of 3-digit numbers ranging from 0 to 1 in decimal format.
+
+We need to convert the integer labels of the images into one-hot encoded vectors because the neural network's output represents the probability that an image belongs to each class. In a one-hot encoding, if an image has a class label *i*, it is represented as a vector of length 10 (corresponding to the number of classes), where all elements are 0 except for the *i-th* position, which is set to 1.
+
+![one-hot-encoding.png](/content/blogs/designing-an-image-classifier-model-architecture/data/one-hot-encoding.png)
+
+We can easily one-hot encode our `test_labels` and `train_labels` using the `to_categorical()` function.
+
+<CodeBlock language="python" showLineNumbers>
+{`# One-hot encode labels
+test_labels = utils.to_categorical(test_labels)
+train_labels = utils.to_categorical(train_labels)`}
+</CodeBlock>
+
+Now that we are done with our project setup, let's dive into the architecture. We will be using Keras's sequential architecture. You can also use the functional architecture, but there might be some syntactical differences.
+
+# Multilayer Perceptron (MLP)
+
+If you have the prerequisite knowledge, you know what an MLP is. As a reminder, a multilayer perceptron, or MLP, is simply a neural network with multiple layers connected to each other. We will first build our model using only multilayer perceptrons.
+
+As an example, we can create a simple MLP where:
+
+- The first layer will be the **input layer**, which takes in the images.
+- Next, we will add **two hidden layers**:
+  - The first hidden layer with **100 neurons** and an activation function.
+  - The second hidden layer with **50 neurons** and an activation function.
+- Finally, we will add the **output layer**, which contains **10 neurons**, corresponding to the 10 classes in our dataset.
+
+Again, you need the prerequisite knowledge to fully understand the architecture.
+
+So, the model will look something like this:
+
+<CodeBlock language="python" showLineNumbers>
+{`from tensorflow.keras import layers, models
+
+  model = models.Sequential([
+      layers.Input(shape=(32, 32, 3)),
+      layers.Flatten(),
+      layers.Dense(100, activation="relu"),
+      layers.Dense(50, activation="relu"),
+      layers.Dense(10, activation="softmax"),
+  ])`}
+</CodeBlock>
+
+Now, if we plot the model summary using `model.summary()`, we will get an output similar to the following:
+
+![model_summary.png](/content/blogs/designing-an-image-classifier-model-architecture/data/model_summary.png)
+
+In the summary, you'll notice that the first value in the output shape is `None`. Keras uses `None` to indicate that the model can process any number of images simultaneously. Since the network performs tensor algebra, we don't need to pass images one by one; instead, we can process them in batches. For input images of shape `(32, 32, 3)`, the input size is calculated as <MarkdownLatex>{`32 \\times 32 \\times 3 = 3072`}</MarkdownLatex>.
+
+Now, let's examine the `first dense layer`. This layer contains 100 neurons, so the output shape is `(None, 100)`. In the "Param" column of the summary, we see a value representing the total number of parameters (weights) trained at each layer. Here's how this number is computed:
+
+- The input size is 3072, and each neuron in the dense layer connects to every input, along with an additional bias unit.
+- The total number of parameters is given by: `Parameters = (input_size * output_size) + output_size`
+- Substituting the values: <MarkdownLatex>{`(3072 \\times 100) + 100 = 307,300`}</MarkdownLatex>
+
+Similarly, we can calculate the parameters for the remaining dense layers:
+
+- **`dense_1` (50 neurons, input from `dense` layer):** <MarkdownLatex>{`(100 \\times 50) + 50 = 5,050`}</MarkdownLatex>
+- **`dense_2` (10 neurons, input from `dense_1` layer):** <MarkdownLatex>{`(50 \\times 10) + 10 = 510`}</MarkdownLatex>
+
+This formula accounts for both the weights (connections between neurons) and biases (one for each neuron). By following this method, we can determine the number of parameters for any dense layer in the model.
+
+Now, let's train the model and evaluate its performance:
+
+<CodeBlock language="python" showLineNumbers>
+{`from tensorflow.keras import optimizers
+
+model.compile(loss="categorical_crossentropy",
+              optimizer=optimizers.Adam(),
+              metrics=["accuracy"])
+
+model.fit(train_images,
+          train_labels,
+          batch_size=32,
+          epochs=20)`}
+</CodeBlock>
+
+At this stage, I assume you are familiar with hyperparameters such as the loss function and optimizer. Since this is a multi-class classification problem, we use `categorical_crossentropy` as our loss function. For optimization, we use the default `Adam` optimizer, which is known for its adaptive learning rate and efficiency.
+
+We train the model for **20 epochs** with a **batch size of 32**:
+
+<div className='flex justify-center'>
+<Image alt="epoch_train" src="/content/blogs/designing-an-image-classifier-model-architecture/data/epoch_train.png" />
+</div>
+
+From the training results, we observe that the model achieves **approximately 50% accuracy** on the training dataset, which is relatively low. To further evaluate its performance, we test it on unseen data using `model.evaluate(test_images, test_labels)`.
+
+<CodeBlock>
+313/313 ━━━━━━━━━━━━━━━━━━━━ 1s 3ms/step - accuracy: 0.4696 - loss: 1.4891
+</CodeBlock>
+
+
+In my case, the model's accuracy on the test dataset is **46.96%**, indicating potential overfitting or a suboptimal model architecture.
+
+At this point, you can experiment with different **architectures, hyperparameters, or preprocessing techniques** to improve performance.
+
+# Convolutional Neural Network (CNN)
+
+Convolution is another broad topic you need to understand to fully grasp why we are using a convolutional neural network. In short, convolution is a technique in which a small filter (called a kernel) slides across an input image, performing a dot product with each local region to extract features like edges or textures. By identifying patterns within the image, convolution essentially creates a new **feature map**.
+
+In TensorFlow Keras, we use the `Conv2D` layer to apply convolutions to an input tensor:
+
+<CodeBlock language="python" showLineNumbers>
+{`from tensorflow.keras import layers
+
+conv_layer = layers.Conv2D(
+    filters=10,
+    kernel_size=(3,3),
+    strides=1,
+    padding="same"
+)`}
+</CodeBlock>
+
+Now, let's build a simple CNN model by adding a convolutional layer before a **Multilayer Perceptron (MLP)**.
+
+<CodeBlock language="python" showLineNumbers>
+{`cnn_model = models.Sequential([
+    layers.Input(shape=(32, 32, 3)),
+    layers.Conv2D(
+        filters=32,
+        kernel_size=(3,3),
+        strides=1,
+        padding="same",
+        activation="relu"
+    ),
+    layers.Flatten(),
+    layers.Dense(units=100, activation="relu"),
+    layers.Dense(units=50, activation="relu"),
+    layers.Dense(units=10, activation="softmax"),
+])`}
+</CodeBlock>
+
+You can also check the model's summary by running `cnn_model.summary()`. Now let's compile and run the model.
+
+<CodeBlock language="python" showLineNumbers>
+{`cnn_model.compile(loss="categorical_crossentropy",
+              optimizer=optimizers.Adam(),
+              metrics=["accuracy"])
+
+cnn_model.fit(train_images,
+          train_labels,
+          batch_size=32,
+          epochs=20)`}
+</CodeBlock>
+
+After training, we evaluate the model on test data by running `cnn_model.evaluate(test_images, test_labels)`, where the testing accuracy achieved is **59.11% (0.5911)**. This indicates an improvement, but we will continue refining our model in future experiments.
+
+<Callout variant="info" title="Note">
+Testing accuracy is the key metric to measure how well our model generalizes to unseen data.
+</Callout>
+
+One other thing we can do is stack multiple `CNN` layers together. Let's add another `CNN` layer and see if the model improves.
+
+<CodeBlock language="python" showLineNumbers>
+{`cnn_model_2_layer = models.Sequential([
+      layers.Input(shape=(32, 32, 3)),
+
+      # First convolutional layer
+      layers.Conv2D(filters=32,
+          kernel_size=(3, 3),
+          strides=1,
+          padding="same",
+          activation="relu"),
+
+      # Second convolutional layer
+      layers.Conv2D(filters=32,
+          kernel_size=(3, 3),
+          strides=1,
+          padding="same",
+          activation="relu"),
+
+      # Flatten and fully connected layers
+      layers.Flatten(),
+      layers.Dense(units=100, activation="relu"),
+      layers.Dense(units=50, activation="relu"),
+      layers.Dense(units=10, activation="softmax"),
+  ])
+
+  cnn_model_2_layer.summary()
+
+  cnn_model_2_layer.compile(
+      loss="categorical_crossentropy",
+      optimizer=optimizers.Adam(),
+      metrics=["accuracy"]
+  )
+
+  cnn_model_2_layer.fit(train_images, train_labels, batch_size=32, epochs=20)
+
+  cnn_model_2_layer.evaluate(test_images, test_labels)`}
+</CodeBlock>
+
+Our model has improved, achieving an accuracy of **61.07%**, but not significantly. Another important observation is that the training accuracy continues to increase, reaching almost perfect scores (**98.27%**). This indicates a problem: rather than learning meaningful features, the model is simply memorizing the training data, which means our model is **overfitting**.
+
+To mitigate this problem, we can introduce a `pooling` layer.
+
+# CNN with Pooling Layer
+
+## What is a Pooling Layer?
+
+The pooling layer in a CNN is used to reduce the spatial dimensions (width and height) of the input **feature maps** (the output of a conv layer, a matrix) while retaining important information. This helps in:
+
+- Reducing computation
+- Controlling overfitting
+- Making the model invariant to small transformations in the input
+
+Now, let's explore the **different types of pooling** with a simple example.
+
+### Example: A Simple 4x4 Feature Map
+
+Suppose we have a **4x4 matrix (feature map)** after a convolution operation:
+
+<MarkdownLatex block={true}>
+{`\\begin{bmatrix}
+1 & 2 & 3 & 4 \\\\
+5 & 6 & 7 & 8 \\\\
+9 & 10 & 11 & 12 \\\\
+13 & 14 & 15 & 16
+\\end{bmatrix}`}
+</MarkdownLatex>
+
+Now, let's apply different types of pooling.
+
+## Max Pooling
+
+In **Max Pooling**, we take the **maximum value** from each window (sub-region). Let's apply a **2x2 filter** with a **stride of 2** (moving 2 steps each time).
+
+### Step-by-step Max Pooling:
+
+<MarkdownTable>
+{`
+| Region           | Max Value |
+| ---------------- | --------- |
+| (1, 2, 5, 6)     | **6**     |
+| (3, 4, 7, 8)     | **8**     |
+| (9, 10, 13, 14)  | **14**    |
+| (11, 12, 15, 16) | **16**    |
+`}
+</MarkdownTable>
+
+#### Final Max-Pooled Output:
+
+<MarkdownLatex block={true}>
+{`\\begin{bmatrix}
+6 & 8 \\\\
+14 & 16
+\\end{bmatrix}`}
+</MarkdownLatex>
+
+**Why use Max Pooling?**
+
+- It keeps the most prominent features.
+- It helps in selecting the strongest edges or textures.
+
+## Average Pooling
+
+Instead of taking the max value, **Average Pooling** takes the **average** of all values in each window.
+
+### Step-by-step Average Pooling:
+
+<MarkdownTable>
+{`
+| Region           | Average Value |
+| ---------------- | ------------- |
+| (1, 2, 5, 6)     | **3.5**       |
+| (3, 4, 7, 8)     | **5.5**       |
+| (9, 10, 13, 14)  | **11.5**      |
+| (11, 12, 15, 16) | **13.5**      |
+`}
+</MarkdownTable>
+
+#### Final Average-Pooled Output:
+
+<MarkdownLatex block={true}>
+{`\\begin{bmatrix}
+3.5 & 5.5 \\\\
+11.5 & 13.5
+\\end{bmatrix}`}
+</MarkdownLatex>
+
+**Why use Average Pooling?**
+
+- It smooths out the feature maps.
+- It keeps more spatial information than max pooling.
+
+## Global Pooling (Global Max or Global Average Pooling)
+
+Instead of using a small window, **Global Pooling** applies pooling over the entire feature map.
+
+- **Global Max Pooling:** Takes the maximum value from the entire feature map.
+  - **Output:** **16** (since 16 is the max value)
+- **Global Average Pooling:** Takes the average of all values in the feature map.
+  - **Output:** **(sum of all values) / total elements**
+  - <MarkdownLatex>{`(1+2+3+4+5+6+7+8+9+10+11+12+13+14+15+16) / 16 = 8.5`}</MarkdownLatex>
+
+**Why use Global Pooling?**
+
+- It converts the entire feature map into a single value per channel.
+- It is often used at the end of CNNs before classification.
+
+### When to Use Which Pooling?
+
+<MarkdownTable>
+{`
+| Type of Pooling     | Pros                                   | Cons                             |
+| ------------------- | -------------------------------------- | -------------------------------- |
+| **Max Pooling**     | Keeps dominant features, reduces size  | May lose less intense features   |
+| **Average Pooling** | Retains more information               | Less emphasis on strong features |
+| **Global Pooling**  | Reduces feature maps to a single value | May lose spatial details         |
+`}
+</MarkdownTable>
+
+Max pooling is the most commonly used in CNNs since it captures the most important features effectively.
+
+In our case, let's add a `MaxPooling` layer and see what happens.
+
+<CodeBlock language="python" showLineNumbers>
+{`cnn_with_pooling = models.Sequential([
+    layers.Input(shape=(32, 32, 3)),
+
+    # First convolutional block
+    layers.Conv2D(filters=32,
+        kernel_size=(3, 3),
+        strides=1,
+        padding="same",
+        activation="relu"),
+    layers.MaxPooling2D(pool_size=(2, 2)),  # Added first pooling layer (MaxPooling)
+
+    # Second convolutional block
+    layers.Conv2D(filters=32,
+        kernel_size=(3, 3),
+        strides=1,
+        padding="same",
+        activation="relu"),
+    layers.MaxPooling2D(pool_size=(2, 2)),  # Added second pooling layer (MaxPooling)
+
+    # Flatten and fully connected layers
+    layers.Flatten(),
+    layers.Dense(units=100, activation="relu"),
+    layers.Dense(units=50, activation="relu"),
+    layers.Dense(units=10, activation="softmax"),
+])`}
+</CodeBlock>
+
+If we run the `cnn_with_pooling` model exactly as before, we find that the training accuracy has decreased to **0.9083**, while the testing accuracy has increased to **0.6794** (your results may vary slightly). This is a positive outcome, as it suggests better generalization.
+
+<Callout variant="info" title="Note">
+As there is room for improvement in `training`, increasing the total number of epochs could further improve the model's accuracy.
+</Callout>
+
+# CNN with Dropout Layer
+
+To further address the overfitting problem, we can also introduce a **dropout layer**. Dropout works by randomly disabling a fraction of neurons during training, preventing the network from relying too heavily on specific neurons. This encourages the model to learn more robust and generalized features.
+
+<CodeBlock language="python" showLineNumbers>
+{`cnn_with_pooling_dropout = models.Sequential([
+    layers.Input(shape=(32, 32, 3)),
+
+    # First convolutional block
+    layers.Conv2D(filters=32,
+        kernel_size=(3, 3),
+        strides=1,
+        padding="same",
+        activation="relu"),
+    layers.MaxPooling2D(pool_size=(2, 2)),  # Added first pooling layer (MaxPooling)
+    layers.Dropout(rate=0.3),  # Dropout added after pooling
+
+    # Second convolutional block
+    layers.Conv2D(filters=32,
+        kernel_size=(3, 3),
+        strides=1,
+        padding="same",
+        activation="relu"),
+    layers.MaxPooling2D(pool_size=(2, 2)),  # Added second pooling layer (MaxPooling)
+    layers.Dropout(rate=0.3),  # Dropout added after pooling
+
+    # Flatten and fully connected layers
+    layers.Flatten(),
+    layers.Dense(units=100, activation="relu"),
+    layers.Dense(units=50, activation="relu"),
+    layers.Dense(units=10, activation="softmax"),
+])`}
+</CodeBlock>
+
+In this model, we have introduced a `Dropout(rate=0.3)` which randomly disables **30%** of the neurons after each convolutional layer. Running this model, we observe a reduction in training accuracy. In my case, after **20 epochs**, the training accuracy was **0.7655**, while the testing accuracy improved to **0.7211**. This is great because both training and testing accuracy are increasing proportionally, indicating reduced overfitting. Additionally, running the model for more epochs may further improve the testing accuracy.
+
+You can also apply dropout to the **fully connected layers**. Experimenting with different **dropout rates and positions** can help you understand how these changes affect model performance. Try adjusting these parameters and observe how the model behaves to find the optimal configuration.
+
+# CNN with Batch Normalization Layer
+
+We don't actually need a **Batch Normalization** layer for our example, but it's still worth exploring because it plays a crucial role when working with large datasets.
+
+### What is Batch Normalization?
+
+Batch Normalization (BN) is a technique used in deep learning to make training faster and more stable. It does this by normalizing the outputs of each layer, ensuring they have a steady distribution. This helps in:
+
+- **Speeding up learning**
+- **Making training more stable**
+- **Reducing the effect of bad weight initialization**
+- **Preventing drastic changes in data distribution**
+
+### Why Do We Need Batch Normalization?
+
+In deep learning, when the network updates its weights, the distribution of inputs to each layer can change. This makes training slow and unstable. **Batch Normalization helps by keeping the data in a fixed range** so the network can learn efficiently.
+
+Think of it like a classroom: If a teacher changes the grading scale every week, students would struggle to understand their progress. But if the scale stays the same, it's easier to track improvements. BN ensures the "grading scale" for data remains stable throughout training.
+
+Although we don't need batch normalization in our example, let's still implement it.
+
+## How Does Batch Normalization Work? (With Example)
+
+Let's say we have a small batch of numbers:
+
+<MarkdownLatex block={true}>
+{`[10, 20, 30, 40, 50]`}
+</MarkdownLatex>
+
+
+### Step 1: Compute the Mean and Variance
+
+- **Mean (Average):**
+  <MarkdownLatex>{`\\mu_B = \\frac{10 + 20 + 30 + 40 + 50}{5} = 30`}</MarkdownLatex>
+- **Variance (Spread of Values):**
+  <MarkdownLatex>{`\\sigma_B^2 = \\frac{(10-30)^2 + (20-30)^2 + (30-30)^2 + (40-30)^2 + (50-30)^2}{5} = 200`}</MarkdownLatex>
+
+### Step 2: Normalize the Values
+
+To make the values easier to process, we subtract the mean and divide by the standard deviation:
+
+<MarkdownLatex>{`\\hat{x}_i = \\frac{x_i - \\mu_B}{\\sqrt{\\sigma_B^2 + \\epsilon}}`}</MarkdownLatex>
+
+For example:
+
+- **For 10:** <MarkdownLatex>{`\\frac{10 - 30}{\\sqrt{200}} = -1.41`}</MarkdownLatex>
+- **For 20:** <MarkdownLatex>{`\\frac{20 - 30}{\\sqrt{200}} = -0.71`}</MarkdownLatex>
+- **For 30:** <MarkdownLatex>{`\\frac{30 - 30}{\\sqrt{200}} = 0`}</MarkdownLatex>
+- **For 40:** <MarkdownLatex>{`\\frac{40 - 30}{\\sqrt{200}} = 0.71`}</MarkdownLatex>
+- **For 50:** <MarkdownLatex>{`\\frac{50 - 30}{\\sqrt{200}} = 1.41`}</MarkdownLatex>
+
+Now, the values are adjusted to be around 0, which helps learning!
+
+### Step 3: Scale and Shift (Learnable Parameters)
+
+Batch Normalization introduces two parameters: **gamma (<MarkdownLatex>{`\\gamma`}</MarkdownLatex>) and beta (<MarkdownLatex>{`\\beta`}</MarkdownLatex>)**, which adjust the data after normalization:
+
+<MarkdownLatex>{`y_i = \\gamma \\hat{x}_i + \\beta`}</MarkdownLatex>
+
+This allows the model to adjust values to the best scale and shift for learning.
+
+## Where Do We Apply Batch Normalization?
+
+BN is usually applied **before or after activation functions**. The typical order is:
+
+1. **Apply Linear Transformation:** <MarkdownLatex>{`z = Wx + b`}</MarkdownLatex>
+2. **Apply Batch Normalization**
+3. **Apply Activation Function (ReLU, Sigmoid, etc.)**
+
+#### Standard convention:
+
+<CodeBlock>
+{`Layer -> Batch Normalization -> Activation Function -> Next Layer`}
+</CodeBlock>
+
+
+## Advantages of Batch Normalization
+<MarkdownTable>
+{`
+| Advantage                    | Why It's Useful                                                           |
+| ---------------------------- | ------------------------------------------------------------------------- |
+| **Faster Training**          | Reduces the need for careful weight initialization, speeding up learning. |
+| **More Stable Training**     | Keeps the network's activations in a consistent range.                    |
+| **Better Generalization**    | Acts like regularization and prevents overfitting.                        |
+| **Less Reliance on Dropout** | Can reduce the need for dropout to prevent overfitting.                   |
+`}
+</MarkdownTable>
+Batch Normalization helps neural networks learn **faster, more reliably, and with better generalization**. By normalizing data within mini-batches, it ensures stable activations and reduces internal covariate shift.
+
+<CodeBlock language="python" showLineNumbers>
+{`cnn_with_all = models.Sequential([
+      layers.Input(shape=(32, 32, 3)),
+
+      # First convolutional block
+      layers.Conv2D(filters=32,
+          kernel_size=(3, 3),
+          strides=1,
+          padding="same"),
+      layers.BatchNormalization(),  # Batch Normalization added
+      layers.Activation("relu"),    # Activation after BN
+      layers.MaxPooling2D(pool_size=(2, 2)),  # Pooling layer
+      layers.Dropout(rate=0.3),  # Dropout layer
+
+      # Second convolutional block
+      layers.Conv2D(filters=32,
+          kernel_size=(3, 3),
+          strides=1,
+          padding="same",
+          activation="relu"),
+      layers.BatchNormalization(),  # Batch Normalization added
+      layers.Activation("relu"),    # Activation after BN
+      layers.MaxPooling2D(pool_size=(2, 2)),  # Pooling layer
+      layers.Dropout(rate=0.3),  # Dropout layer
+
+      # Flatten and fully connected layers
+      layers.Flatten(),
+      layers.Dense(units=100),
+      layers.BatchNormalization(),  # Batch Normalization added
+      layers.Activation("relu"),    # Activation after BN
+      layers.Dropout(rate=0.3),  # Dropout layer
+      layers.Dense(units=50),
+      layers.BatchNormalization(),  # Batch Normalization added
+      layers.Activation("relu"),    # Activation after BN
+      layers.Dense(units=10, activation="softmax"),
+  ])`}
+</CodeBlock>
+
+As mentioned earlier, we don't need **Batch Normalization** in our example. If you run the model with **Batch Normalization**, you'll notice little to no change in training and testing accuracy. However, for demonstration purposes, I have added both the `BatchNormalization()` and `Dropout()` layers to show that we can also modify the **fully connected layers**. This highlights how these layers can be incorporated into different parts of the network to potentially improve performance.
+
+The provided architecture is not the most efficient, and there are several ways to optimize it. For example, the number of filters in each `Conv2D` block should be tailored to the specific task. To keep this example simple, I have used the same number of filters for all `Conv2D` layers, but in practice, adjusting the filters can improve performance. Similarly, there are many other ways to design a model based on your specific needs, such as adjusting layer configurations, adding skip connections, or experimenting with different activation functions.
+
+# Sum-up
+
+There is no exact formula for building an image classification model or any AI model for that matter. Achieving a robust and high-performing model requires **experimenting with different architectures and tuning hyperparameters** to find the best configuration for your specific dataset.
+
+In this blog, we explored various fundamental layers used in deep learning:
+
+- **Fully Connected Layers**: `layers.Dense(...)` – The standard dense layer used for classification and feature learning.
+- **Flatten Layer**: `layers.Flatten()` – Converts multi-dimensional feature maps into a 1D vector for the fully connected layers.
+- **Convolutional Layers**: `layers.Conv2D(...)` – Extracts spatial features from images by applying learnable filters.
+- **MaxPooling Layers**: `layers.MaxPooling2D(...)` – Reduces spatial dimensions and computational complexity while retaining important features.
+- **Dropout Layers**: `layers.Dropout(...)` – Prevents overfitting by randomly deactivating a fraction of neurons during training.
+- **Batch Normalization Layers**: `layers.BatchNormalization()` – Normalizes activations to stabilize training and improve convergence.
+
+Each of these layers has variations that can be used to improve model performance:
+
+- **Convolutional Layers Variations:**
+  - `Conv1D(...)` – Used for sequential data like time-series or text.
+  - `Conv3D(...)` – Used for 3D image data, such as medical imaging.
+  - `SeparableConv2D(...)` – A depthwise-separable convolution that reduces computational cost.
+- **Pooling Layers Variations:**
+  - `AveragePooling2D(...)` – Computes the average of a region instead of the max value, useful for certain tasks.
+  - `GlobalMaxPooling2D(...)` – Reduces the entire feature map to a single value per filter, useful before fully connected layers.
+- **Dropout Variations:**
+  - **Different dropout rates** – Higher values (e.g., `Dropout(0.5)`) prevent overfitting, while lower values (e.g., `Dropout(0.1)`) provide mild regularization.
+- **Batch Normalization Placement:**
+  - Applied **before activation** (common in modern architectures).
+  - Applied **after activation** (used in older models).
+
+Using these foundational layers, we can construct more advanced architectures:
+
+- **Residual Blocks (ResNet-inspired)**: Built using `Conv2D`, `BatchNormalization`, `ReLU`, and an `Add` layer to enable skip connections. This technique helps in training deep networks by mitigating the vanishing gradient problem.
+- **Attention Blocks**: Can be built using `Dense` and `Pooling` layers along with matrix operations, which focus on important regions in an image. This concept is widely used in **Vision Transformers (ViTs) and Attention Mechanisms**.
+
+By combining these techniques, you can design more **efficient and powerful** deep learning models tailored to your specific problem. Experimenting with different architectures and hyperparameters will help you find the best approach for your dataset.

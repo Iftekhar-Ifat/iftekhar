@@ -1,65 +1,59 @@
-import { sanityFetch, urlFor } from "@/lib/sanityClient";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import { getProjectBySlug } from "@/lib/mdx";
+import { getMDXComponents } from "../../../../mdx-components";
+import MaxWidthWrapper from "@/components/max-width-wrapper";
 import { notFound } from "next/navigation";
-import { SanityImageSource } from "@sanity/image-url/lib/types/types";
+import { MarkdownTable } from "@/components/mdx/markdown-table";
+import Image from "next/image";
 import { Metadata } from "next";
-import { Fira_Sans } from "next/font/google";
-import { cn } from "@/lib/utils";
-import { PortableText } from "@portabletext/react";
-import ProjectHeader from "@/components/ProjectComponents/ProjectHeader";
-import TechStack from "@/components/ProjectComponents/TechStack";
-import { getProject } from "@/lib/sanityQuery";
-import { portableTextComponents } from "@/components/PortableTextComponent";
+import { MarkdownLatex } from "@/components/mdx/markdown-latex";
+import TechStackBadge from "@/components/shared/tech-stack-badge";
+import { Button } from "@/components/ui/button";
+import { Link } from "lucide-react";
+import { TechIcons } from "@/components/shared/tech-icons";
 
-const fira_sans = Fira_Sans({
-  subsets: ["latin"],
-  weight: "400",
-});
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
-type ProjectDataType = {
-  _id: string;
-  _createdAt: string;
-  title: string;
-  description: string;
-  mainImage: SanityImageSource;
-  githubLink: string;
-  liveLink: string;
-  slug: { current: string; _type: string };
-  body: any;
-  techStack: any;
+const linksIconMap = {
+  github: <TechIcons item="github" />,
+  live: <Link />,
 };
-
-async function getProjectData(slug: string): Promise<ProjectDataType> {
-  const data: ProjectDataType = await sanityFetch({
-    query: getProject,
-    tags: [`${slug}`],
-    qParams: { slug: slug },
-  });
-  return data;
-}
 
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const projectData = await getProjectData(params.slug);
-  if (!projectData) {
+  const { slug } = await params;
+  const project = await getProjectBySlug(slug);
+
+  if (!project) {
     return {
       title: "Page not found!",
       description: "The page you are looking for does not exists.",
     };
   }
-  const currentUrl = "/projects/" + projectData.slug.current;
-  const metaImg = urlFor(projectData.mainImage).url();
+
+  const { metadata } = project;
 
   return {
-    title: projectData.title,
-    description: projectData.description,
+    title: metadata.title,
+    description: metadata.description,
     alternates: {
-      canonical: currentUrl,
+      canonical: `/projects/${metadata.slug}`,
     },
     openGraph: {
-      images: metaImg,
+      title: metadata.title,
+      description: metadata.description,
+      type: "article",
+      url: `${BASE_URL}/projects/${metadata.slug}`,
+      images: [`${BASE_URL}${metadata.thumbnail}`],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: metadata.title,
+      description: metadata.description,
+      images: [`${BASE_URL}${metadata.thumbnail}`],
     },
   };
 }
@@ -67,27 +61,72 @@ export async function generateMetadata({
 export default async function ProjectPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const projectData = await getProjectData(params.slug);
+  const { slug } = await params;
+  const project = await getProjectBySlug(slug);
 
-  if (!projectData) {
+  if (!project) {
     return notFound();
   }
 
+  const { content, metadata } = project;
+  const thumbnailImage = metadata.thumbnail;
+  const mdxComponents = getMDXComponents({
+    TechStackBadge: TechStackBadge,
+    MarkdownTable: MarkdownTable,
+    MarkdownLatex: MarkdownLatex,
+  });
+
   return (
-    <article className={cn("md:px-[16%]", fira_sans.className)}>
-      <ProjectHeader
-        mainImg={projectData.mainImage}
-        title={projectData.title}
-        githubLink={projectData.githubLink}
-        liveLink={projectData.liveLink}
-      />
-      <PortableText
-        value={projectData.body}
-        components={portableTextComponents}
-      />
-      <TechStack techStack={projectData.techStack} />
-    </article>
+    <MaxWidthWrapper>
+      <div className="my-6 md:my-10">
+        <div className="relative w-full h-auto border rounded-xl">
+          <Image
+            src={thumbnailImage}
+            alt="Blog thumbnail"
+            width={1200}
+            height={630}
+            className="w-full h-auto rounded-xl object-contain"
+          />
+        </div>
+        <div className="flex justify-between items-center">
+          <h1 className="scroll-m-20 my-4 text-3xl font-extrabold tracking-tight text-balance">
+            {metadata.title}
+          </h1>
+          <div className="space-x-2">
+            {metadata.links.map((link, index) => (
+              <Button
+                key={`${link.type}-${index}`}
+                variant="outline"
+                size="icon"
+                asChild
+              >
+                <a href={link.url} target="_blank" rel="noopener">
+                  {linksIconMap[link.type]}
+                </a>
+              </Button>
+            ))}
+          </div>
+        </div>
+
+        <div className="bg-card text-card-foreground flex flex-col gap-6 rounded-md border p-4">
+          <div className="flex gap-2 items-center flex-wrap max-w-full">
+            <span className="font-mono whitespace-nowrap">Techstack:</span>
+            {metadata.techstack?.map((stack) => (
+              <TechStackBadge
+                key={stack.title}
+                title={stack.title}
+                icon={stack.icon}
+              />
+            ))}
+          </div>
+        </div>
+
+        <article className="prose-ui !bg-background !text-primary">
+          <MDXRemote source={content} components={mdxComponents} />
+        </article>
+      </div>
+    </MaxWidthWrapper>
   );
 }

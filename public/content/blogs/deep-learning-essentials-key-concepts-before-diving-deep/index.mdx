@@ -1,0 +1,195 @@
+---
+title: "Deep Learning Essentials : Key Concepts Before Diving Deep"
+description: "This blog post serves as a comprehensive introduction to the fundamental concepts of Deep Learning. It delves into the building blocks of neural networks, explains the inner workings of forward pass and backpropagation, and explores various techniques for optimizing and fine-tuning your models."
+publishedAt: "2024-02-17"
+thumbnail: "/content/blogs/deep-learning-essentials-key-concepts-before-diving-deep/data/thumbnail.png"
+isPublished: true
+featured: true
+---
+
+Deep Learning is a vast field, and covering every topic in a single blog post is impossible. The main premise of this blog is to introduce you to the key concepts of Deep Learning. This blog will cover most of the essential concepts you need to familiarize yourself with when starting with Deep Learning. One thing to keep in mind: this blog will not go in-depth into these topics. Consider it a checklist to familiarize yourself with key Deep Learning concepts as you begin your journey. I also encourage you to delve deeper into the **bold keywords** throughout the blog.
+
+This blog assumes you are familiar with general Machine Learning concepts, so topics such as different types of learning (supervised, unsupervised), ground truth, features, targets, classification, and regression will not be discussed. This blog will only focus on Deep Learning concepts.
+
+# Mathematics
+
+## Linear Algebra
+
+- **Vectors and matrices:** Understanding operations such as addition, multiplication, and transpose.
+- **Matrix multiplication:** Including dot product, Hadamard product, and matrix-vector multiplication.
+- **Determinants and inverses.**
+- **Eigenvalues and eigenvectors.**
+- **Singular Value Decomposition (SVD)** and its applications.
+
+## Calculus
+
+- **Differentiation and integration:** Knowing how to compute derivatives and integrals.
+- **Chain rule and partial derivatives:** Crucial for understanding backpropagation, a fundamental algorithm in deep learning.
+
+## Probability and Statistics
+
+- **Probability distributions:** Understanding concepts like Gaussian (normal), Bernoulli, binomial, and multinomial distributions.
+- Expected value, variance, and standard deviation.
+- Bayes' theorem and conditional probability.
+- Maximum Likelihood Estimation (MLE).
+- **Statistical inference:** Hypothesis testing, confidence intervals, and p-values.
+
+# Neural Network Structure
+
+## Neuron
+
+A neuron in deep learning is the fundamental building block of a neural network. You can consider it a function that takes input and, after performing some operations, outputs a result. By combining multiple neurons, we build **neural networks**.
+
+## Perceptron
+
+A perceptron is a single neuron that takes one or more inputs and, after performing some operations, produces an output.
+
+![neuron & perceptron.png](/content/blogs/deep-learning-essentials-key-concepts-before-diving-deep/data/neuron_perceptron.png)
+
+## Input
+
+The data you provide to your neuron, perceptron, or neural network. Usually denoted by <MarkdownLatex>{`x_1, x_2, \\dots, x_n`}</MarkdownLatex>. The first layer of a neural network is called the input layer, which contains only the inputs of the network.
+
+## Weights
+
+Weights are associated with the input of a neuron and determine how impactful that input is. For example, if the first input <MarkdownLatex>{`x_1`}</MarkdownLatex> is 2 and <MarkdownLatex>{`x_2`}</MarkdownLatex> is 4, and their respective weights are <MarkdownLatex>{`w_1 = 3`}</MarkdownLatex> and <MarkdownLatex>{`w_2 = 1`}</MarkdownLatex>, then:
+
+<MarkdownLatex block={true}>
+{`
+x_1 \\times w_1 = 2 \\times 3 = 6 \\\\
+x_2 \\times w_2 = 4 \\times 1 = 4
+`}
+</MarkdownLatex>
+
+
+This means the first input <MarkdownLatex>{`x_1`}</MarkdownLatex> is more impactful than <MarkdownLatex>{`x_2`}</MarkdownLatex>.
+
+![weight & input.png](/content/blogs/deep-learning-essentials-key-concepts-before-diving-deep/data/weight_input.png)
+
+## Layers
+
+A layer consists of multiple neurons:
+
+-   **Input Layer**: The input layer is the first layer of a neural network, containing the network's initial data.
+-   **Hidden Layer**: The hidden layer is an intermediate layer between the input and output layers.
+-   **Output Layer**: The output layer produces the final result of the neural network.
+
+## Bias
+
+You can think of biases as adjustable knobs that you can tweak according to your needs. Biases are added to the product of the input and weight <MarkdownLatex>{`(x_1 \\times w_1 + b_1)`}</MarkdownLatex>, allowing a neuron to activate even if its inputs are zero. This helps the network learn better and make accurate predictions.
+
+![neural_network.png](/content/blogs/deep-learning-essentials-key-concepts-before-diving-deep/data/neural_network.png)
+
+## Activation Function
+
+An activation function is a mathematical function that determines whether a neuron should be activated or not. It takes information from the previous neuron and applies a mathematical transformation to decide whether to send its signal further. Some of the most commonly used activation functions are:
+
+-   **Sigmoid:** It allows some information to pass through (values between 0 and 1) but not everything.
+-   **Tanh:** Similar to sigmoid, but the output ranges from -1 to 1.
+-   **ReLU:** It allows all positive information to pass through and blocks negative information.
+-   **Leaky ReLU:** Similar to ReLU, but allows a small amount of negative information to pass through.
+-   **Softmax:** Converts any set of numbers into probabilities that always sum to 1.
+
+![activation_function.png](/content/blogs/deep-learning-essentials-key-concepts-before-diving-deep/data/activation_function.png)
+
+# Inner Workings of Neural Networks
+
+## Forward Pass
+
+The forward pass is the process of sending data from the input layer to the output layer. Here are the steps involved in a forward pass:
+
+1.  **Start with the input layer:** This layer receives the initial data you want the network to process.
+2.  **Move to the next layer:** Each neuron in this layer takes the values from the previous layer, multiplies them by their respective weights, and sums them up.
+3.  **Apply an activation function:** This function adds non-linearity to the network, allowing it to learn complex patterns. The output of this function becomes the input for the next layer.
+4.  **Repeat steps 2 and 3:** This process continues through all the hidden layers of the network.
+5.  **Reach the output layer:** The final layer uses the information from the last hidden layer to produce the final prediction or output.
+
+## Backpropagation
+
+Backpropagation is a crucial algorithm for understanding how neural networks learn. It calculates the **gradient** of the **loss function** with respect to the network's weights, enabling the adjustment of weights to minimize the error between the predicted output and the actual target output. Here's how backpropagation works:
+
+### 1. Loss Calculation
+
+After the forward pass, the neural network's output is compared to the actual target values (ground truth) from the training data. This comparison is done using a **loss function**, which quantifies the difference between the predicted output and the actual target values. Here are some commonly used loss functions:
+
+**For Regression Problems:**
+
+-   **Mean Squared Error (MSE)**
+-   **Mean Absolute Error (MAE)**
+
+**For Classification Problems:**
+
+-   **Binary Cross-Entropy (BCE)**
+-   **Categorical Cross-Entropy (CCE)**
+
+### 2. Backpropagation of Errors
+
+Once the loss has been computed, the next step is to propagate this error backward through the network using the backpropagation algorithm. The goal of backpropagation is to calculate the **gradient** of the loss function with respect to each weight and bias in the network. This is achieved by applying the **chain rule** of calculus recursively, starting from the output layer and moving backward through the network.
+
+### 3. Gradient Calculation
+
+As backpropagation progresses backward through the network, the gradients of the loss function with respect to the weights and biases of each layer are computed. These gradients represent the direction and magnitude of the change needed to minimize the error.
+
+### 4. Weight Update
+
+Once the gradients have been calculated, an optimization algorithm is applied to update the network's weights. Common optimization algorithms include **stochastic gradient descent (SGD)** and its variants like **mini-batch gradient descent**, **Adam**, **RMSProp**, **Adagrad**, etc. Each optimizer has its own update rule and **hyperparameters** that influence the training process. The optimizer uses the computed gradients to adjust the weights in a way that reduces the loss function. The **learning rate**, which determines the size of the steps taken during optimization, is an important hyperparameter that affects the convergence and performance of the training process.
+
+### 5. Iteration
+
+After the weights have been updated by the optimizer, steps 1-4 are repeated for multiple iterations or **epochs**. Each iteration consists of a **forward pass**, **loss calculation**, **backpropagation of errors**, and **weight update**. The number of iterations depends on factors such as the complexity of the problem, the size of the dataset, and the convergence criteria defined by the user.
+
+### 6. Evaluation
+
+Periodically during training, the model's performance is evaluated on a separate validation dataset to monitor its progress and prevent **overfitting**. This evaluation helps determine whether the model is generalizing well to unseen data or if adjustments to the training process are necessary.
+
+# Tweaking Neural Networks
+
+## Regularization Techniques
+
+Regularization techniques in deep learning are methods used to prevent **overfitting**. Here are some common regularization techniques:
+
+1.  **L1 and L2 Regularization**:
+    *   L1 regularization (also known as Lasso regularization) shrinks coefficients towards zero, potentially setting some to zero entirely, leading to **sparse models** and **feature selection**.
+    *   L2 regularization (also known as Ridge regularization) penalizes the square of the magnitude of the coefficients, driving them towards zero but not exactly zero. It helps prevent large weights and promotes simpler models. The original text incorrectly stated that L2 promotes 
+
+
+group sparsity, which is more characteristic of group Lasso or other specialized regularization methods.
+
+2.  **Dropout**:
+    *   Dropout is a technique where randomly selected neurons are ignored during training with a certain probability (typically 0.5).
+
+3.  **Batch Normalization**:
+    *   Batch normalization normalizes the activations of each layer to have zero mean and unit variance. It helps stabilize the training process, speeds up convergence, and reduces the sensitivity to the choice of initialization parameters.
+
+4.  **Early Stopping**:
+    *   Early stopping involves monitoring the performance of the model on a validation set during training. Training is terminated when the performance stops improving or starts to deteriorate, preventing the model from overfitting the training data.
+
+5.  **Data Augmentation**:
+    *   Data augmentation involves generating new training samples by applying transformations such as rotation, translation, scaling, and flipping to the existing data. This increases the diversity of the training set and helps the model generalize better to unseen data.
+
+## Hyperparameter Tuning
+
+Hyperparameter tuning is the process of finding the optimal combination of settings that control the learning process of your model, ultimately leading to better performance. Examples of hyperparameters in deep learning include:
+
+-   **Learning Rate**: Controls the step size in optimization, impacting convergence speed and overshooting risk.
+-   **Batch Size**: Specifies the number of training examples processed before updating, affecting convergence and memory usage.
+-   **Number of Layers and Neurons**: Defines complexity, influencing pattern capture and over/underfitting risk.
+-   **Activation Functions**: Transform neuron outputs, crucial for capturing data complexity.
+-   **Regularization Strength**: Controls overfitting prevention, enhancing generalization.
+-   **Optimizer and Parameters**: Determines the parameter update method, impacting convergence and performance.
+
+# Coding Optimization Techniques
+
+## Vectorization
+
+Vectorization in deep learning refers to the technique of performing operations on entire arrays of data simultaneously instead of iterating through individual elements. This significantly improves computational efficiency and simplifies code compared to traditional loop-based approaches. It is crucial in deep learning due to the massive datasets and complex calculations involved.
+
+-   **Example**: Consider adding two vectors <MarkdownLatex>{`[1, 2, 3]`}</MarkdownLatex> and <MarkdownLatex>{`[4, 5, 6]`}</MarkdownLatex>. Instead of looping over each element and adding them individually, vectorization allows us to perform the addition operation directly on the entire arrays, resulting in <MarkdownLatex>{`[5, 7, 9]`}</MarkdownLatex>.
+
+## Broadcasting
+
+Broadcasting is a mechanism that allows arrays of different shapes to be combined in arithmetic operations. It automatically aligns arrays with compatible shapes and dimensions, eliminating the need for explicit copying or reshaping of arrays.
+
+-   **Example**: Consider multiplying a 2D array <MarkdownLatex>{`A`}</MarkdownLatex> of shape <MarkdownLatex>{`(3, 3)`}</MarkdownLatex> by a scalar value <MarkdownLatex>5</MarkdownLatex>. Broadcasting allows the scalar value to be automatically expanded to match the shape of <MarkdownLatex>{`A`}</MarkdownLatex>, resulting in element-wise multiplication between <MarkdownLatex>{`A`}</MarkdownLatex> and the scalar value without the need for explicit duplication or reshaping of the scalar.
+
+While this blog provides an overview and a starting point for deep learning, continuous learning, experimentation, and real-world application are key to mastering deep learning and making impactful advancements in the field.

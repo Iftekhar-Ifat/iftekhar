@@ -1,0 +1,82 @@
+---
+title: "HashTable: One Data Structure To Rule Them All"
+description: "HashTable is one of the most powerful and well-known data-structure. This blog explains how a hashtable operates and how it can perform searches, inserts, and deletions in constant time."
+publishedAt: "2022-11-28"
+thumbnail: "/content/blogs/hashtable-one-data-structure-to-rule-them-all/data/thumbnail.png"
+isPublished: true
+featured: false
+---
+
+## What is a HashTable?
+
+A **HashTable** (or **hash map**) is one of the most powerful and widely used data structures. What makes hash tables so important is their ability to perform **constant-time** (_O(1)_) operations for lookup, insertion, deletion, and update. They store data in **key-value** pairs.
+
+For example, if you want to store students' marks by their student ID, you might organize entries like this:
+
+![Hashtable.jpg](/content/blogs/hashtable-one-data-structure-to-rule-them-all/data/hashtable.jpg)
+
+- **Key**: `Student_Id` (must be **unique**)
+- **Value**: `Marks` (can repeat)
+
+Although keys can be of any type—strings, numbers, or even objects—the key must be **hashable**. To understand this, we first need to explore **hash functions**.
+
+## Hash Function
+
+A **hash function** maps an input key _x_ to an integer within a fixed range (the hash table's size). For example, here's a simple JavaScript implementation that hashes strings to values less than 50:
+
+<CodeBlock language="js" title="Hash Function" showLineNumbers>
+  {`function hashFunction(str) {
+  let sumOfAscii = 0;
+  for (let i = 0; i < str.length; i++) {
+    sumOfAscii += str.charCodeAt(i);
+  }
+  return sumOfAscii % 50;
+}`}
+</CodeBlock>
+
+- `hashFunction("ABC")` → 48
+- `hashFunction("BB")` → 32
+- `hashFunction("abg")` → 48
+
+Here, two different inputs (`"ABC"` and `"abg"`) produce the same hash (48). This situation is called a **hash collision**, which we'll address later.
+
+## Properties of a Good Hash Function
+
+1. **Deterministic**: The same key always produces the same hash.
+2. **Uniform Distribution**: Spreads keys evenly over the table to minimize collisions.
+3. **Fast Computation**: Computes hash values quickly (ideally _O(1)_).
+
+> **Collision Test**: If `h(x) == h(y)`, _x_ and _y_ **might** be equal; but if `h(x) != h(y)`, _x_ and _y_ are **definitely** different.
+
+This property is useful beyond hash tables—for instance, in file integrity checks. Instead of comparing two huge files byte by byte, you compare their small hash values. If the hashes differ, the files aren’t identical. Operating systems use more sophisticated **cryptographic hashes** or **checksums** for this purpose.
+
+### What Makes a Key Hashable?
+
+To remain deterministic, a key's hash value must never change over its lifetime. Therefore, only **immutable** types—like strings or integers—are safe as keys.
+
+## How a HashTable Works
+
+When inserting a `(key, value)` pair, the table:
+
+1. **Computes** `index = hashFunction(key)`.
+2. **Places** the `(key, value)` pair at `table[index]`.
+
+For example, inserting `(101, "Alex")`:
+
+![hashwork.jpg](/content/blogs/hashtable-one-data-structure-to-rule-them-all/data/hashwork.jpg)
+
+- `hashFunction(101)` returns `6`, so we store `(101, "Alex")` at index 6.
+- Looking up the value for key `101` is just `hashFunction(101)` → index 6 → O(1).
+
+But what if two keys hash to the same index? That's a **collision**. Two common strategies to resolve collisions are:
+
+- **Separate Chaining**: At each index, maintain a linked list (or another structure) of all entries hashing to that index.
+- **Open Addressing**: When a collision occurs, probe the table (e.g., linear or quadratic probing) to find the next free slot.
+
+## Time Complexity
+
+With a well-designed hash function and a low **load factor** (ratio of elements to table size), average‑case time complexity for **insert**, **delete**, and **search** is **O(1)**.
+
+![hashcomplexity.jpg](/content/blogs/hashtable-one-data-structure-to-rule-them-all/data/hashcomplexity.jpg)
+
+> Note: Worst-case time can degrade to O(n) if many keys collide, but proper resizing and hashing strategies keep this rare.

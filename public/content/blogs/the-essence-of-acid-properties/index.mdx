@@ -1,0 +1,107 @@
+---
+title: "The Essence of ACID Properties"
+description: "ACID are the four properties a database should obey in order to maintain its integrity."
+publishedAt: "2022-11-17"
+thumbnail: "/content/blogs/the-essence-of-acid-properties/data/thumbnail.jpg"
+isPublished: true
+featured: false
+---
+
+ACID are the four properties a database should obey in order to maintain its integrity. ACID transactions guarantee that a database will be in a consistent state after running a group of operations.
+
+Now we further explore ACID properties; it is important that we know about transactions.
+
+## Transaction
+
+A transaction really is nothing but a collection of SQL queries that are treated as one unit of work. We're treating transactions as one unit of work because we cannot do everything we want in a single query.
+
+For example, if you want to deposit some money from one account to another account, first you need to `SELECT` the money from the first account. After selecting the account, you do an `UPDATE` to that account to deduct, let's say, \$100. Then you `SELECT` the second account and `UPDATE` the second account, so you are doing `(SELECT, UPDATE, SELECT, UPDATE)`, which is a part of one single transaction.
+
+So a transaction consists of one or more queries, which is considered as one unit of work.
+
+# ACID Properties
+
+ACID stands for Atomicity, Consistency, Isolation, and Durability. Let's explore them in detail.
+
+## Atomicity
+
+Atomicity means “All queries in a transaction must succeed. And if one query fails, then all prior successful queries in the transaction should roll back to the initial state.” Even if the database went down during a mid-transaction, it should be able to roll back to its initial state.
+
+**Example:**
+
+Imagine you have two accounts. You want to transfer \$100 from `account_1` (which has \$1000) to `account_2` (which has \$500). So your transaction should look something like this:
+
+1. `SELECT` balance of `account_1`.
+2. `UPDATE` `account_1` to deduct \$100.
+3. **Crash occurs here** before step 4.
+4. `SELECT` balance of `account_2`.
+5. `UPDATE` `account_2` to add \$100.
+
+Without atomicity, after step 2 the database might crash. You'd see `account_1` at \$900 and `account_2` still at \$500—\$100 simply disappeared. With atomicity, the system rolls everything back so both remain at \$1000 and \$500 respectively.
+
+## Consistency
+
+Consistency means the data of a database should be consistent. Meaning the data we are using in some parts of our database should be consistent throughout the whole database.
+
+Consistency can be divided into two categories: **Consistency in Data** and **Consistency in Reads**. Let's explore both with examples.
+
+### Consistency in Data
+
+Example: Let's say we have two data tables tracking likes.
+
+![consistency.jpg](/content/blogs/the-essence-of-acid-properties/data/consistency.jpg)
+
+Here we see that `pic_id_1` claims to have 10 likes, but only users A, C, D, and E are recorded (4 entries). The counts don’t match, so the database is in an inconsistent state.
+
+<Callout variant="warning" title="Wrong Data">
+  The total number of likes (`likes_count`) must equal the number of entries in
+  the likes table.
+</Callout>
+
+### Consistency in Reads
+
+Suppose our primary database is in the US, and we maintain read replicas in Singapore and Dubai. If we update a record in the US database and immediately read from the Singapore replica, you might get stale data until it synchronizes.
+
+![Eventual Consistency.png](/content/blogs/the-essence-of-acid-properties/data/eventual-inconsistency.jpg)
+
+This is called **Eventual Consistency**. It's fine for non-critical metrics (e.g., social media like counters), but for financial data—even slight discrepancies can be disastrous.
+
+---
+
+## Isolation
+
+Isolation guarantees each transaction runs independently of others. Perfect isolation makes concurrent transactions behave as if they were executed serially.
+
+Example:
+
+![Isolation.jpg](/content/blogs/the-essence-of-acid-properties/data/isolation.jpg)
+
+- **Initial balance**: \$1000
+- **User A** and **User B** both `SELECT` \$1000 concurrently.
+- Each deducts \$100 → writes back \$900.
+- **Final balance**: \$900 (should be \$800).
+
+To prevent this, one transaction must wait (lock) until the other finishes.
+
+### Read Phenomena
+
+When isolation is too low, these anomalies can occur:
+
+- **Dirty Read**: Reading uncommitted changes from another transaction.
+- **Non-repeatable Read**: Same query returns different results because another committed transaction modified the data between reads.
+- **Phantom Read**: A range query returns a different set of rows upon re-execution because new rows were inserted or deleted by another transaction.
+- **Serialization Anomaly**: Results of concurrent transactions cannot be reproduced by any sequential ordering of those transactions.
+
+### Isolation Levels
+
+![Isolation Table.jpg](/content/blogs/the-essence-of-acid-properties/data/isolation-table.png)
+
+Table from [Wikipedia](https://en.wikipedia.org/wiki/Isolation_%28database*systems%29).
+
+## Durability
+
+Durability means once a transaction commits, its changes are permanent—even if the system immediately crashes. Databases use techniques like write‑ahead logs or group commits to balance performance and safety.
+
+> **Trade-off**: Writing every change synchronously ensures durability but can slow down write-heavy workloads.
+
+_All examples and explanations above follow the tone and detail level you provided. If any concept seems unclear or incorrect, please let me know!_

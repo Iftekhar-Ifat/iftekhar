@@ -1,0 +1,253 @@
+---
+title: "ভুল পথে REACT শিখছেন না তো?"
+description: "বিভিন্ন টিউটরিয়াল, কোর্স বা বুটক্যাম্পে যেভাবে React শেখানো হয়, সেটার একটি downside হলো সেখানে প্রথমেই একটি build tool যেমন CRA, Vite অথবা even worst কোনো মেটা ফ্রেমওয়ার্ক যেমন NextJS দিয়ে React শেখানো শুরু করা হয়। যা আসলে React কীভাবে কাজ করছে এর উপর বড় একটা abstraction, যার ফলে বিগিনারদের কাছে অনেক জিনিস ই 'ব্ল্যাক বক্স' হিসেবে মনে হয়।"
+publishedAt: "2023-10-05"
+thumbnail: "/content/blogs/learning-react-in-a-wrong-way/data/thumbnail.png"
+isPublished: true
+featured: false
+---
+
+বর্তমানে interactive UI বা SPA এর কথা চিন্তা করলেই আমাদের সবার প্রথম যে library বা framework এর কথা মাথায় আসে সেটা হলো REACT. REACT নিজেকে library হিসেবে দাবি করলে ও বর্তমান REACT eco-system খেয়াল করলে দেখা যায় যে REACT কোনো অংশেই একটি full-fledged framework থেকে কম নয়, আবার react eco-system এর উপর ভিত্তি করে বানানো বিভিন্ন meta-framework যেমন NextJs, Gatsby, Remix ও বেশ জনপ্রিয়।
+
+বিভিন্ন টিউটরিয়াল, কোর্স বা বুটক্যাম্পে যেভাবে React শেখানো হয়, সেটার একটি downside হলো সেখানে প্রথমেই একটি build tool যেমন CRA (nobody uses cra nowadays), Vite অথবা even worst কোনো মেটা ফ্রেমওয়ার্ক যেমন NextJS দিয়ে React শেখানো শুরু করা হয়। যা আসলে React কীভাবে কাজ করছে এর উপর বড় একটা abstraction, যার ফলে বিগিনারদের কাছে অনেক জিনিসই 'ব্ল্যাক বক্স' হিসেবে মনে হয়।
+
+React যে নিজেকে একটি লাইব্রেরি বলছে এর পিছনে একটি কারণ রয়েছে, React at it’s core শুধু UI rendering নিয়ে concerned. বাকি requirement গুলো ডেভেলপার নিজের ইচ্ছা মত integrate করতে পারে। So যখন আমরা কোনো build tool বা meta framework দিয়ে আমাদের react জার্নি শুরু করি তখন অনেক জিনিসই বাই ডিফল্ট দেয়া থাকে যা আমরা কেন ইউজ করছি তা না জেনেই ইউজ করা শুরু করি।
+
+এই blog এ আমি চেষ্টা করব কোন build tool ছাড়াই আমরা কীভাবে react ইউজ করতে পারি এবং progressively কেন একটা build tool প্রয়োজন তা সম্পর্কে কিছুটা হলেও আইডিয়া দেয়ার।
+
+So, শুরুতে আমরা একটা folder এ `index.html` নাম এ একটা file খুলে একটা boilerplate html template নেই। এর পর একটা empty div নিয়ে নিব যার id = “root”, এখানে একটা div নেয়া crucial কারণ আমরা যেকোনো react application যদি dev-tool দিয়ে open করি তাহলে দেখতে পাব যে যেকোনো React Application একটি parent div দিয়ে শুরু হয়, যাকে আমরা react এর mounting point বলতে পারি, মানে এখান থেকেই react এর শুরু (এ নিয়ে details এ জানতে হলে react কীভাবে DOM manipulate করে এটা নিয়ে ঘাঁটাঘাঁটি করতে পারেন )।
+
+এর পর আমরা আমাদের application এ react এড করার জন্য html body তে দুইটা script tag ইউজ করব। ফার্স্ট টা হল react API যার মাধ্যমে আমরা react এর ফাংশন ইউজ করব আর পরের টা হল react-dom যেটা আসলে dom render করবে।
+
+<CodeBlock language="html" showLineNumbers>
+{`<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <!-- Mounting Point of React -->
+        <div id="root"></div>
+
+        <!-- React Scripts -->
+        <script src="https://unpkg.com/react@18.2.0/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+
+        <!-- React Component -->
+        <script src="./src/App.js"></script>
+    </body>
+</html>`}
+</CodeBlock>
+
+React আর ReactDOM এর script এর নিচে আমাদের আরেকটা script tag লাগবে যেটায় আমরা আমাদের ফার্স্ট react component লিখবো কারণ react এর main premise ই হল ও javascript দিয়ে html render করে। একটু লজিকালি একটু চিন্তা করি, আমার কাছে React আছে যা আমাকে কিছু react api দিবে আর আমার কাছে ReactDOM আছে যার মাধ্যমে আমি HTML render করতে পারি। So high-level ওভারভিউ হল আমি React দিয়ে UI বানাবো আর ReactDOM দিয়ে ওইটা render করবো।
+
+<CodeBlock language="html" showLineNumbers>
+{`<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <!-- Mounting Point of React -->
+        <div id="root"></div>
+
+        <!-- React Scripts -->
+        <script src="https://unpkg.com/react@18.2.0/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+
+        <!-- React Component -->
+        <script>
+            const App = () => {
+                return React.createElement("h1", {}, "Hello To React");
+            };
+            const container = document.getElementById("root");
+            const root = ReactDOM.createRoot(container);
+            root.render(React.createElement(App));
+        </script>
+    </body>
+</html>`}
+</CodeBlock>
+
+এখানে App function এ আমরা একটা react element create করলাম, যার ফার্স্ট প্যারামিটার হল, আমি কি ধরনের html render করতে চাই, আমাদের ক্ষেত্রে যা হল একটা “h1” tag. সেকেন্ড প্যারামিটার এ আমার ওই html tag এর কোনো attribute যেমন id বা অন্য কিছু যদি দিতে চাই তাহলে দিতে পারি আর লাস্ট প্যারামিটার টা হল html tag এর ভিতরের content.
+
+আগেই বলা হয়েছে যে “root” div টা হল আমাদের application এর starting পয়েন্ট so আমাদের ReactDOM কে বলে দিতে হবে যে এই “root” div টা হল আমাদের starting পয়েন্ট এবং `root.render` দিয়ে আমাদের বানানো App component টাকে render করতে।
+
+এখন আমরা নতুন একটা folder, for example `src` নেই যার মাঝে App.js নাম এ একটা js file নেই যার মাঝে আমাদের component কে নিয়ে যাই আর আমাদের html এর script tag এ App.js এর source দিয়ে দেই।
+
+<CodeBlock language="html" showLineNumbers>
+{`<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <!-- Mounting Point of React -->
+        <div id="root"></div>
+
+        <!-- React Scripts -->
+        <script src="https://unpkg.com/react@18.2.0/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+
+        <!-- React Component -->
+        <script src="./src/App.js"></script>
+    </body>
+</html>`}
+</CodeBlock>
+
+<CodeBlock language="js" title="src/App.js" showLineNumbers>
+{`const App = () => {
+    return React.createElement("h1", {}, "Hello To React from src");
+};
+const container = document.getElementById("root");
+const root = ReactDOM.createRoot(container);
+root.render(React.createElement(App));`}
+</CodeBlock>
+
+আরেকটা component বানানো যাক। App.js file এ আমরা নতুন একটা User component create করি।
+
+<CodeBlock language="js" title="src/App.js" showLineNumbers>
+{`const User = () => {
+    return React.createElement("div", {}, [
+        React.createElement("h2", {}, "Name: A"),
+        React.createElement("h3", {}, "Id: 123"),
+    ]);
+};
+
+const App = () => {
+    return React.createElement("div", {}, [
+        React.createElement("h1", {}, "Hello React from src"),
+        React.createElement(User),
+    ]);
+};
+
+const container = document.getElementById("root");
+const root = ReactDOM.createRoot(container);
+root.render(React.createElement(App));`}
+</CodeBlock>
+
+এখানে User component একটা div যার ভিতর একটি h2 এবং h3 tag আছে এবং আমাদের App component এ আমরা এইটাকে `React.createElement(User)` দিয়ে কল করছি। এক ই ভাবে আমরা আরও component এড করতে পারি আমাদের react application এ।
+
+এখন দেখা যাক কীভাবে আমরা App থেকে User এ ডাটা pass করতে পারি আর এই ডাটা show করতে পারি।
+
+<CodeBlock language="js" title="src/App.js" showLineNumbers>
+{`const User = (props) => {
+    return React.createElement("div", {}, [
+        React.createElement("h2", {}, \`Name: ${props.name}\`),
+        React.createElement("h3", {}, \`Id: ${props.id}\`),
+    ]);
+};
+
+const App = () => {
+    return React.createElement("div", {}, [
+        React.createElement("h1", {}, "Hello React from src"),
+        React.createElement(User, {
+            name: "A",
+            id: 123,
+        }),
+        React.createElement(User, {
+            name: "B",
+            id: 456,
+        }),
+        React.createElement(User, {
+            name: "C",
+            id: 789,
+        }),
+    ]);
+};
+
+const container = document.getElementById("root");
+const root = ReactDOM.createRoot(container);
+root.render(React.createElement(App));`}
+
+</CodeBlock>
+
+এখানে আমরা তিনটা ইউজার create করলাম আর ইউজার গুলার properties এ ডাটা দিয়ে দিলাম যেটা আমরা User component এ collect করে render করলাম। এখন আমরা চাইলেই multiple components add করতে পারি ওইগুলোর props দিতে পারি এবং render করতে পারি।
+
+একটা জিনিস আমরা খেয়াল করলে দেখতে পারব যে এই approach টা তেমন intuitive না, প্রতিবার আমরা new component create করতে হলে `React.createElement()` call করে এতে html tag দেয়া, properties দেয়া আবার same component call করতে হলেও `React.createElement()` call করা component pass করা… you know what I mean. এখান থেকেই JSX এর শুরু। JSX আমাদের same code ই আরও intuitive way তে লিখতে সাহায্য করে। আর এই JSX code কে transpile করে আমরা বিভিন্ন build tool এর সাহায্য নিয়ে থাকি।
+
+এখন পর্যন্ত আমরা script tag দিয়ে react ইউজ করছিলাম, এখন আমরা react as a package install করে ইউজ করব। So, package install করলে আমাদের অনেক dependency থাকবে ওইগুলা কে manage করতে আমরা একটা package manager, for example, npm ইউজ করতে পারি। So, `npm init -y` দিয়ে আমরা npm add করে নিব আমাদের project এ।
+
+`npm install react react-dom` command দিয়ে আমরা React r ReactDOM install করে ফেলতে পারি যেটা এত সময় আমরা script tag দিয়ে ইউজ করছিলাম। তাহলে এখন র আমাদের script tag এর কোনো দরকার নেই so আমরা script tag দুইটা কেটে দিতে পারি আর যেহেতু আমরা import export ইউজ করব যা হল ES modules তাই আমাদের index.html এ যেখানে App.js এর script tag আছে ওইখানে `type="module"` দিয়ে দিব। এবং App.js এ এসে আমরা React r ReactDOM import করবো।
+
+<CodeBlock language="js" title="src/App.js" showLineNumbers>
+{`import React from "react";
+import ReactDOM from "react-dom";`}
+</CodeBlock>
+
+এখন আসা যাক JSX এ। আমরা সবাই ই জানি browser শুধু javascript ই read করতে পারে, এখন আমরা যদি JSX ইউজ করি এইটা ত আর valid javascript না so browser ও এইটা read করতে পারে না। Build tool আমাদের help করে JSX কে regular JS এ convert করতে যেটা browser বুঝবে ( তবে build tool এছাড়া ও অনেক কাজ করে )।
+
+তাহলে একটা build tool install করা যাক।
+
+`npm install vite@latest` আর `npm install @vitejs/plugin-react@latest` দিয়ে আমরা vite আর vite এর react plugin install করে ফেলি। Vite দিয়ে React ইউজ করার জন্য vite এর ছোটখাটো একটা configuration দরকার হয় এর জন্য আমরা আমাদের project এর root এ `vite.config.js` file খুলে ওইটায়
+
+<CodeBlock language="js" title="vite.config.js" showLineNumbers>
+{`import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+
+export default defineConfig({
+    plugins: [react()],
+});`}
+</CodeBlock>
+
+এই configuration টা দিতে পারি। এইটা জাস্ট ensure করে আমরা vite আর vite এর react plugin ইউজ করতেছি। এখন আমাদের package.json file এ `“dev”: “vite”` নাম এ একটা script এড করি।
+
+<CodeBlock language="json"  showLineNumbers>
+{`"scripts": {
+    "dev": "vite",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }`}
+</CodeBlock>
+
+এখন চেক করা যাক vite কাজ করছে কিনা। Terminal এ গিয়ে `npm run dev` দিলে vite ready লেখা আসবে r localhost এ একটা port show করবে যেটায় আমাদের আগের react code run করছে।
+
+এখন একে একে আমাদের User আর App component কে যদি আমরা JSX এ convert করি তাহলে দেখা যাক কি হয়। User এর জন্য একটা নিউ `User.jsx` file create করে ফেলি (totally optional).
+
+<CodeBlock language="jsx" title="User.jsx" showLineNumbers>
+{`import React from "react";
+
+const User = (props) => {
+    return (
+        <div>
+            <h2>Name: {props.name}</h2>
+            <h3> Id: {props.id}</h3>
+        </div>
+    );
+};
+
+export default User;`}
+</CodeBlock>
+
+`App.js` এখন হয়ে যাবে `App.jsx`. তার সাথে আমাদের `index.html` file এর script এর src তে ও `App.jsx` দিতে হবে কারণ jsx extension থাকলেই vite এই file কে transpile এর সময় consider করবে।
+
+<CodeBlock language="jsx" title="App.jsx" showLineNumbers>
+{`import React from "react";
+import ReactDOM from "react-dom";
+import User from "./User";
+
+const App = () => {
+    return (
+        <div>
+            <h1>Hello React from src</h1>
+            <User name="A" id="123" />
+            <User name="B" id="456" />
+            <User name="C" id="789" />
+        </div>
+    );
+};
+
+const container = document.getElementById("root");
+const root = ReactDOM.createRoot(container);
+
+// Remove React.createElement and use JSX component
+root.render(<App />);`}
+</CodeBlock>
+
+এখন আমরা যদি run করি তাহলে আমরা আমাদের আগের output ই দেখতে পারব। মূলত vite jsx file গুলাকে transpile করে আমাদের আগের লেখা `React.createElement` টাইপ এর er file এ ই convert করে।
+
+আশা করি এই ব্লগ এর মাধ্যমে কিছুটা হলে ও react under the hood কীভাবে কাজ করে + build tool আমরা কেন ইউজ করি বা build tool আসলে কি করে এইটা নিয়ে একটা idea দিতে পারসি।

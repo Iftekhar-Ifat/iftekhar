@@ -1,65 +1,62 @@
 import type { Metadata } from "next";
-import { Fira_Code } from "next/font/google";
-import { Fira_Sans } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import Navbar from "@/components/Navbar/Navbar";
-import Footer from "@/components/Footer";
-import { cn } from "@/lib/utils";
-import { Toaster } from "@/components/ui/sonner";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
 
-export const revalidate = 86400; // revalidate all page after a day
-export const fira_code = Fira_Code({
+const geistSans = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
-  variable: "--font-fira_code",
 });
 
-export const fira_sans = Fira_Sans({
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
-  weight: "400",
-  variable: "--font-fira_sans",
 });
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://iftekhar.vercel.app"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+  ),
   title: {
     default: "Iftekhar",
     template: "%s | Iftekhar",
   },
   description: "Iftekhar's Portfolio",
-  twitter: {
-    card: "summary_large_image",
-  },
   openGraph: {
+    title: "Iftekhar",
+    description: "Iftekhar's Portfolio",
+    type: "profile",
+    images: "./opengraph-image.png",
+  },
+  twitter: {
+    title: "Iftekhar",
+    description: "Iftekhar's Portfolio",
+    card: "summary_large_image",
     images: "./opengraph-image.png",
   },
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
-    <html lang="en" className={`${fira_code.variable} ${fira_sans.variable}`}>
-      <body
-        className={cn(
-          "relative antialiased max-w-screen-2xl flex flex-col md:flex-row lg:mx-auto font-mono"
-        )}
-      >
+    <html
+      lang="en"
+      className={`dark ${geistSans.variable} ${geistMono.variable}`}
+      suppressHydrationWarning
+    >
+      <body className="antialiased">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <main className="flex-auto min-w-0 relative flex flex-col min-h-screen">
+          <main className="relative flex min-h-screen flex-col">
             <Navbar />
-            <div className="flex-grow flex-1 mt-4 mx-[5%] md:mx-[10%]">
-              {children}
-            </div>
+            <div className="flex flex-1 flex-col">{children}</div>
             <Footer />
           </main>
-          <Toaster />
         </ThemeProvider>
-        <Analytics />
-        <SpeedInsights />
       </body>
     </html>
   );

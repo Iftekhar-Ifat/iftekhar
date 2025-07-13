@@ -1,0 +1,68 @@
+---
+title: "Practical Machine Learning: Part - 1"
+description: "The series 'Practical Machine Learning' begins with this article. It covers the essentials needed to get started with machine learning, including the types of ML and basic principles."
+publishedAt: "2023-02-03"
+thumbnail: "/content/blogs/practical-machine-learning-part-1/data/thumbnail.png"
+isPublished: true
+featured: false
+---
+
+# Introduction
+
+Welcome to my "Practical Machine Learning" blog! This blog focuses on providing practical insights for individuals looking to apply machine-learning techniques to solve real-world problems. Rather than focusing on the theoretical part, this blog will focus on the practical aspects of machine learning. This blog will begin with the fundamentals of Machine Learning, so don't worry if you are a beginner. By the end of this blog, you will be able to train a dataset using any Machine learning algorithm. So, join me on this journey as we explore the exciting and ever-evolving world of machine learning.
+
+# What is Machine Learning
+
+Machine Learning is a type of computer program that can learn from data and make predictions or decisions without being explicitly programmed. It is a branch of artificial intelligence that allows machines to learn and improve from experience without being explicitly programmed.
+
+Think of it like a child learning how to identify objects. A child might be shown a picture of a dog and told that it is a dog. The child can then recognize other pictures of dogs and say that they are dogs as well. A Machine Learning algorithm works in a similar way. It is shown a set of data and told what the output should be. From then on, it can use that knowledge to identify similar data and predict the output.
+
+For example, imagine you have a dataset of emails and you want to classify them as spam or not spam. A Machine Learning algorithm can look at the content of the emails and learn what words and phrases are commonly used in spam emails. Then, when a new email comes in, the algorithm can look at the content and predict whether it is spam or not.
+
+In summary, Machine Learning is a way for computers to learn without being explicitly programmed. It uses data to make predictions or decisions and improve over time.
+
+## How does it work
+
+Machine learning models use data to learn how to make predictions or decisions, by analyzing patterns and features in the data and using them to make predictions about new data.
+
+Imagine you run an online clothing store and you want to predict which clothes a customer is most likely to buy based on their browsing history and purchase history.
+
+You would start by collecting data on your customers, such as their browsing history, purchase history, and demographic information. This data would be used to train a machine-learning model.
+
+The model would learn which features of the data, such as the types of clothes the customer has previously bought, the price range of clothes they are interested in, and their age and gender, are most associated with making a purchase.
+
+Once the model is trained, you could use it to predict which clothes a new customer is most likely to buy. For example, if a customer is browsing a lot of hoodies and has previously bought a lot of hoodies in the same price range, the model would predict that they are likely to buy a hoodie.
+
+# Types of Machine Learning
+
+Machine learning is mostly divided into three types based on how it learns.
+
+## 1. Supervised Learning
+
+Supervised learning is a type of machine learning where the model is trained on labeled data, which means that the data has input and output values. The goal of supervised learning is to learn a mapping from the input data to the output values so that the model can make predictions about new, unseen data.
+
+Imagine you want to create a model that can predict the price of a house based on various features such as square footage, number of bedrooms, location, etc.
+
+You would start by collecting data on a large number of houses, including the features of the house and the sale price. This data would be used to train a machine-learning model.
+
+The model would learn which features of the data, such as the square footage, number of bedrooms, and location, are most associated with the sale price of a house. The model uses this information to create a mapping between the input (features) and the output (sale price).
+
+Once the model is trained, you could use it to predict the sale price of a new house based on its features. For example, if a house has 3 bedrooms and 2 bathrooms, and is located in a certain area, the model would predict the sale price of the house.
+
+![supervised-learning](/content/blogs/practical-machine-learning-part-1/data/supervised-learning.png)
+
+## 2. Unsupervised Learning
+
+As you can tell from the name, Unsupervised learning is a type of machine learning where the model is not given any labeled data and instead must find patterns or relationships in the input data on its own.
+
+An example of unsupervised learning would be grouping similar images. Imagine we have a dataset of images, and we want to group them into different categories such as animals, buildings, nature, etc. We can use an unsupervised learning algorithm like **k-means clustering** (which we will cover later on ) to group the images based on their similarity. The algorithm will look at the features of each image, such as color, shape, and texture, and group the images that have similar features together.
+
+![unsupervised-learning](/content/blogs/practical-machine-learning-part-1/data/unsupervised-learning.png)
+
+## 3. Reinforcement Learning
+
+Reinforcement learning is a type of machine learning where an agent learns to make decisions by interacting with an environment and receiving feedback in the form of rewards or penalties. It is based on the idea of an agent taking actions in an environment and receiving rewards or penalties based on those actions, with the goal of maximizing the cumulative reward over time.
+
+An example of reinforcement learning is a computer program learning to play a penalty shootout game. The program is the agent, the game is the environment, and the goal in the game is the reward. The agent takes actions, such as shooting the ball left or right, and receives a reward based on whether the goal happens or not (e.g., +1 point for a goal, -1 point for otherwise). Over time, the agent learns to make decisions that lead to higher scores by adjusting its strategy based on the rewards it receives.
+
+![reinforcement-learning](/content/blogs/practical-machine-learning-part-1/data/reinforcement-learning.png)

@@ -1,67 +1,56 @@
-import { portableTextComponents } from "@/components/PortableTextComponent";
-import { sanityFetch } from "@/lib/sanityClient";
-import { getOngoingResearch, getPublications } from "@/lib/sanityQuery";
-import { PortableText } from "@portabletext/react";
-import React from "react";
-
-type PublicationType = {
-  _id: string;
-  title: string;
-  description: string;
-  liveLink: string;
-  body: any;
-};
+import MaxWidthWrapper from "@/components/max-width-wrapper";
+import { Separator } from "@/components/ui/separator";
+import { getResearchContent } from "@/lib/mdx";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import { notFound } from "next/navigation";
+import { getMDXComponents } from "../../../mdx-components";
+import PublicationType from "@/components/publication-type";
 
 export default async function Research() {
-  const publications: PublicationType[] = await sanityFetch({
-    query: getPublications,
-    tags: ["publications"],
+  const { publications, ongoing } = await getResearchContent();
+
+  if (!publications || !ongoing) {
+    return notFound();
+  }
+
+  const mdxComponents = getMDXComponents({
+    PublicationType: PublicationType,
   });
-  const ongoingResearch: PublicationType[] = await sanityFetch({
-    query: getOngoingResearch,
-    tags: ["ongoing research"],
-  });
+
   return (
-    <div className="mt-8 md:px-[16%]">
-      <div>
-        <span className="glow_text py-1 text-4xl md:text-5xl">
-          Publications
+    <MaxWidthWrapper className="my-4 md:my-8">
+      <div className="flex items-center justify-between pb-4">
+        <span className="font-mono text-2xl font-bold tracking-wide">
+          Research
         </span>
-        {publications?.map((publication: PublicationType) => (
-          <div className="flex flex-col pt-4 pl-6" key={publication._id}>
-            <ul className="list-disc [&>li]:mt-2 marker:text-xl text-lg text-muted-foreground break-words">
-              <li>
-                <PortableText
-                  value={publication.body}
-                  components={portableTextComponents}
-                />
-              </li>
-            </ul>
-          </div>
-        ))}
       </div>
-      <div className="my-8">
-        <div className="pb-3">
-          <span className="glow_text py-1 text-4xl md:text-5xl">
-            Ongoing Research
-          </span>
+      <Separator />
+      <div className="my-4">
+        <div>
+          <div className="flex items-center justify-between">
+            <span className="font-mono text-xl font-medium tracking-wide">
+              Publications
+            </span>
+          </div>
+          <div className="prose-ui !bg-background !text-primary">
+            <MDXRemote
+              source={publications.content}
+              components={mdxComponents}
+            />
+          </div>
         </div>
 
-        {ongoingResearch?.map((research: PublicationType) => (
-          <div className="px-4 my-3 w-full" key={research._id}>
-            <div className="flex flex-col">
-              <span className="w-full mb-[-1em] font-medium center text-xl md:text-2xl">
-                {research.title}
-              </span>
-              <PortableText
-                value={research.body}
-                components={portableTextComponents}
-              />
-            </div>
-            <div className="w-full flex justify-end"></div>
+        <div className="mt-8">
+          <div className="flex items-center justify-between">
+            <span className="font-mono text-xl font-medium tracking-wide">
+              Ongoing
+            </span>
           </div>
-        ))}
+          <div className="prose-ui !bg-background !text-primary">
+            <MDXRemote source={ongoing.content} components={mdxComponents} />
+          </div>
+        </div>
       </div>
-    </div>
+    </MaxWidthWrapper>
   );
 }

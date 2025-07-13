@@ -1,7 +1,7 @@
 ---
 title: "ভুল পথে REACT শিখছেন না তো?"
 description: "বিভিন্ন টিউটরিয়াল, কোর্স বা বুটক্যাম্পে যেভাবে React শেখানো হয়, সেটার একটি downside হলো সেখানে প্রথমেই একটি build tool যেমন CRA, Vite অথবা even worst কোনো মেটা ফ্রেমওয়ার্ক যেমন NextJS দিয়ে React শেখানো শুরু করা হয়। যা আসলে React কীভাবে কাজ করছে এর উপর বড় একটা abstraction, যার ফলে বিগিনারদের কাছে অনেক জিনিস ই 'ব্ল্যাক বক্স' হিসেবে মনে হয়।"
-publishedAt: "2023-09-04"
+publishedAt: "2023-10-05"
 thumbnail: "/content/blogs/learning-react-in-a-wrong-way/data/thumbnail.png"
 isPublished: true
 featured: false
@@ -38,7 +38,6 @@ So, শুরুতে আমরা একটা folder এ `index.html` না�
         <!-- React Component -->
         <script src="./src/App.js"></script>
     </body>
-
 </html>`}
 </CodeBlock>
 
@@ -70,7 +69,6 @@ React আর ReactDOM এর script এর নিচে আমাদের আ�
             root.render(React.createElement(App));
         </script>
     </body>
-
 </html>`}
 </CodeBlock>
 
@@ -99,7 +97,6 @@ React আর ReactDOM এর script এর নিচে আমাদের আ�
         <!-- React Component -->
         <script src="./src/App.js"></script>
     </body>
-
 </html>`}
 </CodeBlock>
 
@@ -132,7 +129,6 @@ const App = () => {
 const container = document.getElementById("root");
 const root = ReactDOM.createRoot(container);
 root.render(React.createElement(App));`}
-
 </CodeBlock>
 
 এখানে User component একটা div যার ভিতর একটি h2 এবং h3 tag আছে এবং আমাদের App component এ আমরা এইটাকে `React.createElement(User)` দিয়ে কল করছি। এক ই ভাবে আমরা আরও component এড করতে পারি আমাদের react application এ।
@@ -180,7 +176,7 @@ root.render(React.createElement(App));`}
 `npm install react react-dom` command দিয়ে আমরা React r ReactDOM install করে ফেলতে পারি যেটা এত সময় আমরা script tag দিয়ে ইউজ করছিলাম। তাহলে এখন র আমাদের script tag এর কোনো দরকার নেই so আমরা script tag দুইটা কেটে দিতে পারি আর যেহেতু আমরা import export ইউজ করব যা হল ES modules তাই আমাদের index.html এ যেখানে App.js এর script tag আছে ওইখানে `type="module"` দিয়ে দিব। এবং App.js এ এসে আমরা React r ReactDOM import করবো।
 
 <CodeBlock language="js" title="src/App.js" showLineNumbers>
-  {`import React from "react";
+{`import React from "react";
 import ReactDOM from "react-dom";`}
 </CodeBlock>
 

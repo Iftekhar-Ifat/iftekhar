@@ -1,0 +1,153 @@
+---
+title: "Best Way to Load Images in Nextjs"
+description: "This blog delves into optimizing image loading in Next.js with a focus on the power of placeholders for layout stability. It covers techniques for the `blur` placeholder in static and dynamic images, using the `plaiceholder` library."
+publishedAt: "2024-01-04"
+thumbnail: "/content/blogs/best-way-to-load-images-in-nextjs/data/thumbnail.png"
+isPublished: true
+featured: false
+---
+
+When I started using NextJs for the first time, I had such a hard time with the Next Image component. However, over time, I came to appreciate the sheer power and convenience it brings to the table. The Next Image component enforces a specific pattern that addresses a significant issue: "the layout shift". It also provides Size Optimization, Responsive Images, Automatic WebP support, Lazy Loading, automatic caching, etc. out of the box. But the most underrated feature of it is 'placeholders', and I think this is the best way to load images for most of the cases.
+
+In this blog, we are going to explore what are some techniques we can use on image placeholders to make our site more snappy and different use cases of placeholders.
+
+# Why Use Image Placeholders?
+
+Image placeholder solves the website layout shift problem. Here is an example of how images can shift the layout of the website
+![layout shift](/content/blogs/best-way-to-load-images-in-nextjs/data/layout-shift.gif)
+Here you can see that the image shifted the layout of the page. However, if we use placeholders it can hold the spot for the images, keeping the layout steady while the actual image loads.
+
+# How to use placeholders inside Next `<Image />`
+
+## Static Images
+
+For static images it is pretty state forward,
+
+<CodeBlock language="jsx" showLineNumbers>
+{`import Image from "next/image";
+  import img from "../../../public/image.jpg";
+
+  export default function Static() {
+    return (
+      <>
+        <Image
+          src={img}
+          alt="with-blur"
+          width={300}
+          height={300}
+          placeholder="blur"
+        />
+      </>
+    );
+  }`}
+</CodeBlock>
+
+As you can see just by adding `placeholder="blur"` we can achieve the blur effect. Here NextJs / Vercel does all the heavy lifting for turning the static image into a blurred image and uses this blurred image as a placeholder. Here `placeholder="blur"` in action.
+![static-gif.gif](/content/blogs/best-way-to-load-images-in-nextjs/data/static-gif.gif)
+This can be used in both server-side rendered and client-side rendered components
+
+But there is a catch. For Next/Image to do its magic, we need to deploy our app in Vercel. Because under the hood it is using Vercel's edge function to turn the image into its base64 blur form.
+
+## Dynamic Images
+
+As you can probably tell using placeholders for dynamic images can be tricky because we don't have an existing image to convert to its blur form. So alongside with placeholder, we need to provide a `blurDataURL`, which should be a base64 form of the image.
+
+To address this we can generate the blur base64 image of the fetched image using a library called [`plaiceholder`](https://plaiceholder.co/docs). `Plaiceholder` is a server-side function for creating low-quality image placeholders. To use `plaiceholder` we need to install `sharp` and `plaiceholder`. Some frameworks include `sharp` by default so check before installing the library. Here is the straightforward code to turn the actual image into its base64 version
+
+<CodeBlock language="ts" showLineNumbers>
+{`import axios from "axios";
+  import { getPlaiceholder } from "plaiceholder";
+
+  async function generateBlurImg(image_url: string) {
+    try {
+      const fetchImgAsBuffer = await axios.get(image_url, {
+        responseType: "arraybuffer",
+      });
+      const { base64 } = await getPlaiceholder(fetchImgAsBuffer.data);
+      return base64;
+    } catch (e) {
+      if (e instanceof Error) console.log(e.stack);
+    }
+  }
+  export default generateBlurImg;`}
+</CodeBlock>
+
+First we need to fetch the image as an [arrayBuffer](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) . Then we pass the data to the `getPlaiceholder` function from the `plaiceholder` library and we get the base64 version of the image.
+
+<CodeBlock language="tsx" showLineNumbers>
+{`import Image from "next/image";
+  import generateBlurImg from "../utils/generateBlurImg";
+
+  export default async function Dynamic() {
+    const img_url = "https://i.ibb.co/WKR52Db/image.jpg";
+    const blurImg = await generateBlurImg(img_url);
+    return (
+      <>
+        <Image
+          src={img_url}
+          alt="with-blur"
+          width={300}
+          height={300}
+          placeholder="blur"
+          blurDataURL={blurImg}
+        />
+      </>
+    );
+  }`}
+</CodeBlock>
+
+Then we pass the blur image to `blurDataURL` here passing the base64 version is necessary.
+
+This code works because we are using server component of NextJs. If the component was client side rendered then it would not work. Because `Plaiceholder` uses `sharp` under the hood which is a server side library.
+
+## Making own custom Blur Image
+
+We can turn any image to its base64 form and store it locally and use it as our blur image data. For example take any image and turn it into base64 version then use it in `blurDataURL` This will also work.
+
+<CodeBlock language="tsx" showLineNumbers>
+{`import Image from "next/image";
+  import blurImgJSON from "../customBase64Img.json";
+
+  export default async function Dynamic() {
+    return (
+      <>
+        <Image
+          src={img_url}
+          alt="with-blur"
+          width={300}
+          height={300}
+          placeholder="blur"
+          blurDataURL={blurImgJSON.blurImgBase64}
+        />
+      </>
+    );
+  }`}
+</CodeBlock>
+
+Here I am storing my blur image's base64 form in a json and loading it from there. Making a generic blur base64 which can be used throughout the application can be useful if you don't want to generate any blur images.
+
+## Lazy 💤
+
+And If you just don't care use a solid background as a placeholder. You can use any gradient also.
+
+<CodeBlock language="tsx" showLineNumbers>
+{`import Image from "next/image";
+  import generateBlurImg from "../utils/generateBlurImg";
+
+  export default async function Dynamic() {
+    const img_url = "https://i.ibb.co/WKR52Db/image.jpg";
+    const blurImg = await generateBlurImg(img_url);
+    return (
+      <>
+        <Image
+          className="bg-slate-200"
+          src={img_url}
+          alt="with-blur"
+          width={300}
+          height={300}
+        />
+      </>
+    );
+  }`}
+</CodeBlock>
+[Source Code](https://github.com/Iftekhar-Ifat/loading-images-nextjs)

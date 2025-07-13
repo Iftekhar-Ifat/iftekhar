@@ -1,0 +1,148 @@
+---
+title: "Making VS-Code Slightly Better"
+description: "This blog covers my own vs-code customization and provides a basic understanding of how to customize your vs-code to your specific need."
+publishedAt: "2023-07-29"
+thumbnail: "/content/blogs/making-vs-code-slightly-better/data/thumbnail.png"
+isPublished: true
+featured: false
+---
+
+Vs code is the most popular and used code editor out there. The reason behind its popularity is that it is free, cross-platform, and has little to no learning curve. In this blog, I'll share my personal vs-code customization. This customization is not just about colors and icons but also about making the editor itself more useful. Learning these customizations will give you a head start in getting to know your code editor better. Since you might be using this tool for the next 2-3 decades, it's a good idea to learn the basics. It will make your life a bit easier.
+
+# My problem with vs-code
+
+My major problem with the vs-code is that it is **SLOW**. Even working on my dumb projects sometimes feels clunky, even though it is using more resources than some of the full-fledged Linux operating systems (because it is **Electron** based). Unfortunately, there's not much we can do about that. I've noticed that using heavy themes and icon packs makes it even slower. So, to make it run better, it's best to stick to a minimal theme and only install the essential extensions.
+
+Editing any installed extension can be frustrating, and to me, UI itself is not very intuitive. Making changes to default settings is also difficult, and overall, customizing the editor to suit your specific needs can be a hassle.
+
+# Removing visual clutter 🎯
+
+## Sidebar
+
+<div className="flex justify-center">
+  <Image
+    alt="sidebar"
+    src="/content/blogs/making-vs-code-slightly-better/data/sidebar.png"
+  />
+</div>
+
+The "Open Editor", "Outline", "Timeline", and "Npm Scripts" tabs have never been necessary for me to use. So I unchecked all of them.
+
+## Editor
+
+![body.png](/content/blogs/making-vs-code-slightly-better/data/body.png)
+
+I think these two also have no use so to remove them press `Ctrl+Shift+p` to open **Open Users Settings (JSON)** and add these two lines to the JSON
+
+```json
+"editor.minimap.enabled": false,
+"breadcrumbs.enabled": false,
+```
+
+# VIM: The Heart ⚡
+
+For those unfamiliar, VIM is a highly efficient text editor that operates entirely through keyboard commands, allowing you to navigate, edit, and manipulate text swiftly. In vs-code, you can also use VIM motion ( set of standard keybindings ) by installing the Vim extension.
+
+With VIM mode enabled, you'll experience a seamless integration of VIM commands within VS Code. You can navigate your code, delete lines, copy, paste, and perform countless other actions without lifting your fingers off the keyboard.
+
+Here are some essential VIM commands that can significantly boost your productivity:
+
+- **`h`**, **`j`**, **`k`**, **`l`**: Navigate left, down, up, and right, respectively.
+- **`yy`**: Copy the current line.
+- **`dd`**: Delete the current line.
+- **`p`**: Paste the copied or deleted text after the current line.
+- **`P`**: Paste the copied or deleted text before the current line.
+- **`u`**: Undo the last action.
+- **`Ctrl+R`**: Redo the last undone action.
+
+These are just a few examples of the numerous VIM commands available. Learning and mastering VIM can take time, but the payoff in terms of speed and efficiency is well worth the effort. The leader key does not work in the Vim extension out of the box, but you can easily configure this. In your **Open Users Settings (JSON)** file add these lines
+
+```json
+"vim.leader": "<space>", // leader key is mapped to space
+
+//Now you can customize your leader key
+"vim.normalModeKeyBindings": [
+		{
+		    "before": ["leader", "h"],
+		    "commands": ["editor.action.showHover"]
+		},
+		{
+		    "before": ["leader", "c", "a"],
+		    "commands": ["editor.action.quickFix"]
+		},
+....
+]
+```
+
+Here is a quick VIM motion [tutorial](https://youtu.be/R2pBWDnfJY8)
+
+# Navigation 🧭
+
+## Terminal Toggling
+
+A shortcut for Toggle between terminal and editor is a must. To set a key to toggle between terminal and editor you can `Ctrl+Shift+p` to open **Open Keyboard Shortcuts (JSON)** and add this line to the JSON
+
+```json
+// You can use whatever key combination you choose.
+{
+    "key": "alt+j",
+    "command": "workbench.action.terminal.toggleTerminal",
+    "when": "terminal.active"
+},
+```
+
+## File Explorer
+
+### Toggling
+
+By adding these two lines into the **Open Keyboard Shortcuts (JSON)** you can toggle between editor and file explorer
+
+```json
+// You can use whatever key combination you choose.
+{
+    "key": "alt+e",
+    "command": "workbench.action.toggleSidebarVisibility"
+},
+{
+    "key": "alt+e",
+    "command": "workbench.files.action.focusFilesExplorer",
+    "when": "editorTextFocus"
+},
+```
+
+### CRUD operation on files and Beyond
+
+By adding the following lines you can add, rename, copy, paste, and delete certain files or folder
+
+```json
+// You can use whatever key combination you choose.
+{
+    "key": "a",
+    "command": "explorer.newFile",
+    "when": "filesExplorerFocus && !inputFocus"
+},
+{
+    "key": "r",
+    "command": "renameFile",
+    "when": "filesExplorerFocus && !inputFocus"
+},
+{
+    "key": "c",
+    "command": "filesExplorer.copy",
+    "when": "filesExplorerFocus && !inputFocus"
+},
+{
+    "key": "p",
+    "command": "filesExplorer.paste",
+    "when": "filesExplorerFocus && !inputFocus"
+},
+{
+    "key": "d",
+    "command": "deleteFile",
+    "when": "filesExplorerFocus && !inputFocus"
+}
+```
+
+![explorer.gif](/content/blogs/making-vs-code-slightly-better/data/explorer.gif)
+
+Also, there are so many shortcuts and tools I use on a daily basis that cannot be covered in a single blog. Like using vs codes fuzzy finder to navigate through files, for project navigation, I use **Project Manager** extension, and so on. I hope this blog gives you a basic idea of how you can customize your vs code by changing user settings and keybindings. Also learning Vim motions was a game-changer for me so I highly recommend learning at least the basic motion of Vim.

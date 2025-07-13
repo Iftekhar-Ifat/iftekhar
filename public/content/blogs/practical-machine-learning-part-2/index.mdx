@@ -66,7 +66,7 @@ Let's see what type of data we have in each column of our data to check the data
 </CodeBlock>
 
 <div className="flex justify-center">
-  <Image src="/content/blogs/practical-machine-learning-part-2/data/datatype.png" />
+  <Image alt="datatype" src="/content/blogs/practical-machine-learning-part-2/data/datatype.png" />
 </div>
 
 Here we can see street, city, state zip, and country are in object type, and the rest of the columns are in some form of numerical type, either **int64** (integer number) or **float64** (decimal number).
@@ -84,7 +84,7 @@ Proper feature encoding is crucial to ensure that the categorical data is repres
 For our example let's separate all the categorical data and turn them into numerical data using Label Encoding.
 
 <CodeBlock language="python" title=" " showLineNumbers>
-  {`# Getting all the columns name where dtype == object
+{`# Getting all the columns name where dtype == object
 cat_cols = [col for col in dataframe.columns if dataframe[col].dtype == "object"]
 
 # Feature Encoding the categorical colums
@@ -93,7 +93,7 @@ label_encoder = LabelEncoder()
 
 # Turns categorical data into numerical data
 for col in cat_cols:
-dataframe[col] = label_encoder.fit_transform(dataframe[col])
+      dataframe[col] = label_encoder.fit_transform(dataframe[col])
 
 dataframe.head(10)`}
 

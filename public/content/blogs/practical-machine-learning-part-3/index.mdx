@@ -1,0 +1,58 @@
+---
+title: "Practical Machine Learning: Part - 3"
+description: "This blog explains dataset division for training/testing to avoid overfitting, and suggests suitable regression models like Linear Regression, Random Forest, or Gradient Boosting for our current dataset."
+publishedAt: "2023-08-18"
+thumbnail: "/content/blogs/practical-machine-learning-part-3/data/thumbnail.png"
+isPublished: true
+featured: false
+---
+
+Before we start training our machine learning model we need to divide the dataset into two parts: training and testing. This involves splitting the dataset in a way that one part is used for training the model, while the other part is used to test its performance.
+
+The process of splitting the dataset into training and testing is essential in machine learning because it allows us to evaluate the performance of our model on unseen data. By using the entire dataset for training, the model may memorize the data, resulting in overfitting.
+
+**Overfitting** means the model is too closely fitted to the training data and may not perform well on new or unseen data. It's like memorizing answers to specific questions for an exam without actually understanding the concepts behind them. If a new question comes up that is not within the scope of what was memorized, the student will not be able to answer it. Similarly, if a model is overfitted on the training data, it may not perform well on new or unseen data. Splitting the dataset into training and testing allows us to test the generalizability of our model and avoid overfitting.
+
+The recommended ratio for this partition is 80:20, where 80% of the data is used for training and the remaining 20% is used for testing.
+
+First, we need to separate our features and the target. In our case, price is our target ( what we want to predict ) and the rest of the dataset is our features. So,
+
+<CodeBlock language="python" showLineNumbers>
+{`# X = feature
+X = dataframe.drop("price", axis=1)    # everything except 'price' column
+
+# y = Target
+y = dataframe["price"] # only 'price' column`}
+</CodeBlock>
+
+Now for the splitting, we will use scikit-learn’s **`train_test_split`** function. The **`train_test_split`** function from scikit-learn is a useful tool for dividing a dataset into separate training and testing sets. This function randomly splits the data into two separate sets, one for training the machine learning model and one for testing the model's performance.
+
+The function takes a few arguments, the most important of which are the **‘X’** and **‘y’** parameters, which represent the dataset features and target variables, respectively. The **`test_size`** parameter determines the proportion of the data to be used for testing, in our case it’s 0.2 because we want to split the dataset into **80/20**. The **`random_state`** parameter sets a seed for the random number generator to ensure that the same split is produced each time the code is run.
+
+<CodeBlock language="python" showLineNumbers>
+{`from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)`}
+
+</CodeBlock>
+
+Now if we run the ‘head()’ function for **X_train, X_test, y_train,** and **y_test** we will see that, ‘X_train’ contains 80% of the features and **‘X_test’** contains the other 20% of the features, where **‘y_train’** contains the 80% of the target corresponding to **‘X_train’** and **‘y_test’** contains 20% of the target corresponding to **‘X_test’**.
+
+# Choosing a Suitable Machine Learning Algorithm for the House Price Dataset
+
+From the dataset, you can already tell that predicting house price prediction is a Supervised Learning problem. Supervised learning models can be broadly categorized into two types based on the nature of the target variable: classification and regression.
+
+1. **Classification Models**: Classification models are used when the target variable is categorical or discrete. They aim to predict the class or category that an instance belongs to. For example, classifying emails as spam or not spam, or predicting whether a customer will churn or not. Classification models include algorithms such as logistic regression, decision trees, random forests, support vector machines (SVM), and neural networks.
+2. **Regression Models**: Regression models are used when the target variable is continuous or numeric. They aim to predict a value or quantity. For example, predicting house prices, forecasting stock prices, or estimating sales revenue. Regression models include algorithms such as linear regression, decision trees, random forests, gradient boosting, support vector regression (SVR), and neural networks.
+
+# Type of Supervised Learning Model for House Price Prediction
+
+In the case of our dataset, the task is to predict the price of houses based on various features. Since the target variable (price) is a continuous variable, the house price prediction task falls under the domain of regression. Therefore, we need to utilize a regression model to accurately estimate house prices. Keep in mind that this is a practical machine-learning blog so this section will give you only a black-box understanding of these algorithms. If you want to dive deep into these algorithms then [Andrew Ng’s machine learning course on Coursera](https://www.coursera.org/learn/machine-learning) can be a great resource. And If you prefer Bangla you can check out [Nafis Nihal’s book on machine learning](https://www.rokomari.com/book/173164/machine-learning-algorithm).
+
+Given the nature of the dataset, the following regression models can be considered for house price prediction:
+
+1. **Linear Regression**: Linear regression is a commonly used regression model that assumes a linear relationship between the input features and the target variable. It finds the best-fitting line that minimizes the sum of squared differences between the predicted and actual house prices. Linear regression can be a suitable choice if the relationships between the features (e.g., number of bedrooms, square footage) and house prices can be approximated by a linear function.
+2. **Random Forest Regression**: Random forest regression is an ensemble learning technique that combines multiple decision trees to make predictions. It can handle non-linear relationships and capture complex interactions between features and house prices. Random forest regression can be effective when the dataset contains multiple features with non-linear relationships and when there is a need to mitigate overfitting.
+3. **Gradient Boosting Regression**: Gradient boosting regression algorithms, such as XGBoost or LightGBM, are powerful models that create a strong predictive model by combining weak prediction models, usually decision trees. They can capture complex relationships and interactions in the dataset and provide high predictive accuracy. Gradient boosting regression is suitable when there are intricate relationships between the features and house prices and when high accuracy is desired.
+
+The size of the dataset, the computational resources available, the interpretability of the model, the complexity of the relationships in the dataset, and other factors all influence the choice of the supervised learning model. It is recommended to experiment with various models, assess their performance using suitable metrics, and choose the model that yields the best predictions for the given house price dataset.

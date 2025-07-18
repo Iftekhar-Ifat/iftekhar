@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "@/components/theme-provider";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
@@ -58,6 +59,7 @@ export default function RootLayout({
           </main>
         </ThemeProvider>
       </body>
+      <Analytics />
     </html>
   );
 }

@@ -2,7 +2,7 @@ import MaxWidthWrapper from "@/components/max-width-wrapper";
 
 export default function Loading() {
   return (
-    <MaxWidthWrapper>
+    <MaxWidthWrapper className="my-4">
       <div className="flex text-muted-foreground items-center">
         <span className="font-mono text-sm mr-1">Loading</span>
         <div>

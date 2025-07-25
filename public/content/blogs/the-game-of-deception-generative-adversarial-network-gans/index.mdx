@@ -1,0 +1,381 @@
+---
+title: "The Game of Deception: Generative Adversarial Network (GANs)"
+description: "The blog post explores Generative Adversarial Networks (GANs), which consist of two neural networks, the Generator and the Discriminator, competing in a dynamic process to create realistic data. Unlike Variational Autoencoders (VAEs), GANs produce sharp images by having the Generator create fake data while the Discriminator evaluates its authenticity. This adversarial interaction drives both networks to improve continuously, resulting in highly convincing outputs. The post explains the architecture and training of GANs using an analogy of a counterfeiter and a detective and discusses challenges like mode collapse and training instability. It concludes with a practical example of building a GAN using PyTorch and the Fashion-MNIST dataset, showcasing the generation of new fashion items."
+publishedAt: "2025-07-25"
+thumbnail: "/content/blogs/the-game-of-deception-generative-adversarial-network-gans/data/thumbnail.png"
+isPublished: true
+featured: true
+---
+
+Our previous exploration of [Variational Autoencoders (VAEs)](https://iftekhar.vercel.app/blogs/neural-compression-techniques-building-autoencoders-and-vaes) showed us how to compress and reconstruct data and even generate new samples. You might have noticed that VAE-generated images often appear somewhat blurry or lack the crisp details we see in real images. This drawback derives from VAEs' focus on probabilistic modeling using basic distributions such as Gaussians, which tend to smooth out tiny details in favor of capturing broad patterns.
+
+Generative Adversarial Networks (GANs) take a fundamentally different approach to solve this problem. Instead of trying to model the underlying probability distribution of data directly, it sets up a competitive game between two neural networks.
+  
+But GANs aren't just about creating fake images. It has profound applications in data augmentation for machine learning, creating synthetic datasets when real data is scarce or sensitive, generating art and creative content, and even helping us understand the structure of complex data distributions. In medical imaging, GANs can generate synthetic patient data for research while preserving privacy.
+
+Today we will explore GANs, starting with an intuitive understanding of the adversarial game that drives their learning process. We'll build a complete GAN from scratch using PyTorch and the Fashion-MNIST dataset, visualize how the generator and discriminator evolve during training, and tackle real challenges.
+
+## The Adversarial Game
+
+Picture this scenario: In a busy city, a skilled forger aims to produce perfect counterfeit money, while a determined detective from the central bank’s fraud division is set on catching every fake bill.
+
+### The Counterfeiter
+
+Our counterfeiter represents the Generator network in a GAN. At the beginning of his criminal career, this forger is frankly terrible at their job. His first attempts at creating fake money are very obvious: the paper feels wrong, the colors are off, the fonts look like they were printed on a home printer, and the security features are entirely missing. Any bank teller, let alone a trained detective, could spot these fakes from across the room.
+
+Each time his fake bills are caught and analyzed, he studies the feedback carefully. He learns that real currency has a specific texture that comes from cotton-linen blend paper. He discovers that the ink has magnetic properties and that genuine bills have microprinting that's nearly impossible to replicate without specialized equipment.
+
+### The Detective
+
+On the other side, our detective is a forensic expert who has spent years studying genuine currency, memorizing every security feature, and understanding the subtle patterns that distinguish real bills from fakes. He knows the exact feel of authentic paper, the precise way light reflects off genuine ink, and the microscopic details that counterfeiters often overlook.
+
+When presented with a bill, our detective examines it with precision. He checks the watermarks, feels the texture, examines the microprinting under magnification, and tests the magnetic properties of the ink. Based on this detailed analysis, he delivers the verdict: real or fake.
+
+### The Cat and Mouse Race
+
+As our counterfeiter's abilities grow through numerous failures and feedback, our detective must adapt to keep up. The counterfeiter learns to use higher-quality paper, more advanced printing procedures, and increasingly precise replicas of security measures. In response, the investigator improves his detection methods, learning to recognize irregularities and previously unknown concepts that distinguish false from genuine currency.
+
+This creates a race where each participant drives the other to higher levels of sophistication. The counterfeiter's improving forgeries force the detective to become more refined, while the detective's enhanced detection capabilities push the counterfeiter to create even more convincing fakes. This competitive dynamic continues until we reach an equilibrium: the counterfeiter becomes so skilled that even our expert detective can no longer reliably distinguish their forgeries from genuine currency.
+
+### TL;DR
+
+In technical terms, this adversarial relationship is the foundation of a Generative Adversarial Network (GAN). It consists of two competing neural networks:
+
+**Generator (counterfeiter):** This network begins with random noise as input and attempts to convert it into realistic data. The Generator, like our forger, learns to make better counterfeit bills by receiving feedback from the Discriminator and gradually improving its outputs. The Generator's initial attempts are simple and easily identified as fake, but with each training cycle, it improves its ability to mimic the structure and characteristics of real data.
+
+**The Discriminator (The Detective):** This network’s job is to distinguish between real data (from the training dataset) and fake data (produced by the Generator). At first, its task is simple because the Generator's outputs are obviously fake. But as the Generator improves, the Discriminator must also learn more nuanced patterns to keep up. It acts like the seasoned detective, examining each sample and deciding whether it’s real or counterfeit.
+
+**The Adversarial Game (Minimax Objective):** The two networks are locked in a zero-sum game. The Discriminator attempts to maximize its accuracy by correctly labeling real images as real and fake images as fake. The Generator attempts to reduce the Discriminator's ability to do so by producing increasingly realistic results. This dynamic is mathematically represented as a minimax game, in which the Generator aims to minimize the loss and the Discriminator aims to maximize it. Over time, this push and pull causes both networks to improve until an equilibrium is reached, at which point the Generator's outputs are so convincing that even the Discriminator is unable to distinguish them. This point of balance is known as the Nash equilibrium in game theory, and it indicates that the GAN has successfully learned the underlying distribution of the training data.
+  
+### Why This Approach Works So Well
+
+The adversarial training method is incredibly effective for a few key reasons. First, it naturally creates a learning curve. As the Generator gets better, it produces more convincing fakes, which forces the Discriminator to become more precise. This back-and-forth means both networks improve together, without needing manual adjustments to the training difficulty.
+
+Second, this competition stops the Generator from just memorizing training images. A forger who copies bills exactly will eventually get caught. Likewise, a Generator that memorizes data will fail when asked to generate something new. The Discriminator’s pressure pushes the Generator to understand the deeper patterns and structures behind realistic data.
+
+Finally, this setup avoids some of the problems seen in other generative models. For example, Variational Autoencoders (VAEs) often create blurry results because they aim to average across all possible outputs. GANs, in contrast, are judged by whether their samples can fool the Discriminator. This focus leads to sharper, more detailed outputs that capture subtle features.
+
+Together, the Generator and Discriminator creates a learning loop. In the next sections, we’ll dive into how this process works in code and watch how two simple networks can, through competition alone, learn to produce synthetic data.
+
+## What Are GANs? The Architecture Behind the Adversarial Game
+
+Now that we have the big picture, let’s look under the hood at the two networks that power a GAN:
+
+1. **The Generator (G): The Counterfeiter**
+    The Generator begins with a random noise vector and uses a series of layers (often transposed convolutions for images) to upscale this seed into a full data sample. Each layer adds more detail, transforming simple patterns into complex structures until the output resembles a real example from the training set. The goal is to make these outputs so convincing that the Discriminator can’t tell they started as random noise.
+  
+2. **The Discriminator (D): The Detective**
+    The Discriminator takes an input and processes it through standard convolutional layers (in image tasks) to extract features. After flattening these features, it applies a final sigmoid activation to output a probability between 0 and 1. A score near 1 means “real,” and a score near 0 means “fake.” Its job is to catch any signs of forgery in the Generator’s outputs.
+
+### The Adversarial Training Process
+
+The GANs training methodology is fundamentally different from most other neural networks. Instead of optimizing a single loss function for a single network, GANs involve a simultaneous, two-player minimax game. Both networks are trained iteratively, but with opposing objectives:
+
+**Step 1: Training the Discriminator (D)**
+In this phase, we focus on making the Discriminator better at its job of distinguishing real from fake. The Generator's parameters are kept fixed during this step. The Discriminator is trained using a combination of real and fake data:
+* **Real Samples:** The Discriminator is fed a batch of genuine data samples from the real dataset. These samples are labeled as
+
+‘real’ (e.g., with a target label of 1). The Discriminator learns to output a high probability for these.
+
+* **Fake Samples:** The Generator creates a batch of synthetic samples from random noise. These samples are labeled as ‘fake’ (e.g., with a target label of 0). The Discriminator learns to output a low probability for these.
+
+The Discriminator’s loss function is typically a binary cross-entropy loss. It calculates the error based on how well it distinguishes between real and fake samples. The Discriminator’s weights are then updated via backpropagation to minimize this loss, making it more accurate in its classification.
+
+**Step 2: Training the Generator (G)**
+
+Once the Discriminator has had a chance to improve, we then train the Generator. During this phase, the Discriminator’s parameters are kept fixed. The Generator’s goal is to produce samples that are so convincing that the Discriminator classifies them as ‘real’.
+
+* The Generator creates a batch of synthetic samples from random noise.
+* These fake samples are then fed into the Discriminator.
+* Crucially, the Generator’s loss is calculated based on the Discriminator’s output, but with a twist: the Generator wants the Discriminator to output a high probability (close to 1) for its fake samples, effectively trying to trick the Discriminator into believing they are real. This is often achieved by calculating the binary cross-entropy loss between the Discriminator’s output for the fake samples and a target label of 1 (representing ‘real’). The Generator’s weights are then updated via backpropagation to minimize this loss.
+
+This means the Generator is not directly trying to make its output look like real images in the training set. Instead, it’s trying to make its output look real *to the Discriminator*.
+### The Convergence
+
+This iterative process of training the Discriminator and then the Generator continues. Initially, the Generator’s outputs are poor, and the Discriminator easily identifies them as fake. But as the Generator learns from the Discriminator’s feedback (via its loss function), its generated samples become progressively more realistic. Simultaneously, the Discriminator is constantly challenged by these improving fakes, forcing it to become more sophisticated in its detection capabilities.
+
+Ideally, this adversarial process converges to a state of equilibrium. At this point, the Generator has become so adept at producing realistic samples that the Discriminator can no longer reliably distinguish between real and fake data. The Discriminator’s output for any given sample (whether real or generated) will be approximately 0.5, meaning it’s essentially guessing. When this happens, the Generator has effectively learned the underlying data distribution of the real samples, and it can generate new, highly convincing data that is indistinguishable from the original.
+
+This convergence is the ultimate goal of GAN training. Unlike VAEs, which often produce blurry outputs due to their explicit modeling of a latent space and reconstruction loss, GANs learn the data distribution implicitly through this competitive process. This often leads to sharper, more visually appealing results, especially in image generation tasks. Furthermore, GANs are unsupervised learning models, meaning they do not require labeled data, only raw samples from the desired distribution.
+
+Here’s a simple diagram to visualize the GAN architecture:
+
+![gan_architecture](/content/blogs/the-game-of-deception-generative-adversarial-network-gans/data/gan_architecture.png)
+
+## Building a Generative Adversarial Network
+
+In this section, we’ll walk through the process of building a simple GAN from scratch using PyTorch. Our goal will be to generate new fashion designs that resemble the items in the Fashion-MNIST dataset.
+
+### Setting Up Our Environment and Loading Data
+
+Before we dive into the network architectures, let’s ensure our PyTorch environment is set up.
+First, let’s import the necessary libraries:
+
+<CodeBlock language="python" showLineNumbers>
+{`import torch
+import torch.nn as nn
+import torch.optim as optim
+from torchvision import datasets, transforms
+from torch.utils.data import DataLoader
+import matplotlib.pyplot as plt
+import numpy as np`}
+</CodeBlock>
+
+Next, we’ll define our transformations and load the Fashion-MNIST dataset. It’s crucial to normalize the images to a range that’s suitable for our neural networks, typically between -1 and 1, as this often helps with GAN training stability.
+
+<CodeBlock language="python" showLineNumbers>
+{`# Define transformations for the dataset
+	transform = transforms.Compose([
+		transforms.ToTensor(),
+		transforms.Normalize((0.5,), (0.5,)) # Normalize to [-1, 1]
+	])
+
+	# Load the Fashion-MNIST dataset
+	train_dataset = datasets.FashionMNIST(root='./data', train=True, download=True, transform=transform)
+
+	train_loader = DataLoader(train_dataset, batch_size=128, shuffle=True)`}
+</CodeBlock>
+
+### The Generator Architecture
+
+The Generator’s job is to take a random noise vector (our latent space) and upsample it into a 28x28 image. We’ll use a series of linear layers followed by `BatchNorm1d` and `LeakyReLU` activations, and then reshape the output to form an image. The final layer will use a `tanh` activation to ensure the output pixels are in the range [-1, 1], matching our normalized input data.
+
+<CodeBlock language="python" showLineNumbers>
+{`# Generator Class
+	class Generator(nn.Module):
+		def __init__(self, latent_dim):
+			super(Generator, self).__init__()
+			self.main = nn.Sequential(
+				# Input: latent_dim
+				nn.Linear(latent_dim, 256),
+				nn.LeakyReLU(0.2),
+				nn.BatchNorm1d(256),
+
+				nn.Linear(256, 512),
+				nn.LeakyReLU(0.2),
+				nn.BatchNorm1d(512),
+
+				nn.Linear(512, 1024),
+				nn.LeakyReLU(0.2),
+				nn.BatchNorm1d(1024),
+
+				nn.Linear(1024, 28 * 28), # Output: 28x28 image
+				nn.Tanh() # Normalize to [-1, 1]
+			)
+
+		def forward(self, input):
+			return self.main(input).view(-1, 1, 28, 28)`}
+</CodeBlock>
+
+### The Discriminator Architecture
+
+The Discriminator’s role is to classify an input image as either real or fake. It will take a 28x28 image, flatten it, and pass it through a series of linear layers with `LeakyReLU` activations. The final layer will use a `Sigmoid` activation to output a probability between 0 and 1.
+
+<CodeBlock language="python" showLineNumbers>
+{`# Discriminator Class
+	class Discriminator(nn.Module):
+		def __init__(self):
+			super(Discriminator, self).__init__()
+			self.main = nn.Sequential(
+				# Input: 28x28 image
+				nn.Linear(28 * 28, 1024),
+				nn.LeakyReLU(0.2),
+				nn.Dropout(0.3),
+
+				nn.Linear(1024, 512),
+				nn.LeakyReLU(0.2),
+				nn.Dropout(0.3),
+
+				nn.Linear(512, 256),
+				nn.LeakyReLU(0.2),
+				nn.Dropout(0.3),
+
+				nn.Linear(256, 1), # Output: probability of real/fake
+				nn.Sigmoid()
+			)
+
+		def forward(self, input):
+			return self.main(input.view(input.size(0), -1))`}
+</CodeBlock>
+
+### Training the GAN
+
+Now that we have our Generator and Discriminator defined, we can set up the training loop. We’ll need to define our hyperparameters, instantiate the networks, set up optimizers, and define our loss function (Binary Cross-Entropy).
+
+<CodeBlock language="python" showLineNumbers>
+{`# Hyperparameters
+	latent_dim = 100
+	epochs = 200
+	lr = 0.0002
+	b1 = 0.5  # Adam: beta1
+	b2 = 0.999  # Adam: beta2
+
+	# Initialize Generator and Discriminator
+	generator = Generator(latent_dim)
+	discriminator = Discriminator()
+
+	# Use GPU if available
+	device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+	generator.to(device)
+	discriminator.to(device)
+
+	# Optimizers
+	optimizer_G = optim.Adam(generator.parameters(), lr=lr, betas=(b1, b2))
+	optimizer_D = optim.Adam(discriminator.parameters(), lr=lr, betas=(b1, b2))
+
+	# Loss function
+	criterion = nn.BCELoss()
+
+	# Lists to track losses
+	g_losses = []
+	d_losses = []
+
+	# Training loop
+	for epoch in range(epochs):
+		epoch_g_loss = 0.0
+		epoch_d_loss = 0.0
+		batch_count = 0
+
+		for i, (imgs, _) in enumerate(train_loader):
+			# Adversarial ground truths
+			real = torch.ones(imgs.size(0), 1).to(device)
+			fake = torch.zeros(imgs.size(0), 1).to(device)
+
+			# Configure input
+			real_imgs = imgs.to(device)
+
+			# ---------------------
+			#  Train Discriminator
+			# ---------------------
+			optimizer_D.zero_grad()
+
+			# Real images
+			output_real = discriminator(real_imgs)
+			loss_real = criterion(output_real, real)
+
+			# Fake images
+			z = torch.randn(imgs.size(0), latent_dim).to(device)
+			gen_imgs = generator(z)
+			output_fake = discriminator(gen_imgs.detach())
+			loss_fake = criterion(output_fake, fake)
+
+			# Total discriminator loss
+			d_loss = (loss_real + loss_fake) / 2
+			d_loss.backward()
+			optimizer_D.step()
+
+			# -----------------
+			#  Train Generator
+			# -----------------
+			optimizer_G.zero_grad()
+
+			z = torch.randn(imgs.size(0), latent_dim).to(device)
+			gen_imgs = generator(z)
+
+			# Generator wants discriminator to think fakes are real
+			g_loss = criterion(discriminator(gen_imgs), real)
+
+			g_loss.backward()
+			optimizer_G.step()
+
+			# Accumulate losses
+			epoch_d_loss += d_loss.item()
+			epoch_g_loss += g_loss.item()
+			batch_count += 1
+
+		# Save average loss per epoch
+		avg_d_loss = epoch_d_loss / batch_count
+		avg_g_loss = epoch_g_loss / batch_count
+		d_losses.append(avg_d_loss)
+		g_losses.append(avg_g_loss)
+
+		print(f"[Epoch {epoch+1}/{epochs}] [D loss: {avg_d_loss:.4f}] [G loss: {avg_g_loss:.4f}]")
+
+
+		# Save generated images for visualization
+		if epoch % 50 == 0:
+			with torch.no_grad():
+				z = torch.randn(25, latent_dim).to(device)
+				generated_samples = generator(z).cpu()
+				generated_samples = generated_samples.view(generated_samples.size(0), 28, 28)
+				generated_samples = (generated_samples + 1) / 2  # Denormalize
+				fig = plt.figure(figsize=(5, 5))
+				for k in range(generated_samples.size(0)):
+					plt.subplot(5, 5, k + 1)
+					plt.imshow(generated_samples[k])
+					plt.axis('off')
+				plt.tight_layout()
+				plt.show()
+				plt.savefig(f"generated_epoch_{epoch}.png")
+				plt.close(fig)`}
+</CodeBlock>
+
+This training loop controls the adversarial process. In each iteration, we train the Discriminator on both genuine and generated images before teaching the Generator to create images that deceive the Discriminator. As training progresses, you should observe the `d_loss` and `g_loss` values fluctuating, ideally converging to a state where the Discriminator’s loss is around 0.5 (meaning it’s guessing) and the Generator’s loss is also stable.
+
+![Epoch wise visualization](/content/blogs/the-game-of-deception-generative-adversarial-network-gans/data/epoch_vis.png)
+
+Here you can see our GAN's progression from random noise to recognizable fashion items. Early on, the images are chaotic, but as the Generator learns, they gradually take on the characteristics of clothing, shoes, and accessories from the Fashion-MNIST dataset.
+
+Let’s now take a closer look at how our model is performing by plotting the Generator and Discriminator losses over each epoch. This can help us understand whether the training is progressing well or if something is going wrong.
+
+<CodeBlock language="python" showLineNumbers>
+{`plt.figure(figsize=(10, 5))
+plt.plot(range(epochs), g_losses, label="Generator Loss")
+plt.plot(range(epochs), d_losses, label="Discriminator Loss")
+plt.xlabel("Epoch")
+plt.ylabel("Loss")
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()`}
+</CodeBlock>
+
+![Loss Curve](/content/blogs/the-game-of-deception-generative-adversarial-network-gans/data/loss_curve.png)
+
+The loss curve gives valuable insight into our adversarial training. The Generator's loss is initially high because it cannot produce realistic images, and the Discriminator can easily distinguish real from fake. However, in the first 20–30 epochs, the Generator learns rapidly, and its loss decreases sharply. Meanwhile, the Discriminator's loss rises as it is challenged by the increasingly realistic fakes. As training continues, both losses begin to stabilize, with the Discriminator loss at approximately 0.6 and the Generator's gradually increasing. The Generator has learned to produce images that are good enough to deceive the Discriminator just often enough to keep the game going, which is exactly what we want in a GAN architecture.
+
+## Challenges in GAN Training
+
+Training GAN is notoriously challenging. The adversarial nature that gives them their power also introduces complexities that can make convergence difficult. Unlike traditional neural networks that optimize a single objective function, GANs involve a dynamic equilibrium between two competing networks. This balance can easily be disrupted, leading to several common pitfalls. Understanding these challenges is crucial for anyone working with GANs.
+
+### 1. Mode Collapse
+
+The most common and frustrating problem in GAN training is **mode collapse**. This occurs when the Generator, instead of learning to produce a diverse range of realistic samples that cover the entire data distribution, becomes fixated on generating only a limited variety of outputs. It finds a few types of samples that are particularly good at fooling the Discriminator and then repeatedly generates only those samples, ignoring the vast majority of the real data distribution.
+
+**Analogy:** Imagine our counterfeiter from earlier. Instead of learning to forge all denominations of currency (e.g., $1, $5, $10, $20, $50, and $100 bills), they discover that they are exceptionally good at forging $20 bills. He then decides to only produce $20 bills, even though real currency includes many other denominations. The detective (Discriminator) might become very good at identifying fake $20 bills, but the counterfeiter is still failing to produce a full range of realistic currency.
+
+**Why it happens:** Mode collapse often arises because the Generator finds a specific type of output that the Discriminator struggles to classify correctly. The Generator then exploits this weakness, repeatedly generating variations of that specific output. The Discriminator, in turn, focuses its learning on distinguishing *those specific* fake outputs from real ones, neglecting other parts of the data distribution. This creates a vicious cycle where the Generator gets stuck in a local optimum, failing to explore the full diversity of the real data.
+
+### 2. Training Instability
+
+GAN training is often described as an unstable process. The Generator and Discriminator are constantly trying to outperform each other, and this can lead to back and forth where neither network truly converges. The Discriminator may grow too powerful too quickly, easily identifying all generated samples as fake. In this case, the Generator receives no useful gradient information (because its outputs are always classified as fake with high confidence), and its training is halted. In contrast, if the Generator grows too strong, it may produce samples that are always classified as real, causing the Discriminator to fail to learn.
+
+**Analogy:** Our counterfeiter and detective are in a constant struggle. Sometimes the detective is so good that the counterfeiter cannot make any progress. Sometimes the counterfeiter creates such convincing fakes that the detective is unable to distinguish between them. Neither team can consistently improve, and the game never comes to a stable conclusion.
+
+### 3. Vanishing Gradients
+
+In the early stages of GAN training, particularly if the Discriminator is highly effective, the Generator may encounter a vanishing gradient problem. If the Discriminator is confident that all generated samples are fake (with probabilities close to zero), the gradient returned to the Generator can be very small. This means that the Generator receives little to no useful feedback on how to improve its outputs, essentially halting its learning.
+
+**Analogy:** The detective is so good at spotting fakes that the counterfeiter's early attempts are immediately dismissed with absolute certainty. The counterfeiter gets no specific feedback on *why* their bills are bad, only that they are fake. Without detailed feedback, the counterfeiter doesn't know how to adjust their techniques to improve.
+
+## Strategies for Mitigating Challenges
+
+Researchers and practitioners have developed numerous techniques to address these training challenges. Some common strategies include:
+
+* **Architectural Changes:** Using more stable network architectures (e.g., DCGAN, WGAN, LSGAN) that incorporate specific layers or loss functions designed to improve training stability.
+
+* **Normalization Techniques:** Batch Normalization, Layer Normalization, and Instance Normalization can help stabilize training by normalizing activations within the networks.
+
+* **One-Sided Label Smoothing:** Instead of using hard labels (0 and 1) for the Discriminator, using smoothed labels (e.g., 0.9 for real, 0.1 for fake) can prevent the Discriminator from becoming too confident too early.
+
+* **Gradient Penalties:** Techniques like WGAN-GP (Wasserstein GAN with Gradient Penalty) enforce a Lipschitz constraint on the Discriminator, which helps prevent vanishing gradients and improves training stability.
+
+* **Progressive Growing GANs (PGGAN):** Start training with very low-resolution images and progressively add layers to both the Generator and Discriminator to generate higher-resolution images. This makes training more stable and allows for the generation of extremely high-quality images.
+
+* **Self-Attention GANs (SAGAN):** Incorporate self-attention mechanisms into the GAN architecture, allowing the Generator and Discriminator to model long-range dependencies in images, leading to better image quality and diversity.
+
+While these techniques have significantly advanced the state-of-the-art in GANs, training them continues to be a difficult task. A successful GAN project requires careful hyperparameter tuning, loss curve monitoring, and a visual inspection of generated samples.
+
+---
+
+Full Source Code : [Link](https://github.com/Iftekhar-Ifat/generative-adversarial-network)

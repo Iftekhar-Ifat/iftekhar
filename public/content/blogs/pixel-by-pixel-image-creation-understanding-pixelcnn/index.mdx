@@ -1,0 +1,288 @@
+---
+title: "Pixel-by-Pixel Image Creation: Understanding PixelCNN"
+description: "This blog post aims to make PixelCNN easy to understand for beginners. We’ll start with an example to show the problem PixelCNN is designed to solve, then break down its core idea of using masked convolutions to model images pixel by pixel. From there, we’ll walk through its architecture step-by-step, including Type A and Type B masks, and build a simple PixelCNN from scratch using PyTorch. We’ll also discuss its strengths, limitations, and how it connects to similar ideas in other fields. By the end of this blog, you’ll have a clear understanding of what PixelCNN is, how it works, and how to implement it yourself."
+publishedAt: "2025-08-05"
+thumbnail: "/content/blogs/pixel-by-pixel-image-creation-understanding-pixelcnn/data/thumbnail.png"
+isPublished: true
+featured: true
+---
+
+Imagine an artist standing in front of a blank canvas, paintbrush in hand, ready to create a masterpiece. However, this artist takes a novel approach: he begins at the top-left corner and paints one little square at a time, from left to right, row by row. When he chooses a color for a new square, he only looks at the squares that have previously been painted (those above and to the left) to determine what works best. This rigorous, step-by-step procedure is how **PixelCNN** operates. It's a generative model that creates images pixel by pixel, learning from various examples to detect patterns such as textures, edges, and forms.
+
+In this post, we'll look at how **PixelCNN** works, its ingenious architecture, and how it creates images. We'll look at what makes it special and what it's used for.
+
+# Pixel-by-Pixel (Masked Convolutional Layer)
+
+At its core, PixelCNN is all about **autoregression**. This is a fancy word for a simple idea: predicting the next thing in a sequence based on what came before it. Think about how you read a book. You read one word, then the next, and each word makes sense because of the words you've already read. Autoregression is a common architecture in **NLP models** like language models, where the next word in a sentence is predicted based on the previous ones. PixelCNN borrows this same principle but applies it to images, instead of words in a sentence, it generates pixels in an image. It does this pixel by pixel, always looking at the pixels it has _already_ created to decide what the next one should be. To do this, it follows a strict order, usually from left to right, and then top to bottom, just like reading a page.
+
+![ConvOverview](/content/blogs/pixel-by-pixel-image-creation-understanding-pixelcnn/data/conv_overview.png)
+
+Now, how does it make sure it only `sees` the pixels it's supposed to? This is where the **masked convolutional layers** comes in. In a normal image-processing network, a filter _(a small window that scans the image)_ can see everything in its path. But for PixelCNN, we need to be super careful. We need to make sure the network doesn't peek at pixels it hasn't generated yet. So, we use masks _(like little blinds)_ that cover up the parts of the image the network isn't allowed to see.
+
+**PixelCNN uses two special kinds of masks:**
+
+- **Type A Mask:** This mask is used only for the very first layer of the network. It's the strictest mask. When the network is trying to predict a pixel, this mask makes sure it _can't_ use any information from the pixel it's currently working on, or any pixels that come after it in the sequence. It's like telling the painter, "Only look at what's already on the canvas, not what you're about to paint or what's still blank!" This is super important for making sure the pixel-by-pixel generation works correctly from the start.
+- **Type B Mask:** After the first layer, we switch to a more permissive `Type B` mask. It still prevents any connection to future pixels, but it _does_ allow each convolutional filter to see the _current_ pixel provided that information was computed in an earlier layer, not from the raw input.
+	- **Why this matters:** During training, every layer always receives the true (ground-truth) values for “past” pixels so the network never “hallucinates” its own predictions in a single forward pass.
+	- **At sampling time:** We generate pixels one by one, feeding each newly sampled value back into the network so that deeper layers see our own outputs for previously generated positions. The Type B mask ensures no peeking ahead, while still letting the model refine its prediction using all available context up to that point.
+
+This way, the model builds on its own predictions rather than relying on raw pixel values, helping it learn more effectively.
+
+![Masked Conv Layer](/content/blogs/pixel-by-pixel-image-creation-understanding-pixelcnn/data/masked_conv.png)
+
+**Generating the Current Pixel:**  
+When it’s time to generate a new pixel, the network looks at all the pixels that have already been created. It uses these pixels to predict what the next pixel should be. The `Type A mask` in the first layer ensures that the prediction doesn’t accidentally use the pixel it’s trying to generate or any pixels that haven’t been generated yet. Then, in deeper layers with `Type B masks`, the network refines this prediction by considering its own earlier guesses, but still without peeking at future pixels. Finally, based on this refined prediction, the network outputs a range of possible colors _(probability distribution)_ for the pixel, and we pick one to add to the image. This step-by-step process ensures that each pixel is generated based only on what came before, building the image one piece at a time.
+
+These masked convolutions are the unsung heroes of PixelCNN. They're like the strict rules that make sure the painter follows the sequence perfectly, building a beautiful picture one careful stroke at a time. Without them, the whole pixel-by-pixel generation would fall apart, and the network wouldn’t be able to learn how images are truly put together.
+
+# Residual Blocks
+
+Just like in many other smart computer vision models (e.g., `ResNet`), PixelCNN gets a big boost from **residual blocks**. These are special sections in the network that help it learn better, especially when the network gets very deep. Think of them as shortcuts that allow information to flow more easily through the network. In PixelCNN, these blocks usually contain several masked convolutional layers, along with these `skip connections` that let information jump ahead. This helps the network understand more complex patterns and relationships within the image data, making its predictions even better.
+
+The typical PixelCNN is built by stacking these masked convolutional layers and residual blocks. The very last layer often uses a special kind of filter (a 1x1 convolution) and a 'softmax' function to give us a probability for every possible value of the pixel it's currently predicting. So, if you're making a grayscale image where pixels can be anything from 0 to 255, the network will tell you how likely each of those 256 values is for the current pixel.
+
+# Building PixelCNN
+
+Before we delve into the network, we'll set up our environment: load the core PyTorch and torchvision modules, and prepare the Fashion-MNIST dataset using a simple tensor transform.  Because PixelCNN is a deep generative model, we must train it for a larger number of epochs to achieve decent results; offloading computation to the GPU will speed up training and sampling.
+
+<CodeBlock language="python" showLineNumbers>
+{`import torch
+  import torch.nn as nn
+  import torch.optim as optim
+  from torchvision import datasets, transforms
+  from torch.utils.data import DataLoader
+  import torch.nn.functional as F
+  import matplotlib.pyplot as plt
+
+  # Set up the device
+  device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+  # Load and transform data
+  transform = transforms.Compose([
+      transforms.ToTensor()
+  ])
+
+  batch_size = 128
+
+  train_dataset = datasets.FashionMNIST(root='./data', train=True, download=True, transform=transform)
+  train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)`}
+</CodeBlock>
+
+To build our PixelCNN, we follow these steps, stacking masked convolutions and residual blocks, then ending with a 1×1 “head” that predicts a 256-way distribution over pixel values:
+
+1. **Define the Masked Convolution:**
+    <CodeBlock language="python" showLineNumbers>
+    {`class MaskedConv2d(nn.Conv2d):
+         def __init__(self, mask_type, in_channels, out_channels, kernel_size, **kwargs):
+             super().__init__(in_channels, out_channels, kernel_size, **kwargs)
+             assert mask_type in {"A", "B"}
+             self.register_buffer("mask", torch.ones_like(self.weight))
+             kH, kW = kernel_size if isinstance(kernel_size, tuple) else (kernel_size, kernel_size)
+             yc, xc = kH // 2, kW // 2
+
+             # Type A: block current & future pixels
+             if mask_type == "A":
+                 self.mask[:, :, yc, xc:] = 0
+             # Type B: allow current pixel (from previous layer) but block future
+             else:
+                 self.mask[:, :, yc, xc+1:] = 0
+             self.mask[:, :, yc+1:] = 0
+
+         def forward(self, x):
+             # Zero-out “future” weights before convolving
+             self.weight.data *= self.mask
+             return super().forward(x)`}
+    </CodeBlock>
+
+    - **Type A** is used only in the very first layer, ensuring the network can’t peek at the pixel it’s predicting and the future pixels.
+    - **Type B** is used in all deeper layers. It still blocks connections to future pixels, but allows the center pixel’s activations (as computed by earlier layers) to flow through.
+
+2. **Build Residual Blocks:**
+
+    <CodeBlock language="python" showLineNumbers>
+    {`class ResidualBlock(nn.Module):
+         def __init__(self, channels):
+             super().__init__()
+             self.block = nn.Sequential(
+                 nn.ReLU(),
+                 MaskedConv2d("B", channels, channels // 2, kernel_size=1),
+                 nn.ReLU(),
+                 MaskedConv2d("B", channels // 2, channels // 2, kernel_size=3, padding=1),
+                 nn.ReLU(),
+                 MaskedConv2d("B", channels // 2, channels, kernel_size=1),
+             )
+
+         def forward(self, x):
+             return x + self.block(x)`}
+    </CodeBlock>
+
+    Each block squeezes features down to half the channels and then back up, all with `Type B` masking, and adds the original input back (a standard ResNet-style skip).
+
+3. **PixelCNN Model:**
+
+    <CodeBlock language="python" showLineNumbers>
+    {`class PixelCNN(nn.Module):
+         def __init__(self, input_channels=1, hidden_channels=128, num_residual_blocks=10):
+             super().__init__()
+             # 1) First layer: Type A mask
+             self.input_conv = MaskedConv2d("A", input_channels, hidden_channels, kernel_size=7, padding=3)
+
+             # 2) Stack of residual blocks (Type B masks)
+             blocks = [ResidualBlock(hidden_channels) for _ in range(num_residual_blocks)]
+             self.residual_blocks = nn.Sequential(*blocks)
+
+             # 3) Output head: two 1×1 convolutions, ending in 256 channels
+             self.output = nn.Sequential(
+                 nn.ReLU(),
+                 nn.Conv2d(hidden_channels, hidden_channels, kernel_size=1),
+                 nn.ReLU(),
+                 nn.Conv2d(hidden_channels, 256, kernel_size=1)  # predicts logits for values 0–255
+             )
+
+         def forward(self, x):
+             x = self.input_conv(x)
+             x = self.residual_blocks(x)
+             return self.output(x)`}
+    </CodeBlock>
+
+    - The **input** is a single-channel image (grayscale) or intensity grid.
+    - The **output** is a tensor of shape `[B, 256, H, W]`, where each of the 256 channels at `(i,j)` represents the unnormalized logit for that pixel’s intensity.
+    - The network’s output head produces unnormalized logits over 256 possible pixel values (0–255). During training, we feed those [B, 256, H, W] logits directly into `CrossEntropyLoss`, which applies softmax internally. When sampling, we explicitly apply `softmax` to convert logits into a probability distribution before drawing a pixel value.
+    <Callout variant="info" title="Logits?">Logits are the raw scores a network produces before softmax. They aren’t probabilities yet, just values indicating how likely each class (e.g., pixel values 0–255) is. Softmax converts them into actual probabilities.</Callout>
+
+4. **Training and Sampling:**
+    <CodeBlock language="python" showLineNumbers>
+    {`# Sampling function
+    def sample_images(model, device, num_images=5, img_size=28):
+         model.eval()
+         # Store class indices (0–255) during generation
+         samples = torch.zeros(num_images, 1, img_size, img_size, dtype=torch.long, device=device)
+           
+         with torch.no_grad():
+             for i in range(img_size):
+                 for j in range(img_size):
+                     # Normalize to [0,1] before feeding into the model
+                     out = model(samples.float() / 255.0)
+                     probs = F.softmax(out[:, :, i, j], dim=1)
+                     pixel_value = torch.multinomial(probs, 1).squeeze(-1)  # class index
+                     samples[:, 0, i, j] = pixel_value
+           
+         # Convert to float [0,1] for display
+         return samples.float() / 255.0
+
+    # Settings
+    num_epochs = 20
+    learning_rate = 0.001
+
+    # Model
+    model = PixelCNN().to(device)
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.Adam(model.parameters(), lr=learning_rate)
+    losses = []
+
+    for epoch in range(num_epochs):
+         epoch_loss = 0
+         model.train()
+         for i, (images, _) in enumerate(train_loader):
+             images = images.to(device)
+             outputs = model(images)
+             targets = (images * 255).long().squeeze(1)  # already in [0,1] → map to [0,255]
+             loss = criterion(outputs, targets)
+
+             optimizer.zero_grad()
+             loss.backward()
+             optimizer.step()
+             epoch_loss += loss.item()
+
+         avg_loss = epoch_loss / len(train_loader)
+         losses.append(avg_loss)
+         print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {avg_loss:.4f}')
+
+         # Generate 5 images after every 10 epochs
+         if (epoch + 1) % 10 == 0:
+             generated = sample_images(model, device, num_images=5, img_size=28)
+             plt.figure(figsize=(15, 3))
+             for idx in range(5):
+                 plt.subplot(1, 5, idx + 1)
+                 plt.imshow(generated[idx, 0].cpu())
+                 plt.axis('off')
+             plt.show()`}
+    </CodeBlock>
+    - **Sampling Function**:
+        - Generates images pixel-by-pixel in order.
+        - Predicts a distribution over 256 values for each pixel.
+        - Samples from the distribution using `torch.multinomial`.
+
+    - **Loss Function**:
+        - Uses `CrossEntropyLoss` treating pixel intensities as class labels (0–255).
+        - Ground-truth targets are scaled from `[0,1]` to `[0,255]`.
+
+    - **Training Loop**:
+        - Runs for `num_epochs`, optimizing with Adam.
+        - For each batch: forward pass → compute loss → backprop → update.
+
+5. **Generating Images, One Pixel at a Time:**
+
+<CodeBlock language="python" showLineNumbers>
+{`def generate_samples(model, num_samples=16, img_size=28, device="cuda"):
+      model.eval()
+      with torch.no_grad():
+          # Store class indices (0–255) during generation
+          samples = torch.zeros(num_samples, 1, img_size, img_size, dtype=torch.long, device=device)
+          
+          for i in range(img_size):
+              for j in range(img_size):
+                  # Normalize to [0,1] before feeding to model
+                  out = model(samples.float() / 255.0)
+                  probs = torch.softmax(out[:, :, i, j], dim=1)
+                  pixel = torch.multinomial(probs, 1).squeeze(-1)  # class index
+                  samples[:, 0, i, j] = pixel
+          
+          # Convert to float in [0,1] for display
+          return samples.float() / 255.0
+
+  # Generate and show
+  samples = generate_samples(model)
+  fig, axes = plt.subplots(4, 4, figsize=(8, 8))
+  for idx, ax in enumerate(axes.flat):
+      ax.imshow(samples[idx, 0].cpu().numpy(), cmap='gray')
+      ax.axis('off')
+  plt.tight_layout()
+  plt.show()`}
+</CodeBlock>
+
+- Initialization: start from an all-zero integer tensor.
+- For each <MarkdownLatex>{`(i,j)`}</MarkdownLatex> in pixel order, normalize, forward-pass, softmax, then sample.
+- Sampling vs. Greedy:
+  - `torch.multinomial(probs, 1)` gives random draws, creating variety.
+  - You can try out `torch.argmax(probs, 1)` that would give you the most likely pixel at each step (deterministic).
+- Result: once every position is filled, convert to floats in [0,1] and display as a grid of images.
+
+<Frame align="center">
+  <Image alt="PixelCNNSample" src="/content/blogs/pixel-by-pixel-image-creation-understanding-pixelcnn/data/sample.png" width="500" height="500" />
+</Frame>
+
+# Challenges with PixelCNN
+
+PixelCNN is fascinating, but it comes with its own set of challenges:
+
+1. **It’s Slow** – PixelCNN is autoregressive, meaning it generates one pixel at a time in sequence. A 28×28 image already needs 784 forward passes, and for high-resolution images the process becomes painfully slow.
+2. **Short-Sighted** – Despite stacking many masked convolutions, PixelCNN’s receptive field still grows gradually. This means it mostly captures local texture and nearby patterns, but can struggle with long-range relationships, like making sure the left and right sleeves of a shirt match in color or pattern.
+3. **Overfitting Risk** – Because it directly models the pixel probability distribution from training data, PixelCNN can become overly confident and memorize training examples if not regularized properly. This hurts its ability to generalize to unseen images.
+
+## Better PixelCNNs
+
+Researchers have proposed several clever improvements to address these issues:
+
+- **Gated PixelCNN** – Introduces gating mechanisms inspired by LSTMs, allowing the network to better model complex, long-range dependencies and capture richer structures.
+- **PixelCNN++** – Refines the model with continuous-valued output distributions, better loss functions, and architectural tweaks that make generation faster and outputs sharper.
+- **Parallelized Approaches** – Methods like Parallel Multiscale PixelCNN or masked self-attention models try to generate multiple pixels at once, cutting down generation time drastically.
+
+# Wrapping Up
+What makes PixelCNN unique is its **autoregressive approach**, a technique more often linked to natural language processing (NLP) tasks such as text generation with models like GPT. In NLP, autoregressive models forecast the next word in a sequence based on previous words. PixelCNN incorporate this idea for image data, treating pixels as a sequence. This is unusual for image data, where most generative models (e.g., GANs or VAEs) process the whole image simultaneously.
+
+PixelCNN may not be the fastest to generate with, but its clarity and flexibility have inspired many faster and more advanced versions. PixelCNN shows how a simple idea, applied in the right way, can create surprisingly detailed and coherent images.
+
+---
+
+Full Code: [Link](https://github.com/Iftekhar-Ifat/generative-models/tree/main/pixelcnn)

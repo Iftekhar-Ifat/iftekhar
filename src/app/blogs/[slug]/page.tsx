@@ -9,8 +9,43 @@ import Image from "next/image";
 import authorImage from "@/assets/profile.png";
 import { Metadata } from "next";
 import { MarkdownLatex } from "@/components/mdx/markdown-latex";
+import { cache, Suspense } from "react";
+import Loading from "@/app/loading";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
+async function getBlogPageData(slug: string) {
+  const blog = await getBlogBySlug(slug);
+
+  if (!blog) {
+    return { blog: null, metadata: null };
+  }
+
+  const metadata: Metadata = {
+    title: blog.metadata.title,
+    description: blog.metadata.description,
+    alternates: {
+      canonical: `/blogs/${blog.metadata.slug}`,
+    },
+    openGraph: {
+      title: blog.metadata.title,
+      description: blog.metadata.description,
+      type: "article",
+      url: `${BASE_URL}/blogs/${blog.metadata.slug}`,
+      images: [`${BASE_URL}${blog.metadata.thumbnail}`],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: blog.metadata.title,
+      description: blog.metadata.description,
+      images: [`${BASE_URL}${blog.metadata.thumbnail}`],
+    },
+  };
+
+  return { blog, metadata };
+}
+
+const getCachedBlogPageData = cache(getBlogPageData);
 
 export async function generateMetadata({
   params,
@@ -18,37 +53,14 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const blog = await getBlogBySlug(slug);
+  const { metadata } = await getCachedBlogPageData(slug);
 
-  if (!blog) {
-    return {
+  return (
+    metadata || {
       title: "Page not found!",
-      description: "The page you are looking for does not exists.",
-    };
-  }
-
-  const { metadata } = blog;
-
-  return {
-    title: metadata.title,
-    description: metadata.description,
-    alternates: {
-      canonical: `/blogs/${metadata.slug}`,
-    },
-    openGraph: {
-      title: metadata.title,
-      description: metadata.description,
-      type: "article",
-      url: `${BASE_URL}/blogs/${metadata.slug}`,
-      images: [`${BASE_URL}${metadata.thumbnail}`],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: metadata.title,
-      description: metadata.description,
-      images: [`${BASE_URL}${metadata.thumbnail}`],
-    },
-  };
+      description: "The page you are looking for does not exist.",
+    }
+  );
 }
 
 export default async function BlogPostPage({
@@ -57,7 +69,7 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const blog = await getBlogBySlug(slug);
+  const { blog } = await getCachedBlogPageData(slug);
 
   if (!blog) {
     return notFound();
@@ -83,6 +95,9 @@ export default async function BlogPostPage({
             width={1200}
             height={630}
             className="w-full h-auto rounded-xl object-contain"
+            placeholder="blur"
+            blurDataURL="/assets/thumbnail_placeholder.png"
+            priority={true}
           />
         </div>
 
@@ -95,7 +110,7 @@ export default async function BlogPostPage({
           >
             <Image
               src={authorImage}
-              alt="Iftekhar Ahmed profile photo"
+              alt="author-image"
               width={50}
               height={50}
               className="rounded-full object-cover"
@@ -116,10 +131,11 @@ export default async function BlogPostPage({
             </p>
           </div>
         </div>
-
-        <article className="prose-ui !bg-background !text-primary">
-          <MDXRemote source={content} components={mdxComponents} />
-        </article>
+        <Suspense fallback={<Loading />}>
+          <article className="prose-ui !bg-background !text-primary">
+            <MDXRemote source={content} components={mdxComponents} />
+          </article>
+        </Suspense>
       </div>
     </MaxWidthWrapper>
   );

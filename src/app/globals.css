@@ -1,7 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "@prose-ui/next/prose-ui.css";
-@import "katex/dist/katex.min.css";
+@import "@prose-ui/next/katex.min.css";
+/* @import "katex/dist/katex.min.css"; */
 
 @custom-variant dark (&:is(.dark *));
 
@@ -78,6 +79,8 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --p-link-text-color: oklch(74% 0.16 232.661);
+  --p-link-text-decoration-color: oklch(30% 0.16 232.661);
 }
 
 .dark {
@@ -112,6 +115,8 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --p-link-text-color: oklch(74% 0.16 232.661);
+  --p-link-text-decoration-color: oklch(30% 0.16 232.661);
 }
 
 @layer base {
@@ -125,4 +130,11 @@
 .prose-ui table {
   margin-top: 0px;
   margin-bottom: 0px;
+}
+
+.prose-ui p a:hover,
+.prose-ui td a:hover,
+.prose-ui li a:hover {
+  color: oklch(80% 0.16 232.661);
+  text-decoration-color: oklch(80% 0.16 232.661);
 }

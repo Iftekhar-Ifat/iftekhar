@@ -1,11 +1,18 @@
 import React from "react";
-import { Code, MapPin, Phone, Mail } from "lucide-react";
+import { Code, MapPin, Mail, Clock2 } from "lucide-react";
 import { Icons } from "../icons";
 import { TechIcons } from "../shared/tech-icons";
+import {
+  RelativeTime,
+  RelativeTimeZone,
+  RelativeTimeZoneDate,
+  RelativeTimeZoneDisplay,
+} from "../ui/relative-time";
 
 const USER_DATA = {
   working: "Working on computer vision",
   location: "Sylhet, Bangladesh",
+  timezone: "Asia/Dhaka",
   phone: "+8801782565398",
   email: "iftekharifat007@gmail.com",
   linkedin: "iftekhar-ifat",
@@ -32,11 +39,15 @@ export default function SocialSection() {
       </div>
       <div className="flex items-center space-x-3">
         <div className="border rounded p-2">
-          <Phone size={16} className="text-muted-foreground" />
+          <Clock2 size={16} className="text-muted-foreground" />
         </div>
-        <a href={`tel:${USER_DATA.phone}`} className="hover:underline">
-          {USER_DATA.phone}
-        </a>
+        <RelativeTime>
+          <RelativeTimeZone zone={USER_DATA.timezone}>
+            <RelativeTimeZoneDisplay />{" "}
+            <div className="text-muted-foreground">{"|"}</div>
+            <RelativeTimeZoneDate className="text-xs text-muted-foreground" />
+          </RelativeTimeZone>
+        </RelativeTime>
       </div>
       <div className="flex items-center space-x-3">
         <div className="border rounded p-2">

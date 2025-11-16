@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Timeline,
+  TimelineDate,
   TimelineDescription,
   TimelineHeader,
   TimelineItem,
@@ -8,23 +9,54 @@ import {
 } from "../ui/timeline";
 import { getMDXComponents } from "../../../mdx-components";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import {
+  Status,
+  StatusIndicator,
+  StatusLabel,
+  StatusProps,
+} from "../ui/status";
+import { cn } from "@/lib/utils";
+import { ExpandableWrapper } from "../shared/expandable-wrapper";
 
-const timelineData = [
+type TimelineData = {
+  id: number;
+  date?: string;
+  status?: StatusProps["status"];
+  statusTitle?: string;
+  title: string;
+  description: string;
+};
+
+const timelineData: TimelineData[] = [
   {
     id: 1,
+    date: "Nov 10, 2025",
+    title: "Paper Accepted",
+    description:
+      "Our paper titled **Multi-Strategy Optimization of U-Net Variants for Orthopantomogram Segmentation** has been accepted at the 4th IEEE Conference on Biomedical Engineering, Computer and Information Technology for Health 2025  ( IEEE BECITHCON 2025)",
+  },
+  {
+    id: 2,
+    date: "2025",
+    status: "ongoing",
+    statusTitle: "Ongoing",
     title:
       "National Cybersecurity Authority (NCA) Cybersecurity Research & Innovation Pioneers Grant",
     description: `Awarded the prestigious **NCA Cybersecurity Research & Innovation Pioneers Grant** by the National Cybersecurity Authority of the Kingdom of Saudi Arabia for the research proposal "Privacy-Preserving Federated Learning Platform for the Healthcare Domain".`,
   },
   {
-    id: 2,
-    title: "InteX funded project",
-    description: `Currently engaged in a [InteX](https://www.intexlab.net/) funded research project focusing on **adversarial attack/defense** on image segmentation.`,
+    id: 3,
+    title: "Adversarial Attack / Defense project [InteX funded]",
+    date: "Nov 1, 2025",
+    status: "hold",
+    statusTitle: "Submitted",
+    description: `Completed the [InteX](https://www.intexlab.net/) funded research project focusing on **adversarial attack/defense**. Submitted the manuscript on **Scientific Reports**`,
   },
   {
-    id: 3,
+    id: 4,
+    date: "June, 2025",
     title: "Dental panoramic X-ray image segmentation",
-    description: `Working with [CCDS MIRA Wing](https://ccds.ai/) under Prof. Rashedur Rahman's supervision on dental panoramic x-ray segmentation techniques; exploring various state-of-the-art segmentation model architectures`,
+    description: `Working as a research intern at [CCDS MIRA Wing](https://ccds.ai/?portfolio=iftekhar-ahmed) under Prof. Rashedur Rahman's supervision.`,
   },
 ];
 
@@ -35,25 +67,41 @@ export default function UpdatesSection() {
       <div className="flex items-center mb-4">
         <div className="font-semibold">Updates:</div>
       </div>
-      <Timeline className="ml-4">
-        {timelineData.map((item) => (
-          <TimelineItem key={item.id}>
-            <TimelineHeader>
-              <TimelineTitle>{item.title}</TimelineTitle>
-            </TimelineHeader>
-            {item.description && (
-              <TimelineDescription>
-                <div className="prose-ui [&_p]:!mt-0 [&_p]:!mb-0 !bg-background !text-muted-foreground !font-mono !text-sm">
-                  <MDXRemote
-                    source={item.description}
-                    components={mdxComponents}
-                  />
+      <ExpandableWrapper maxHeight={500}>
+        <Timeline className="ml-4">
+          {timelineData.map((item) => (
+            <TimelineItem key={item.id}>
+              <TimelineHeader>
+                <div>
+                  <div
+                    className={cn("flex items-center", item.status && "gap-2")}
+                  >
+                    <TimelineDate>{item.date}</TimelineDate>
+                    {item.status && (
+                      <Status status={item.status}>
+                        <StatusIndicator />
+                        <StatusLabel text={item.statusTitle} />
+                      </Status>
+                    )}
+                  </div>
+
+                  <TimelineTitle>{item.title}</TimelineTitle>
                 </div>
-              </TimelineDescription>
-            )}
-          </TimelineItem>
-        ))}
-      </Timeline>
+              </TimelineHeader>
+              {item.description && (
+                <TimelineDescription>
+                  <div className="prose-ui [&_p]:!mt-0 [&_p]:!mb-0 !bg-background !text-muted-foreground !font-mono !text-sm">
+                    <MDXRemote
+                      source={item.description}
+                      components={mdxComponents}
+                    />
+                  </div>
+                </TimelineDescription>
+              )}
+            </TimelineItem>
+          ))}
+        </Timeline>
+      </ExpandableWrapper>
     </div>
   );
 }

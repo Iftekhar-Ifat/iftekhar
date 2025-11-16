@@ -37,6 +37,18 @@ const TimelineHeader = React.forwardRef<
 
 TimelineHeader.displayName = "TimelineHeader";
 
+const TimelineDate = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => (
+  <div
+    ref={ref}
+    className={cn("text-xs text-muted-foreground", className)}
+    {...props}
+  />
+));
+TimelineDate.displayName = "TimelineDate";
+
 const TimelineTitle = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -63,6 +75,7 @@ export {
   Timeline,
   TimelineItem,
   TimelineHeader,
+  TimelineDate,
   TimelineTitle,
   TimelineDescription,
 };

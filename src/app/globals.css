@@ -1,8 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "@prose-ui/next/prose-ui.css";
-@import "@prose-ui/next/katex.min.css";
-/* @import "katex/dist/katex.min.css"; */
+@import "katex/dist/katex.min.css";
 
 @custom-variant dark (&:is(.dark *));
 

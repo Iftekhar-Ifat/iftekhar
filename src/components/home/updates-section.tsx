@@ -33,7 +33,7 @@ const timelineData: TimelineData[] = [
     date: "Nov 10, 2025",
     title: "Paper Accepted",
     description:
-      "Our paper titled **Multi-Strategy Optimization of U-Net Variants for Orthopantomogram Segmentation** has been accepted at the 4th IEEE Conference on Biomedical Engineering, Computer and Information Technology for Health 2025 ( IEEE BECITHCON 2025)",
+      "Our paper titled **Multi-Strategy Optimization of U-Net Variants for Orthopantomogram Segmentation** has been accepted at the 4th IEEE Conference on Biomedical Engineering, Computer and Information Technology for Health 2025 (IEEE BECITHCON 2025)",
   },
   {
     id: 2,
